@@ -21,6 +21,13 @@ class Lexer:
                 print("NOT FOUND ", element)
         print("TOKENS:",token_list)
         
+    def set_input(self, input): 
+        self.input = input.lower()
+
 input = "Eteen 5 Taakse 5"
 lex = Lexer(input)
+lex.create_tokens()
+
+input = "Eteen 5 Taakse5"
+lex.set_input(input)
 lex.create_tokens()
