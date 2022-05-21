@@ -21,6 +21,8 @@ class Lexer:
                 print("NOT FOUND ", element)
         print("TOKENS:",token_list)
         
+        return token_list
+        
     def set_input(self, input): 
         self.input = input.lower()
 
