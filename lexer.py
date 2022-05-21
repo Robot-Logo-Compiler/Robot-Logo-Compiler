@@ -1,6 +1,6 @@
 class Lexer: 
-    def __init__(self, input):
-        self.input = input.lower()
+    def __init__(self, inputcode):
+        self.inputcode = inputcode.lower()
     
     KEYWORDS = ['eteen', 'taakse', 'oikealle', 'vasemmalle']
     DIGITS = '0123456789'
@@ -8,8 +8,9 @@ class Lexer:
     def create_tokens(self):
         token_list = []
 
-        print("Input",self.input)
-        split_list = [element.lower() for element in input.split()]
+        print("inputcode",self.inputcode)
+        
+        split_list = [element.lower() for element in self.inputcode.split()]
         print("Split:", split_list)
         
         for element in split_list:
@@ -21,15 +22,23 @@ class Lexer:
                 print("NOT FOUND ", element)
         print("TOKENS:",token_list)
         
+<<<<<<< HEAD
         return token_list
         
     def set_input(self, input): 
         self.input = input.lower()
+=======
+    def set_inputcode(self, inputcode): 
+        self.inputcode = inputcode.lower()
+    
+>>>>>>> 933aaab2f051010f3c1abb98d6223ea622e0758e
 
-input = "Eteen 5 Taakse 5"
-lex = Lexer(input)
+"""
+inputcode = "Eteen 5 Taakse 5"
+lex = Lexer(inputcode)
 lex.create_tokens()
 
-input = "Eteen 5 Taakse5"
-lex.set_input(input)
+inputcode = "Eteen 5 Taakse5"
+lex.set_inputcode(inputcode)
 lex.create_tokens()
+"""
