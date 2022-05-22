@@ -8,10 +8,10 @@ class Lexer:
     def create_tokens(self):
         token_list = []
 
-        print("inputcode",self.inputcode)
+        #print("inputcode",self.inputcode)
         
         split_list = [element.lower() for element in self.inputcode.split()]
-        print("Split:", split_list)
+        #print("Split:", split_list)
         
         for element in split_list:
             if element in self.KEYWORDS:
@@ -20,7 +20,7 @@ class Lexer:
                 token_list.append(("INT", element))
             else:
                 print("NOT FOUND ", element)
-        print("TOKENS:",token_list)
+        return token_list
         
     def set_inputcode(self, inputcode): 
         self.inputcode = inputcode.lower()

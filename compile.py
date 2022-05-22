@@ -4,7 +4,10 @@ from pathlib import Path
 
 def main():
     lexer = Lexer(openfile())
-    print(lexer.create_tokens())
+    tokens = lexer.create_tokens()
+    #parsed_tokens = parser.xxx(tokens)
+    #code = code_generator.xxx(parsed_tokens)
+    writefile(str(tokens).strip('[]'))
 
 
 def openfile():
@@ -13,7 +16,7 @@ def openfile():
         print('Too many arguments. Please provide one file of Logo code as argument.')
         exit()
     if len(args) == 0:
-        print('No file proviced as argument. Please provide one file of Logo code as argument.')
+        print('No file provided as argument. Please provide one file of Logo code as argument.')
         exit()
     try:
         file = Path(args[0]).read_text()
@@ -22,6 +25,10 @@ def openfile():
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
         exit()
 
+def writefile(code):
+    f = open("code.java", "a")
+    f.write(code)
+    f.close()
 
 if __name__ == "__main__":
     main()
