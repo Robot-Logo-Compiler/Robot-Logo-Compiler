@@ -1,3 +1,6 @@
+from curses.ascii import isdigit
+
+
 class Lexer: 
     def __init__(self, input_code):
         self.input_code = input_code.lower()
@@ -10,14 +13,14 @@ class Lexer:
 
         #print("inputcode",self.inputcode)
         
-        split_list = [element.lower() for element in self.inputcode.split()]
+        split_list = [element.lower() for element in self.input_code.split()]
         #print("Split:", split_list)
  
         
         for element in split_list:
             if element in self.KEYWORDS:
                 token_list.append(("KEYWORD",element))
-            elif element in self.DIGITS:
+            elif isdigit(element):
                 token_list.append(("INT", int(element)))
             else:
                 print("NOT FOUND ", element)
