@@ -48,7 +48,7 @@ public class Main {
     private static void rotate(int angle) {
 
         Motor.A.rotate(angle);
-        Motor.B.rotate(-1 * angle)
+        Motor.B.rotate(-1 * angle);
     }
 
 
