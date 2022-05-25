@@ -20,7 +20,7 @@ class Lexer:
         for element in split_list:
             if element in self.KEYWORDS:
                 token_list.append(("KEYWORD",element))
-            elif isdigit(element):
+            elif isdigit(element):#doesn't accept 2 digit numbers
                 token_list.append(("INT", int(element)))
             else:
                 print("NOT FOUND ", element)

@@ -1,13 +1,15 @@
 from sys import argv
 from lexer import Lexer
+from parcer import ParcerTree
+from code_generator import Generator
 from pathlib import Path
 
 def main():
     lexer = Lexer(openfile())
     tokens = lexer.create_tokens()
-    #parsed_tokens = parser.xxx(tokens)
-    #code = code_generator.xxx(parsed_tokens)
-    writefile(str(tokens).strip('[]'))
+    parsed_tokens = ParcerTree(tokens)
+    code = Generator(parsed_tokens)
+    #writefile(str(tokens).strip('[]'))
 
 
 def openfile():
@@ -26,7 +28,7 @@ def openfile():
         exit()
 
 def writefile(code):
-    f = open("code.java", "a")
+    f = open("code.java", "w")
     f.write(code)
     f.close()
 
