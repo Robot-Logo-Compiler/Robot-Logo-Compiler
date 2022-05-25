@@ -1,6 +1,3 @@
-from curses.ascii import isdigit
-
-
 class Lexer: 
     def __init__(self, input_code):
         self.input_code = input_code.lower()
@@ -20,7 +17,7 @@ class Lexer:
         for element in split_list:
             if element in self.KEYWORDS:
                 token_list.append(("KEYWORD",element))
-            elif isdigit(element):#doesn't accept 2 digit numbers
+            elif element.isdigit():
                 token_list.append(("INT", int(element)))
             else:
                 print("NOT FOUND ", element)
