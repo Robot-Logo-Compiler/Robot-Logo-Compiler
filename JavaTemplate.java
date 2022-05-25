@@ -3,7 +3,7 @@ import lejos.nxt.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         init();
 
@@ -25,7 +25,7 @@ public class Main {
 
     }
 
-    private static void moveForward(int amount) {
+    private static void moveForward(int amount) throws InterruptedException {
 
         Motor.A.forward();
         Motor.B.forward();
@@ -35,7 +35,7 @@ public class Main {
 
     }
 
-    private static void moveBackward(int amount) {
+    private static void moveBackward(int amount) throws InterruptedException {
 
         Motor.A.backward();
         Motor.B.backward();
