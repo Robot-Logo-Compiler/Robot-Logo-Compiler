@@ -6,16 +6,14 @@ class Lexer:
 
     def create_tokens(self):
         token_list = []
-
-        #print("inputcode",self.inputcode)
-        
+    
         split_list = [element.lower() for element in self.input_code.split()]
-        print("Split:", split_list)
+        # print("Split:", split_list)
         
         for index, element in enumerate(split_list):
             if element in self.KEYWORDS:
                 token_list.append(("KEYWORD",element))                
-            elif split_list[index-1] == "show" and index <= len(split_list): 
+            elif split_list[index-1] == "show": 
                 token_list.append(("STRING", str(split_list[index])))
             elif element.isdigit():
                 token_list.append(("INT", int(element)))
