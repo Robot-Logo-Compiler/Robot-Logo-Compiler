@@ -1,4 +1,3 @@
-
 import lejos.nxt.*;
 
 public class Main {

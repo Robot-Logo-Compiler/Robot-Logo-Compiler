@@ -1,13 +1,13 @@
 from sys import argv
 from lexer import Lexer
-from parcer import ParcerTree
+from parser import ParserTree
 from code_generator import Generator
 from pathlib import Path
 
 def main():
     lexer = Lexer(openfile())
     tokens = lexer.create_tokens()
-    parsed_tokens = ParcerTree(tokens)
+    parsed_tokens = ParserTree(tokens)
     Generator(parsed_tokens)
 
 
