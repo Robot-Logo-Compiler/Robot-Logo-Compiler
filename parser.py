@@ -15,7 +15,7 @@ class ParserTree:
                 self.root.add_child(node)
                 stack.append(self.root)
                 self.root = node
-            elif token[0] == "INT":
+            elif token[0] == "PARAMETER":
                 node = IntegerNode(value=token[1])
                 self.root.add_child(node)
                 self.root = stack.pop()
@@ -51,6 +51,6 @@ class IntegerNode:
         self.value = value
 
     def token_type(self):
-        return "integer"
+        return "parameter"
 
 

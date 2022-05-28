@@ -26,12 +26,6 @@ def openfile():
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
         exit()
 
-"""
-def writefile(code):
-    f = open("code.java", "w")
-    f.write(code)
-    f.close()
-"""
 
 
 if __name__ == "__main__":

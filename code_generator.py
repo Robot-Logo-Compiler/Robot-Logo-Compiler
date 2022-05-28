@@ -20,6 +20,9 @@ class Generator:
             if child.keyword == "vasemmalle":
                 command = "rotate(" + str(child.child.value*-1) + ")"
                 self.command_list.append(command)
+            if child.keyword == "tulosta":
+                command = 'printToLCD("' + str(child.child.value) + '")'
+                self.command_list.append(command)
 
     def generate_code(self):
         template = open("templates/JavaTemplate.java","r")

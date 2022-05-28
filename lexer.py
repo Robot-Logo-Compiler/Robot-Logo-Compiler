@@ -1,31 +1,49 @@
+from test import KEYWORDS
+
+
 class Lexer: 
     def __init__(self, input_code):
-        self.input_code = input_code.lower()
+        self.input_code = input_code
     
-    KEYWORDS = ['eteen', 'taakse', 'oikealle', 'vasemmalle']
-    DIGITS = '0123456789'
+    KEYWORDS = {
+        'eteen':'number',
+        'taakse':'number',
+        'oikealle':'number',
+        'vasemmalle':'number',
+        'tulosta':'string'
+        }
 
     def create_tokens(self):
         token_list = []
 
-        #print("inputcode",self.inputcode)
+        #print("inputcode",self.input_code)
         
-        split_list = [element.lower() for element in self.input_code.split()]
+        split_list = [element for element in self.input_code.split()]
         #print("Split:", split_list)
  
         
-    
+        previous = ''
         for element in split_list:
-            if element in self.KEYWORDS:
-                token_list.append(("KEYWORD",element))
-            elif element in self.DIGITS:
-                token_list.append(("INT", int(element)))
+            if element.lower() in self.KEYWORDS.keys():
+                token_list.append(("KEYWORD",element.lower()))
+            elif element.isnumeric():
+                if(self.KEYWORDS.get(previous.lower()) == 'number'):
+                    token_list.append(("PARAMETER", int(element)))
+                else:
+                    print(f"{element} given as parameter for command {previous} that does not take numeric parameter")
+            elif(element[0]=='"'):
+                if(self.KEYWORDS.get(previous.lower()) == 'string'):
+                    token_list.append(("PARAMETER", element[1:]))
+                else:
+                    print(f"{element} given as parameter for command {previous} that does not take string parameter")    
             else:
                 print("NOT FOUND ", element)
+            previous = element
+        #print(token_list)
         return token_list
         
     def set_input_code(self, input_code): 
-        self.input_code = input_code.lower()
+        self.input_code = input_code
     
 
 """
