@@ -4,7 +4,7 @@ class ParcerTree:
     def __init__(self, tokens):
         self.root = None
         self.create_tree(tokens)
-        print(1)
+        #print(1)
 
     def create_tree(self, tokens):
         stack = []

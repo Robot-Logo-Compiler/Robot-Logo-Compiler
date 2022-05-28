@@ -22,7 +22,7 @@ class Generator:
                 self.command_list.append(command)
 
     def generate_code(self):
-        template = open("JavaTemplate.java","r")
+        template = open("templates/JavaTemplate.java","r")
         code = open("Main.java","w")
         for line in template.readlines():
             if "// insert generated code here" in line:

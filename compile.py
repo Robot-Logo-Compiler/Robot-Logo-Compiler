@@ -8,8 +8,7 @@ def main():
     lexer = Lexer(openfile())
     tokens = lexer.create_tokens()
     parsed_tokens = ParcerTree(tokens)
-    code = Generator(parsed_tokens)
-    #writefile(str(tokens).strip('[]'))
+    Generator(parsed_tokens)
 
 
 def openfile():
@@ -27,10 +26,13 @@ def openfile():
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
         exit()
 
+"""
 def writefile(code):
     f = open("code.java", "w")
     f.write(code)
     f.close()
+"""
+
 
 if __name__ == "__main__":
     main()
