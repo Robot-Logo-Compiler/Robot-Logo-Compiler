@@ -50,6 +50,10 @@ public class Main {
         Motor.A.rotate(angle);
         Motor.B.rotate(-1 * angle);
     }
-
+    
+    private static void printToLCD(String text) {
+        
+        LCD.drawString(text, 0, 0);
+    }
 
 }
