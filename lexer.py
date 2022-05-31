@@ -1,6 +1,3 @@
-from test import KEYWORDS
-
-
 class Lexer: 
     def __init__(self, input_code):
         self.input_code = input_code
