@@ -2,7 +2,7 @@ import lejos.nxt.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         init();
 
@@ -24,11 +24,11 @@ public class Main {
 
     }
 
-    private static void moveForward(int amount) {
+    private static void moveForward(int amount) throws InterruptedException {
 
         Motor.A.forward();
         Motor.B.forward();
-        Delay.msDelay(500 * amount);
+        Thread.sleep(500 * amount);
         Motor.A.stop();
         Motor.B.stop();
 
@@ -38,7 +38,7 @@ public class Main {
 
         Motor.A.backward();
         Motor.B.backward();
-        Delay.msDelay(500 * amount);
+        Thread.sleep(500 * amount);
         Motor.A.stop();
         Motor.B.stop();
         
