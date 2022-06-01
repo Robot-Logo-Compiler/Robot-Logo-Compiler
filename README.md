@@ -17,3 +17,7 @@ Definition of done the user stories in general is the following:
 - Tests (coverage > 80%) are done and passed
 - Code quality is on a good level (pylint > 8.0/10)
 - Robot works correctly with the generated code
+
+## Documentation 
+
+[Instructions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/instructions.MD)
