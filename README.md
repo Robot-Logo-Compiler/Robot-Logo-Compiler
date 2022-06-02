@@ -1,5 +1,8 @@
 # Robot-Logo-Compiler
 
+![GitHub Actions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/actions/workflows/main.yml/badge.svg)
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
+
 ## Application purpose
 
 Robot-Logo-Compiler is a tool that enables the use of a Logo programming language to control and instruct LEGO MINDSTORMS® robot toys that operate on the LeJos operating system written in Java. 
