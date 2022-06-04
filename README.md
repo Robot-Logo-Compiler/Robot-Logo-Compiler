@@ -2,6 +2,7 @@
 
 ![GitHub Actions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/actions/workflows/main.yml/badge.svg)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
+[![codecov](https://codecov.io/gh/Robot-Logo-Compiler/Robot-Logo-Compiler/branch/main/graph/badge.svg?token=U1HLU2U4Y7)](https://codecov.io/gh/Robot-Logo-Compiler/Robot-Logo-Compiler)
 
 ## Application purpose
 
