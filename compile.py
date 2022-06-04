@@ -1,7 +1,7 @@
 from sys import argv
-from lexer import Lexer
-from logo_parser import ParserTree
-from code_generator import Generator
+from src.lexer import Lexer
+from src.logo_parser import ParserTree
+from src.code_generator import Generator
 from pathlib import Path
 
 def main():
