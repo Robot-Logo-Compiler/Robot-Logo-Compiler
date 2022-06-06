@@ -1,5 +1,5 @@
 from src.logo_keywords import LOGO_KEYWORDS
-
+from src.error_handler import LexerError
 class Lexer: 
     def __init__(self, input_code):
         self.input_code = input_code
@@ -29,7 +29,7 @@ class Lexer:
                 else:
                     print(f"{element} given as parameter for command {previous} that does not take string parameter")    
             else:
-                print("NOT FOUND ", element)
+                LexerError.unknown_command(element)
             previous = element
         #print(token_list)
         return token_list

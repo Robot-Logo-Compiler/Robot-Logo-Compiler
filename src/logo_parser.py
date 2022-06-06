@@ -1,4 +1,5 @@
-
+from email.parser import Parser
+from src.error_handler import ParserError
 class ParserTree:
 
     def __init__(self, tokens):
@@ -19,7 +20,7 @@ class ParserTree:
                 node = IntegerNode(value=token[1])
                 self.root.add_child(node)
                 self.root = stack.pop()
-
+        self.root.return_type()
 
 class CodeNode:
 
@@ -50,8 +51,8 @@ class KeywordNode:
         return "keyword"
 
     def return_type(self):
-        if not self.child.return_type() == "INT":
-            pass #Here comes the error message
+        if not self.child.return_type() == "number":
+            ParserError.child_is_invalid_type(self.keyword, self.child, "number", self.child.return_type())
         return None
 
 class IntegerNode:
@@ -64,4 +65,4 @@ class IntegerNode:
         return "parameter"
 
     def return_type(self):
-        return "INT"
+        return "number"
