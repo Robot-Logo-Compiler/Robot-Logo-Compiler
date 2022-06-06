@@ -1,14 +1,9 @@
+from src.logo_keywords import LOGO_KEYWORDS
+
 class Lexer: 
     def __init__(self, input_code):
         self.input_code = input_code
-    
-    KEYWORDS = {
-        'eteen':'number',
-        'taakse':'number',
-        'oikealle':'number',
-        'vasemmalle':'number',
-        'tulosta':'string'
-        }
+        self.KEYWORDS = LOGO_KEYWORDS
 
     def create_tokens(self):
         token_list = []
