@@ -32,6 +32,11 @@ class CodeNode:
     def token_type(self):
         return "code"
 
+    def return_type(self):
+        for child in self.children:
+            child.return_type()
+
+
 class KeywordNode:
 
     def __init__(self, keyword):
@@ -44,6 +49,11 @@ class KeywordNode:
     def token_type(self):
         return "keyword"
 
+    def return_type(self):
+        if not self.child.return_type() == "INT":
+            pass #Here comes the error message
+        return None
+
 class IntegerNode:
 
     def __init__(self, value):
@@ -53,4 +63,5 @@ class IntegerNode:
     def token_type(self):
         return "parameter"
 
-
+    def return_type(self):
+        return "INT"
