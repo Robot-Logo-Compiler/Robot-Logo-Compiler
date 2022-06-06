@@ -20,6 +20,9 @@ class ParserTree:
                 self.root.add_child(node)
                 self.root = stack.pop()
 
+    def type_check(self):
+        self.root.return_type()
+
 
 class CodeNode:
 
