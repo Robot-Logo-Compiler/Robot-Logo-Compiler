@@ -20,7 +20,7 @@ class ParserTree:
                 node = IntegerNode(value=token[1])
                 self.root.add_child(node)
                 self.root = stack.pop()
-
+        self.type_check()
     def type_check(self):
         self.root.return_type()
 
