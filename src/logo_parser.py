@@ -1,4 +1,3 @@
-from email.parser import Parser
 from src.error_handler import ParserError
 class ParserTree:
 
