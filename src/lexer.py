@@ -14,13 +14,16 @@ class Lexer:
         #print("Split:", split_list)
 
 
-        previous = ''
+        #previous = ''
         for element in split_list:
             if element.lower() in self.KEYWORDS.keys():
                 token_list.append(("KEYWORD",element.lower()))
+            else:
+                token_list.append(("PARAMETER", element))
+            """    
             elif element.isnumeric():
                 if self.KEYWORDS.get(previous.lower()) == 'number':
-                    token_list.append(("PARAMETER", int(element)))
+                    token_list.append(("PARAMETER", element))
                 else:
                     print(f"{element} given as parameter for command {previous} that does not take numeric parameter")
             elif element[0]=='"':
@@ -31,6 +34,7 @@ class Lexer:
             else:
                 LexerError.unknown_command(element)
             previous = element
+            """
         #print(token_list)
         return token_list
 

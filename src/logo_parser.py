@@ -18,7 +18,11 @@ class ParserTree:
             elif token[0] == "PARAMETER":
                 node = ParameterNode(value=token[1])
                 self.root.add_child(node)
-                self.root = stack.pop()
+                try:
+                    self.root = stack.pop()
+                except:
+                    ParserError.parameter_without_command(node)
+                    exit()
         self.type_check()
     def type_check(self):
         self.root.return_type()

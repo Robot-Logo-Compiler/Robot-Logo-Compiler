@@ -24,6 +24,9 @@ class LexerError():
         raise_system_exit()
 
 class ParserError():
+    def parameter_without_command(node):
+        print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
+    
     def child_is_invalid_type(keyword, input_child, correct_type, invalid_type):
 
         print('Komento "', keyword, '" haluaa syötteeksi "', correct_type,
