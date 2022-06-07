@@ -16,7 +16,7 @@ class ParserTree:
                 stack.append(self.root)
                 self.root = node
             elif token[0] == "PARAMETER":
-                node = IntegerNode(value=token[1])
+                node = ParameterNode(value=token[1])
                 self.root.add_child(node)
                 self.root = stack.pop()
         self.type_check()
@@ -57,7 +57,7 @@ class KeywordNode:
             ParserError.child_is_invalid_type(self.keyword, self.child, "number", self.child.return_type())
         return None
 
-class IntegerNode:
+class ParameterNode:
 
     def __init__(self, value):
         self.child = None
