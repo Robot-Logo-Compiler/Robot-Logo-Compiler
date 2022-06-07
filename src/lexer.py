@@ -20,34 +20,9 @@ class Lexer:
                 token_list.append(("KEYWORD",element.lower()))
             else:
                 token_list.append(("PARAMETER", element))
-            """    
-            elif element.isnumeric():
-                if self.KEYWORDS.get(previous.lower()) == 'number':
-                    token_list.append(("PARAMETER", element))
-                else:
-                    print(f"{element} given as parameter for command {previous} that does not take numeric parameter")
-            elif element[0]=='"':
-                if self.KEYWORDS.get(previous.lower()) == 'string':
-                    token_list.append(("PARAMETER", element[1:]))
-                else:
-                    print(f"{element} given as parameter for command {previous} that does not take string parameter")
-            else:
-                LexerError.unknown_command(element)
-            previous = element
-            """
+
         #print(token_list)
         return token_list
 
     def set_input_code(self, input_code):
         self.input_code = input_code
-
-
-"""
-input_code = "Eteen 5 Taakse 5"
-lex = Lexer(input_code)
-lex.create_tokens()
-
-input_code = "Eteen 5 Taakse5"
-lex.set_input_code(input_code)
-lex.create_tokens()
-"""

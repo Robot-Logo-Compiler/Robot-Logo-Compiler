@@ -2,12 +2,14 @@ from sys import argv
 from src.lexer import Lexer
 from src.logo_parser import ParserTree
 from src.code_generator import Generator
+from src.analyzer import Analyzer
 from pathlib import Path
 
 def main():
     lexer = Lexer(openfile())
     tokens = lexer.create_tokens()
     parsed_tokens = ParserTree(tokens)
+    Analyzer(parsed_tokens)
     Generator(parsed_tokens)
 
 

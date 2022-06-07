@@ -1,16 +1,16 @@
 LOGO_KEYWORDS_FIN = {
-    'eteen':'number',
-    'taakse':'number',
-    'oikealle':'number',
-    'vasemmalle':'number',
+    'eteen':'float',
+    'taakse':'float',
+    'oikealle':'float',
+    'vasemmalle':'float',
     'tulosta':'string'
     }
 
 LOGO_KEYWORDS_ENG = {
-    'forward':'number',
-    'back':'number',
-    'right':'number',
-    'left':'number',
+    'forward':'float',
+    'back':'float',
+    'right':'float',
+    'left':'float',
     'show':'string'
     }
 
