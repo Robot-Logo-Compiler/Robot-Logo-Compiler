@@ -1,5 +1,12 @@
+'''This module generates java code from the parser tree'''
 
 class Generator:
+    '''
+    This class generates java code from the parser tree that it gets as input.
+    First it creates a command list from the tree.
+    Then it pastes the commands from that list to a copy of the template.
+    '''
+
     def __init__(self, tree):
         self.command_list = []
         self.tree = tree
@@ -13,10 +20,17 @@ class Generator:
         self.generate_code()
 
     def list_commands(self):
+        '''This function creates the command list'''
+
         for child in self.tree.root.children:
             self.command_list.append(self.commands_dict[child.keyword](child.child.value))
 
     def generate_code(self):
+        '''
+        This function copies the commands from the command list
+        and pastes them to a copy of the java template
+        '''
+
         template = open("templates/JavaTemplate.java","r", encoding="utf-8")
         code = open("Main.java","w", encoding="utf-8")
         for line in template.readlines():
@@ -32,25 +46,35 @@ class Generator:
 
     @classmethod
     def generate_move_forward(cls, amount):
+        '''This method returns the move forward command'''
+
         java_command = "moveForward(" + str(amount) + ")"
         return java_command
 
     @classmethod
     def generate_move_backward(cls, amount):
+        '''This method returns the move backward command'''
+
         java_command = "moveBackward(" + str(amount) + ")"
         return java_command
 
     @classmethod
     def generate_rotate_right(cls, amount):
+        '''This method returns the rotate right command'''
+
         java_command = "rotate(" + str(amount) + ")"
         return java_command
 
     @classmethod
     def generate_rotate_left(cls, amount):
+        '''This method returns the rotate left command'''
+
         java_command = "rotate(" + str(amount) + ")"
         return java_command
 
     @classmethod
     def generate_show(cls, message):
+        '''This method returns the show command'''
+
         java_command = 'printToLCD("' + str(message) + '")'
         return java_command
