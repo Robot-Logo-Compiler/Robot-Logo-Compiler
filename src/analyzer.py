@@ -11,7 +11,7 @@ class Analyzer:
     def check_parameters(self, root):
         for child in root.children:
             if child.token_type() == "code":
-                self.check_parameter(child)
+                self.check_parameters(child)
             else:
                 self.check_parameter_number(child)
                 self.check_parameter_type(child)
@@ -20,15 +20,14 @@ class Analyzer:
         value = node.value
         if isinstance(value, int):
             return "integer"
-        elif isinstance(value, float):
+        if isinstance(value, float):
             return "float"
-        elif value[0]=='"':
+        if value[0]=='"':
             return "string"
-        else:
-            return None
+        return None
 
     def check_parameter_number(self, node):
-        if node.token_type == "keyword" and node.child == None:
+        if node.token_type == "keyword" and node.child is None:
             SemanticError.keyword_without_child(node.keyword)
 
 
@@ -37,5 +36,5 @@ class Analyzer:
         correct_type = self.KEYWORDS.get(node.keyword)
         if correct_type == float and (parameter_type == float or parameter_type == int):
             return
-        elif correct_type != parameter_type:
+        if correct_type != parameter_type:
             raise SemanticError("child_is_invalid_type", node.keyword, node.child.value, correct_type, parameter_type)
