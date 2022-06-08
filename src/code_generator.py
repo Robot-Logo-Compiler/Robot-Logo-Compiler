@@ -75,7 +75,6 @@ class Generator:
     @classmethod
     def generate_show(cls, message):
         '''This method returns the show command'''
-        
         if message[0] == '"':
             message = message[1:]
         java_command = 'printToLCD("' + str(message) + '")'
