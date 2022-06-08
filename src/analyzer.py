@@ -31,10 +31,11 @@ class Analyzer:
         if node.token_type == "keyword" and node.child == None:
             SemanticError.keyword_without_child(node.keyword)
 
+
     def check_parameter_type(self, node):
         parameter_type = self.get_parameter_type(node.child)
         correct_type = self.KEYWORDS.get(node.keyword)
         if correct_type == float and (parameter_type == float or parameter_type == int):
             return 
         elif correct_type != parameter_type:
-            SemanticError.child_is_invalid_type(node.keyword, node.child.value, correct_type, parameter_type)
+            raise SemanticError("child_is_invalid_type", node.keyword, node.child.value, correct_type, parameter_type)

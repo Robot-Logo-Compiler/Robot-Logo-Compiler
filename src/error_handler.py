@@ -39,17 +39,27 @@ class ParserError():
         # print('Would you please change the input "', input_child, '" into a correct one?')
         raise_system_exit()
 
-class SemanticError():
+class SemanticError(BaseException):
+    def __init__(self, type, *args):
+        self.type = type
+        self.message = self.parse_error(list(args))
+
+    def __str__(self):
+        return self.message
+
+    def parse_error(self, args):
+        if self.type == "keyword_without_child":
+            return self.keyword_without_child[args[0]]
+        elif self.type == "child_is_invalid_type":
+            return self.child_is_invalid_type(args[0], args[1], args[2], args[3])
+
+
     def keyword_without_child(keyword):
-        print(f"Unohtuiko sinulta parametri komennolta {keyword}?")
-        raise_system_exit()
+        return f"Unohtuiko sinulta parametri komennolta {keyword}?"
 
-    def child_is_invalid_type(keyword, parameter, correct_type, invalid_type):
+    def child_is_invalid_type(self, keyword, parameter, correct_type, invalid_type):
+        string = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type} 
+        mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
+        Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
 
-        print(f'Komento {keyword} haluaa syötteen tyyppiä {correct_type} mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}')
-        print(f'Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?')
-
-        # print('The command "', keyword, '" wants to have an input of a "', correct_type,
-        #        '" but instead the command received an input of "', invalid_type, '".' )
-        # print('Would you please change the input "', input_child, '" into a correct one?')
-        raise_system_exit()
+        return string
