@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock, PropertyMock
 from src.analyzer import Analyzer
 from src.logo_parser import KeywordNode, CodeNode, ParameterNode
-from src.error_handler import SemanticError
+from src.error_handler import InvalidChildTypeError
 
 class testAnalyzer(unittest.TestCase):
 
@@ -15,7 +15,7 @@ class testAnalyzer(unittest.TestCase):
         mock_tree = MagicMock()
         type(mock_tree).root = PropertyMock(return_value=root)
 
-        with self.assertRaises(SemanticError):
+        with self.assertRaises(InvalidChildTypeError):
             Analyzer(mock_tree)
 
 

@@ -1,4 +1,4 @@
-from src.error_handler import SemanticError
+from src.error_handler import InvalidChildTypeError, KeywordWithoutChildError
 from src.logo_keywords import LOGO_KEYWORDS
 
 
@@ -29,7 +29,7 @@ class Analyzer:
                         
     def check_parameter_number(self, node):
         if node.token_type == "keyword" and node.child == None:
-            SemanticError.keyword_without_child(node.keyword)
+            raise KeywordWithoutChildError(node.keyword)
 
 
     def check_parameter_type(self, node):
@@ -38,4 +38,4 @@ class Analyzer:
         if correct_type == float and (parameter_type == float or parameter_type == int):
             return 
         elif correct_type != parameter_type:
-            raise SemanticError("child_is_invalid_type", node.keyword, node.child.value, correct_type, parameter_type)
+            raise InvalidChildTypeError(node.keyword, node.child.value, correct_type, parameter_type)

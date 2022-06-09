@@ -40,6 +40,15 @@ class ParserError():
         raise_system_exit()
 
 class SemanticError(BaseException):
+    def __init__(self, keyword, message):
+        self.keyword = keyword
+        super().__init__(message)
+
+class Keyword_Without_Child_Error(BaseException):
+
+
+
+class SemanticError(BaseException):
     def __init__(self, type, *args):
         self.type = type
         self.message = self.parse_error(list(args))
@@ -54,7 +63,7 @@ class SemanticError(BaseException):
             return self.child_is_invalid_type(args[0], args[1], args[2], args[3])
 
 
-    def keyword_without_child(keyword):
+    def keyword_without_child(self, keyword):
         return f"Unohtuiko sinulta parametri komennolta {keyword}?"
 
     def child_is_invalid_type(self, keyword, parameter, correct_type, invalid_type):
@@ -63,3 +72,6 @@ class SemanticError(BaseException):
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
 
         return string
+
+
+        
