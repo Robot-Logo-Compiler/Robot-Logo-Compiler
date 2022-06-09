@@ -18,24 +18,29 @@ class Analyzer:
 
     def get_parameter_type(self, node):
         value = node.value
-        if isinstance(value, int):
+        try:
+            int(value)
             return "integer"
-        if isinstance(value, float):
-            return "float"
-        if value[0]=='"':
-            return "string"
-        return None
+        except ValueError:
+            try:
+                float(value)
+                return "float"
+            except ValueError:
+                if value[0]=='"':
+                    return "string"
+                elif value != "":
+                    return "Unknown string"
+                else:
+                    return "Emtpy string"
 
     def check_parameter_number(self, node):
-
         if node.token_type == "keyword" and node.child == None:
             raise KeywordWithoutChildError(node.keyword)
 
     def check_parameter_type(self, node):
         parameter_type = self.get_parameter_type(node.child)
         correct_type = self.KEYWORDS.get(node.keyword)
-        if correct_type == float and (parameter_type == float or parameter_type == int):
-
+        if correct_type == "float" and (parameter_type == "float" or parameter_type == "integer"):
             return 
         elif correct_type != parameter_type:
             raise InvalidChildTypeError(node.keyword, node.child.value, correct_type, parameter_type)
