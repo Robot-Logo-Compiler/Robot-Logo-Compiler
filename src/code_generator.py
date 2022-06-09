@@ -23,7 +23,7 @@ class Generator:
         for child in self.tree.root.children:
             self.command_list.append(self.commands_dict[child.keyword](child.child.value))
 
-    def generate_code(self):
+    def generate_code(self): # pragma: no cover
         '''
         This function copies the commands from the command list
         and pastes them to a copy of the java template
