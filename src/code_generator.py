@@ -16,8 +16,6 @@ class Generator:
         "oikealle": self.generate_rotate_right, "right": self.generate_rotate_right,
         "vasemmalle": self.generate_rotate_left, "left": self.generate_rotate_left,
         "tulosta": self.generate_show, "show": self.generate_show}
-        self.list_commands()
-        self.generate_code()
 
     def list_commands(self):
         '''This function creates the command list'''
@@ -48,34 +46,36 @@ class Generator:
     def generate_move_forward(cls, amount):
         '''This method returns the move forward command'''
 
-        java_command = "moveForward(" + str(amount) + ")"
+        java_command = "moveForward(" + amount + ")"
         return java_command
 
     @classmethod
     def generate_move_backward(cls, amount):
         '''This method returns the move backward command'''
 
-        java_command = "moveBackward(" + str(amount) + ")"
+        java_command = "moveBackward(" + amount + ")"
         return java_command
 
     @classmethod
     def generate_rotate_right(cls, amount):
         '''This method returns the rotate right command'''
 
-        java_command = "rotate(" + str(amount) + ")"
+        java_command = "rotate(" + amount + ")"
         return java_command
 
     @classmethod
     def generate_rotate_left(cls, amount):
         '''This method returns the rotate left command'''
 
+        amount = int(amount)*-1
         java_command = "rotate(" + str(amount) + ")"
         return java_command
 
     @classmethod
     def generate_show(cls, message):
         '''This method returns the show command'''
+
         if message[0] == '"':
             message = message[1:]
-        java_command = 'printToLCD("' + str(message) + '")'
+        java_command = 'printToLCD("' + message + '")'
         return java_command
