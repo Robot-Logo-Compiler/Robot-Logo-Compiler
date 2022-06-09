@@ -10,7 +10,9 @@ def main():
     tokens = lexer.create_tokens()
     parsed_tokens = ParserTree(tokens)
     Analyzer(parsed_tokens)
-    Generator(parsed_tokens)
+    generator = Generator(parsed_tokens)
+    generator.list_commands()
+    generator.generate_code()
 
 
 def openfile():

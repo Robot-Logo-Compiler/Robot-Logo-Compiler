@@ -26,7 +26,6 @@ class LexerError():
 class ParserError():
     def parameter_without_command(node):
         print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
-        
 
     def child_is_invalid_type(keyword, input_child, correct_type, invalid_type):
 
@@ -59,7 +58,7 @@ class SemanticError(BaseException):
     def parse_error(self, args):
         if self.type == "keyword_without_child":
             return self.keyword_without_child[args[0]]
-        elif self.type == "child_is_invalid_type":
+        if self.type == "child_is_invalid_type":
             return self.child_is_invalid_type(args[0], args[1], args[2], args[3])
 
 
@@ -67,11 +66,14 @@ class SemanticError(BaseException):
         return f"Unohtuiko sinulta parametri komennolta {keyword}?"
 
     def child_is_invalid_type(self, keyword, parameter, correct_type, invalid_type):
-        string = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type} 
+        string = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
 
         return string
+<<<<<<< HEAD
 
 
         
+=======
+>>>>>>> refs/remotes/origin/main
