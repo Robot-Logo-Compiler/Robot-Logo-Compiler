@@ -26,6 +26,7 @@ class LexerError():
 class ParserError():
     def parameter_without_command(node):
         print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
+        
 
     def child_is_invalid_type(keyword, input_child, correct_type, invalid_type):
 
@@ -43,37 +44,13 @@ class SemanticError(BaseException):
         self.keyword = keyword
         super().__init__(message)
 
-class Keyword_Without_Child_Error(BaseException):
+class KeywordWithoutChildError(SemanticError):
+    def __init__(self, keyword):
+        super().__init__(keyword, f"Unohtuiko sinulta parametri komennolta {keyword}?")
 
-
-
-class SemanticError(BaseException):
-    def __init__(self, type, *args):
-        self.type = type
-        self.message = self.parse_error(list(args))
-
-    def __str__(self):
-        return self.message
-
-    def parse_error(self, args):
-        if self.type == "keyword_without_child":
-            return self.keyword_without_child[args[0]]
-        if self.type == "child_is_invalid_type":
-            return self.child_is_invalid_type(args[0], args[1], args[2], args[3])
-
-
-    def keyword_without_child(self, keyword):
-        return f"Unohtuiko sinulta parametri komennolta {keyword}?"
-
-    def child_is_invalid_type(self, keyword, parameter, correct_type, invalid_type):
-        string = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
+class InvalidChildTypeError(SemanticError):
+    def __init__(self, keyword, parameter, correct_type, invalid_type):
+        self.message = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type} 
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
-
-        return string
-<<<<<<< HEAD
-
-
-        
-=======
->>>>>>> refs/remotes/origin/main
+        super().__init__(keyword, self.message)
