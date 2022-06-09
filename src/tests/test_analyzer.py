@@ -11,22 +11,30 @@ class testAnalyzer(unittest.TestCase):
         keynode = KeywordNode("eteen")
         keynode.add_child(ParameterNode('"moi'))
         root.add_child(keynode)
-        
         mock_tree = MagicMock()
         type(mock_tree).root = PropertyMock(return_value=root)
-
         with self.assertRaises(InvalidChildTypeError):
             Analyzer(mock_tree)
 
     def test_child_is_correct_numeric(self):
         root = CodeNode()
         keynode = KeywordNode("eteen")
-        keynode.add_child(ParameterNode('5'))
-        root.add_child(keynode)
-        
+        keynode.add_child(ParameterNode('5.5'))
+        root.add_child(keynode)  
         mock_tree = MagicMock()
         type(mock_tree).root = PropertyMock(return_value=root)
+        try:
+            Analyzer(mock_tree)
+        except InvalidChildTypeError:
+            self.fail("InvalidChildTypeError raised incorrectly")
 
+    def test_show_works_with_numbers(self):
+        root = CodeNode()
+        keynode = KeywordNode("tulosta")
+        keynode.add_child(ParameterNode('5'))
+        root.add_child(keynode)  
+        mock_tree = MagicMock()
+        type(mock_tree).root = PropertyMock(return_value=root)
         try:
             Analyzer(mock_tree)
         except InvalidChildTypeError:
