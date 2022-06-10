@@ -36,6 +36,7 @@ class Analyzer:
     def check_parameter_number(self, node):
         if node.token_type == "keyword" and node.child == None:
             raise KeywordWithoutChildException(node.keyword)
+            exit()
 
     def check_parameter_type(self, node):
         parameter_type = self.get_parameter_type(node.child)
@@ -44,3 +45,4 @@ class Analyzer:
             return 
         elif correct_type != parameter_type:
             raise InvalidChildTypeException(node.keyword, node.child.value, correct_type, parameter_type)
+            exit()

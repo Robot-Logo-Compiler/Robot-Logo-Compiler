@@ -60,14 +60,15 @@ class InvalidChildTypeException(SemanticException):
 
 class FileException(BaseException):
     def __init__(self, keyword, message):
+        self.keyword = keyword
         super().__init__(message)
 
 class FileNumberException(SemanticException):
     def __init__(self, amount):
         if amount == 0:
-            super().__init__("", f"Et antanut tiedostoa käännettäväksi.")
+            super().__init__("","Et antanut tiedostoa käännettäväksi.")
         if amount > 1:
-            super().__init__("", f"Annoit liian monta tiedostoa käännettäväksi.")
+            super().__init__("", "Annoit liian monta tiedostoa käännettäväksi.")
 
 class FileContentException(SemanticException):
     def __init__(self, keyword):
