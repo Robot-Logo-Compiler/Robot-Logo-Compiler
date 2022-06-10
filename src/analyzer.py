@@ -1,4 +1,4 @@
-from src.error_handler import InvalidChildTypeError, KeywordWithoutChildError
+from src.error_handler import InvalidChildTypeException, KeywordWithoutChildException
 from src.logo_keywords import LOGO_KEYWORDS
 
 
@@ -35,7 +35,7 @@ class Analyzer:
 
     def check_parameter_number(self, node):
         if node.token_type == "keyword" and node.child == None:
-            raise KeywordWithoutChildError(node.keyword)
+            raise KeywordWithoutChildException(node.keyword)
 
     def check_parameter_type(self, node):
         parameter_type = self.get_parameter_type(node.child)
@@ -43,4 +43,4 @@ class Analyzer:
         if (correct_type == "float" or correct_type == "string") and (parameter_type == "float" or parameter_type == "integer"):
             return 
         elif correct_type != parameter_type:
-            raise InvalidChildTypeError(node.keyword, node.child.value, correct_type, parameter_type)
+            raise InvalidChildTypeException(node.keyword, node.child.value, correct_type, parameter_type)

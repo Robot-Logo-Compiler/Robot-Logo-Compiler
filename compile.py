@@ -5,6 +5,7 @@ from src.code_generator import Generator
 from src.analyzer import Analyzer
 from pathlib import Path
 
+
 def main():
     lexer = Lexer(openfile())
     tokens = lexer.create_tokens()
@@ -16,12 +17,10 @@ def main():
 
 
 def openfile():
+    from src.error_handler import FileNumberException
     args = argv[1:]
-    if len(args) > 1:
-        print('Too many arguments. Please provide one file of Logo code as argument.')
-        exit()
-    if len(args) == 0:
-        print('No file provided as argument. Please provide one file of Logo code as argument.')
+    if (len(args) > 1) or (len(args) == 0):
+        raise FileNumberException(len(args))
         exit()
     try:
         file = Path(args[0]).read_text()

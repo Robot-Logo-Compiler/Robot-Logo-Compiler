@@ -39,18 +39,36 @@ class ParserError():
         # print('Would you please change the input "', input_child, '" into a correct one?')
         raise_system_exit()
 
-class SemanticError(BaseException):
+
+
+class SemanticException(BaseException):
     def __init__(self, keyword, message):
         self.keyword = keyword
         super().__init__(message)
 
-class KeywordWithoutChildError(SemanticError):
+class KeywordWithoutChildException(SemanticException):
     def __init__(self, keyword):
         super().__init__(keyword, f"Unohtuiko sinulta parametri komennolta {keyword}?")
 
-class InvalidChildTypeError(SemanticError):
+class InvalidChildTypeException(SemanticException):
     def __init__(self, keyword, parameter, correct_type, invalid_type):
         self.message = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type} 
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
         super().__init__(keyword, self.message)
+
+
+class FileException(BaseException):
+    def __init__(self, keyword, message):
+        super().__init__(message)
+
+class FileNumberException(SemanticException):
+    def __init__(self, amount):
+        if amount == 0:
+            super().__init__("", f"Et antanut tiedostoa käännettäväksi.")
+        if amount > 1:
+            super().__init__("", f"Annoit liian monta tiedostoa käännettäväksi.")
+
+class FileContentException(SemanticException):
+    def __init__(self, keyword):
+        super().__init__(keyword, f"Unohtuiko sinulta parametri komennolta {keyword}?")
