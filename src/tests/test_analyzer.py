@@ -6,59 +6,46 @@ from src.error_handler import InvalidChildTypeError
 
 class testAnalyzer(unittest.TestCase):
 
-    def test_child_is_string_when_should_be_numeric(self):
+    def create_tree(self, keynode):
         root = CodeNode()
+        root.add_child(keynode)
+        mock_tree = MagicMock()
+        type(mock_tree).root = PropertyMock(return_value=root)
+        return mock_tree
+
+    def test_child_is_string_when_should_be_numeric(self):
         keynode = KeywordNode("eteen")
         keynode.add_child(ParameterNode('"moi'))
-        root.add_child(keynode)
-        mock_tree = MagicMock()
-        type(mock_tree).root = PropertyMock(return_value=root)
         with self.assertRaises(InvalidChildTypeError):
-            Analyzer(mock_tree)
+            Analyzer(self.create_tree(keynode))
 
     def test_missing_quotation_raises_exception(self):
-        root = CodeNode()
         keynode = KeywordNode("tulosta")
         keynode.add_child(ParameterNode('moi'))
-        root.add_child(keynode)
-        mock_tree = MagicMock()
-        type(mock_tree).root = PropertyMock(return_value=root)
         with self.assertRaises(InvalidChildTypeError):
-            Analyzer(mock_tree)
+            Analyzer(self.create_tree(keynode))
 
     def test_child_is_correct_numeric(self):
-        root = CodeNode()
         keynode = KeywordNode("eteen")
         keynode.add_child(ParameterNode('5.5'))
-        root.add_child(keynode)  
-        mock_tree = MagicMock()
-        type(mock_tree).root = PropertyMock(return_value=root)
         try:
-            Analyzer(mock_tree)
+            Analyzer(self.create_tree(keynode))
         except InvalidChildTypeError:
             self.fail("InvalidChildTypeError raised incorrectly")
 
     def test_show_works_with_strings(self):
-        root = CodeNode()
         keynode = KeywordNode("tulosta")
         keynode.add_child(ParameterNode('"moi'))
-        root.add_child(keynode)  
-        mock_tree = MagicMock()
-        type(mock_tree).root = PropertyMock(return_value=root)
         try:
-            Analyzer(mock_tree)
+            Analyzer(self.create_tree(keynode))
         except InvalidChildTypeError:
             self.fail("InvalidChildTypeError raised incorrectly")    
 
     def test_show_works_with_numbers(self):
-        root = CodeNode()
         keynode = KeywordNode("tulosta")
         keynode.add_child(ParameterNode('5'))
-        root.add_child(keynode)  
-        mock_tree = MagicMock()
-        type(mock_tree).root = PropertyMock(return_value=root)
         try:
-            Analyzer(mock_tree)
+            Analyzer(self.create_tree(keynode))
         except InvalidChildTypeError:
             self.fail("InvalidChildTypeError raised incorrectly")
 
