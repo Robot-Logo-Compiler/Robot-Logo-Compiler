@@ -1,5 +1,6 @@
 from src.error_handler import InvalidChildTypeException, KeywordWithoutChildException
 from src.logo_keywords import LOGO_KEYWORDS
+import sys
 
 
 class Analyzer:
@@ -7,6 +8,10 @@ class Analyzer:
         self.tree = tree
         self.KEYWORDS = LOGO_KEYWORDS
         self.check_parameters(tree.root)
+
+    def excepthook(type, value, traceback):
+        print(value)
+        sys.excepthook = excepthook
 
     def check_parameters(self, root):
         for child in root.children:
@@ -36,7 +41,6 @@ class Analyzer:
     def check_parameter_number(self, node):
         if node.token_type == "keyword" and node.child == None:
             raise KeywordWithoutChildException(node.keyword)
-            exit()
 
     def check_parameter_type(self, node):
         parameter_type = self.get_parameter_type(node.child)

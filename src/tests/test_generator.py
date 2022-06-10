@@ -4,7 +4,7 @@ from src.code_generator import Generator
 class StubTree:
     def __init__(self):
         self.root = StubRoot()
-        print(self.root.children)
+        #print(self.root.children)
 
 class StubRoot:
     def __init__(self):

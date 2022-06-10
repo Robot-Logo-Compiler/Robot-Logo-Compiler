@@ -1,3 +1,5 @@
+import sys, inspect
+
 def raise_system_exit():
     raise SystemExit(0)
     # pass
@@ -58,18 +60,13 @@ class InvalidChildTypeException(SemanticException):
         super().__init__(keyword, self.message)
 
 
-class FileException(BaseException):
-    def __init__(self, keyword, message):
-        self.keyword = keyword
-        super().__init__(message)
+class FileException():
 
-class FileNumberException(SemanticException):
-    def __init__(self, amount):
+    def wrong_number_of_files(amount):
         if amount == 0:
-            super().__init__("","Et antanut tiedostoa käännettäväksi.")
+            print("Et antanut tiedostoa käännettäväksi.")
         if amount > 1:
-            super().__init__("", "Annoit liian monta tiedostoa käännettäväksi.")
+            print("Annoit liian monta tiedostoa käännettäväksi.")
 
-class FileContentException(SemanticException):
-    def __init__(self, keyword):
-        super().__init__(keyword, f"Unohtuiko sinulta parametri komennolta {keyword}?")
+    def os_not_able_to_open_file(path):
+        print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnissa {path}?")

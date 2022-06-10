@@ -6,28 +6,29 @@ from src.analyzer import Analyzer
 from pathlib import Path
 
 
+
 def main():
-    lexer = Lexer(openfile())
-    tokens = lexer.create_tokens()
-    parsed_tokens = ParserTree(tokens)
-    Analyzer(parsed_tokens)
-    generator = Generator(parsed_tokens)
-    generator.list_commands()
-    generator.generate_code()
+    file = openfile(argv[1:])
+    if file:
+        lexer = Lexer(file)
+        tokens = lexer.create_tokens()
+        parsed_tokens = ParserTree(tokens)
+        Analyzer(parsed_tokens)
+        generator = Generator(parsed_tokens)
+        generator.list_commands()
+        generator.generate_code()
 
 
-def openfile():
-    from src.error_handler import FileNumberException
-    args = argv[1:]
+def openfile(args):
+    from src.error_handler import FileException
     if (len(args) > 1) or (len(args) == 0):
-        raise FileNumberException(len(args))
-        exit()
+        FileException.wrong_number_of_files(len(args))
+        return None
     try:
         file = Path(args[0]).read_text()
         return file.replace('\n', ' ')
     except OSError:
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
-        exit()
 
 
 
