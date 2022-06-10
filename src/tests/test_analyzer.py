@@ -16,6 +16,16 @@ class testAnalyzer(unittest.TestCase):
         with self.assertRaises(InvalidChildTypeError):
             Analyzer(mock_tree)
 
+    def test_missing_quotation_raises_exception(self):
+        root = CodeNode()
+        keynode = KeywordNode("tulosta")
+        keynode.add_child(ParameterNode('moi'))
+        root.add_child(keynode)
+        mock_tree = MagicMock()
+        type(mock_tree).root = PropertyMock(return_value=root)
+        with self.assertRaises(InvalidChildTypeError):
+            Analyzer(mock_tree)
+
     def test_child_is_correct_numeric(self):
         root = CodeNode()
         keynode = KeywordNode("eteen")
