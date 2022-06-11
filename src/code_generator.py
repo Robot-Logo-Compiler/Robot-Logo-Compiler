@@ -46,14 +46,15 @@ class Generator:
     def generate_move_forward(cls, amount):
         '''This method returns the move forward command'''
 
-        java_command = "moveForward(" + amount + ")"
+        java_command = "travel(" + amount + ")"
         return java_command
 
     @classmethod
     def generate_move_backward(cls, amount):
         '''This method returns the move backward command'''
-
-        java_command = "moveBackward(" + amount + ")"
+        
+        amount = int(amount)*-1
+        java_command = "travel(" + str(amount) + ")"
         return java_command
 
     @classmethod
