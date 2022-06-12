@@ -3,7 +3,7 @@
 '''
 As the name suggests, this module handels all of the error messages that the compiler raises.
 When SystemExit(0) is called via raise_system_exit(), no tracebacks will be shown and the compiler will stop executing.
-The terminal message will only consist of the custom compiler error message specified in this script. 
+The terminal message will only consist of the custom compiler error message specified in this script.
 '''
 
 def raise_system_exit():
@@ -45,7 +45,7 @@ class ParserError():
     '''
     def parameter_without_command(node):
         print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
-        
+
     def child_is_invalid_type(keyword, input_child, correct_type, invalid_type):
         print('Komento "', keyword, '" haluaa syötteeksi "', correct_type,
                 '" mutta sen sijaan komento sai syötteeksi "', invalid_type, '".' )
@@ -67,7 +67,7 @@ class KeywordWithoutChildException(SemanticException):
 
 class InvalidChildTypeException(SemanticException):
     def __init__(self, keyword, parameter, correct_type, invalid_type):
-        self.message = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type} 
+        self.message = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
         super().__init__(keyword, self.message)
