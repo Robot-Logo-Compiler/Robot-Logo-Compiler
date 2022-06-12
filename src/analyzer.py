@@ -43,4 +43,4 @@ class Analyzer:
         if (correct_type == "float" or correct_type == "string") and (parameter_type == "float" or parameter_type == "integer"):
             return 
         elif correct_type != parameter_type:
-            SemanticException.child_is_invalid_type(node.keyword, node.child.value, correct_type, parameter_type)
+            SemanticException.child_is_invalid_type(self, node.keyword, node.child.value, correct_type, parameter_type)

@@ -1,12 +1,19 @@
-import unittest
+import unittest, sys, io
 from unittest.mock import MagicMock, PropertyMock
 from src.analyzer import Analyzer
 from src.logo_parser import KeywordNode, CodeNode, ParameterNode
-from src.error_handler import InvalidChildTypeException
 
 class testAnalyzer(unittest.TestCase):
+    def setUp(self):
+        self.capturedOutput = io.StringIO() 
+        sys.stdout = self.capturedOutput
 
-    def create_tree(self, keynode):
+    def tearDown(self):
+        sys.stdout = sys.__stdout__
+
+    def create_tree_with_one_command(self, keyword, parameter):
+        keynode = KeywordNode(keyword)
+        keynode.add_child(ParameterNode(parameter))
         root = CodeNode()
         root.add_child(keynode)
         mock_tree = MagicMock()
@@ -14,42 +21,21 @@ class testAnalyzer(unittest.TestCase):
         return mock_tree
 
     def test_child_is_string_when_should_be_numeric(self):
-        keynode = KeywordNode("eteen")
-        keynode.add_child(ParameterNode('"moi'))
-        with self.assertRaises(InvalidChildTypeException):
-            Analyzer(self.create_tree(keynode))
+        Analyzer(self.create_tree_with_one_command("eteen", '"moi'))
+        self.assertIn("Komento eteen haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
 
     def test_missing_quotation_raises_exception(self):
-        keynode = KeywordNode("tulosta")
-        keynode.add_child(ParameterNode('moi'))
-        with self.assertRaises(InvalidChildTypeException):
-            Analyzer(self.create_tree(keynode))
+        Analyzer(self.create_tree_with_one_command("tulosta", 'moi'))
+        self.assertIn("Komento tulosta haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
 
     def test_child_is_correct_numeric(self):
-        keynode = KeywordNode("eteen")
-        keynode.add_child(ParameterNode('5.5'))
-        try:
-            Analyzer(self.create_tree(keynode))
-        except InvalidChildTypeException:
-            self.fail("InvalidChildTypeException raised incorrectly")
+        Analyzer(self.create_tree_with_one_command("eteen", '5.5'))
+        self.assertNotIn("Komento eteen haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
 
     def test_show_works_with_strings(self):
-        keynode = KeywordNode("tulosta")
-        keynode.add_child(ParameterNode('"moi'))
-        try:
-            Analyzer(self.create_tree(keynode))
-        except InvalidChildTypeException:
-            self.fail("InvalidChildTypeException raised incorrectly")    
+        Analyzer(self.create_tree_with_one_command("tulosta", '"moi'))
+        self.assertNotIn("Komento tulosta haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
 
     def test_show_works_with_numbers(self):
-        keynode = KeywordNode("tulosta")
-        keynode.add_child(ParameterNode('5'))
-        try:
-            Analyzer(self.create_tree(keynode))
-        except InvalidChildTypeException:
-            self.fail("InvalidChildTypeException raised incorrectly")
-
-
-            
-
-
+        Analyzer(self.create_tree_with_one_command("tulosta", '5'))
+        self.assertNotIn("Komento tulosta haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
