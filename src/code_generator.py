@@ -52,7 +52,7 @@ class Generator:
     @classmethod
     def generate_move_backward(cls, amount):
         '''This method returns the move backward command'''
-        
+
         amount = int(amount)*-1
         java_command = "travel(" + str(amount) + ")"
         return java_command

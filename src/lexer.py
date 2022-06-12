@@ -29,7 +29,7 @@ class Lexer:
                 token_list.append(("MATH_FUNC", (self.functions[element])))
             else:
                 token_list.append(("PARAMETER", element))
-        print(token_list)
+        #print(token_list)
         return token_list
 
     def set_input_code(self, input_code):
