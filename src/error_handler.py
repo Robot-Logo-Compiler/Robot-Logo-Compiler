@@ -1,22 +1,22 @@
 # import sys
 # import inspect
 '''
-As the name suggests, this file handels all of the error messages that the compiler raises.
+As the name suggests, this module handels all of the error messages that the compiler raises.
 When SystemExit(0) is called via raise_system_exit(), no tracebacks will be shown and the compiler will stop executing.
 The terminal message will only consist of the custom compiler error message specified in this script. 
 '''
 
-'''
-Used for toggling traceback error messages on and off.
-'''
 def raise_system_exit():
+    '''
+    Used for toggling traceback error messages on and off.
+    '''
     raise SystemExit(0)
     # pass
 
-'''
-Error handler for file input in compiler.py
-'''
 class InputFileError():
+    '''
+    Error handler for file input in compiler.py
+    '''
     #   These messages are only in English, since they are only for the teacher to see
     def too_many_arguments():
         print('Too many arguments. Please provide one file of Logo code as argument.')
@@ -30,19 +30,19 @@ class InputFileError():
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
         raise_system_exit()
 
-'''
-Error handler for lexer.py
-'''
 class LexerError():
+    '''
+    Error handler for lexer.py
+    '''
     def unknown_command(command):
         print('En tunnistanut komentoa: "', command, '". Tarkista, että komento on olemassa ja että se on varmasti kirjoitettu oikein :)')
         # print('I could not recognize the command: ', command, '. Please check that the command is spelled correctly :)')
         raise_system_exit()
 
-'''
-Error handler for parser.py
-'''
 class ParserError():
+    '''
+    Error handler for parser.py
+    '''
     def parameter_without_command(node):
         print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
         
@@ -55,7 +55,6 @@ class ParserError():
         #        '" but instead the command received an input of "', invalid_type, '".' )
         # print('Would you please change the input "', input_child, '" into a correct one?')
         raise_system_exit()
-
 
 class SemanticException(BaseException):
     def __init__(self, keyword, message):
