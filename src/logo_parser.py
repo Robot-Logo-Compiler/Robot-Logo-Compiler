@@ -20,9 +20,9 @@ class ParserTree:
                 self.root.add_child(node)
                 try:
                     self.root = stack.pop()
-                except IndexError():
+                except IndexError:
                     ParserError.parameter_without_command(node)
-                    exit()
+                    #exit()
         self.type_check()
     def type_check(self):
         self.root.return_type()
