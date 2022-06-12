@@ -30,4 +30,5 @@ class TestGenerator(unittest.TestCase): # Tämä testiluokka on väliaikainen ja
 
     def test_generator_creates_correct_command_list(self):
         self.generator.list_commands()
-        self.assertEqual(['printToLCD("moikka")','moveForward(5)','moveBackward(4)','rotate(-7)','rotate(9)'],self.generator.command_list)
+        print(self.generator.command_list)
+        self.assertEqual(['printToLCD("moikka")','travel(5)','travel(-4)','rotate(-7)','rotate(9)'],self.generator.command_list)
