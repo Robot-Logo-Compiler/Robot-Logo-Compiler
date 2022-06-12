@@ -56,21 +56,15 @@ class ParserError():
         # print('Would you please change the input "', input_child, '" into a correct one?')
         raise_system_exit()
 
-class SemanticException(BaseException):
-    def __init__(self, keyword, message):
-        self.keyword = keyword
-        super().__init__(message)
-
-class KeywordWithoutChildException(SemanticException):
-    def __init__(self, keyword):
-        super().__init__(keyword, f"Unohtuiko sinulta parametri komennolta {keyword}?")
-
-class InvalidChildTypeException(SemanticException):
-    def __init__(self, keyword, parameter, correct_type, invalid_type):
-        self.message = f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
+class SemanticException():
+    def child_is_invalid_type(self, keyword, parameter, correct_type, invalid_type):
+        print(f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
-        Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?"""
-        super().__init__(keyword, self.message)
+        Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?""")
+
+    def keyword_without_child(keyword):
+        print(f"Unohtuiko sinulta parametri komennolta {keyword}?")
+
 
 class FileException():
     def wrong_number_of_files(amount):
