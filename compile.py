@@ -28,8 +28,7 @@ def openfile(args):
         file = Path(args[0]).read_text()
         return file
     except OSError:
-        print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
-
+        FileException.os_not_able_to_open_file(args[0])
 
 
 if __name__ == "__main__":

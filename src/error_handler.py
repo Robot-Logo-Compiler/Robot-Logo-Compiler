@@ -80,5 +80,5 @@ class FileException():
             print("Annoit liian monta tiedostoa käännettäväksi.")
 
     def os_not_able_to_open_file(path):
-        print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnissa {path}?")
+        print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnissa {path}")
     
