@@ -26,7 +26,7 @@ def openfile(args):
         return None
     try:
         file = Path(args[0]).read_text()
-        return file.replace('\n', ' ')
+        return file
     except OSError:
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
 

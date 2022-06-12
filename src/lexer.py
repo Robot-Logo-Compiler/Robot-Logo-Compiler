@@ -18,10 +18,9 @@ class Lexer:
 
         #print("inputcode",self.input_code)
 
-        split_list = [element for element in self.input_code.split()]
-        #print("Split:", split_list)
-
-
+        split_list = self.input_code.replace('\n', ' ').replace('(', ' ( ').replace(')', ' ) ').split()
+        # print("Split:", split_list)
+        
         #previous = ''
         for element in split_list:
             if element.lower() in self.KEYWORDS.keys():
@@ -35,3 +34,4 @@ class Lexer:
     def set_input_code(self, input_code):
         ''' A setter function for input code. '''
         self.input_code = input_code
+
