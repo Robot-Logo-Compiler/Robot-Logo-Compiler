@@ -7,10 +7,10 @@ class TestParser(unittest.TestCase):
         self.tree = ParserTree(tokens)
     
     def test_tree_nodes_have_correct_values(self):
-        self.assertEqual(self.tree.root.children[0].keyword,"tulosta")
-        self.assertEqual(self.tree.root.children[2].keyword,"taakse")
-        self.assertEqual(self.tree.root.children[3].child.value,"45")
-        self.assertEqual(self.tree.root.children[4].child.value,"90")
+        self.assertEqual("tulosta", self.tree.root.children[0].keyword)
+        self.assertEqual("taakse", self.tree.root.children[2].keyword)
+        self.assertEqual("45", self.tree.root.children[3].child.value)
+        self.assertEqual("90", self.tree.root.children[4].child.value)
 
     def test_asia(self):
         tokens2 = [('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'oikealle'), ('PARAMETER', '45')]
