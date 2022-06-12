@@ -12,6 +12,6 @@ class TestParser(unittest.TestCase):
         self.assertEqual("45", self.tree.root.children[3].child.value)
         self.assertEqual("90", self.tree.root.children[4].child.value)
 
-    def test_asia(self):
+    def test_parser_gives_error_on_wrong_input(self):
         tokens2 = [('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'oikealle'), ('PARAMETER', '45')]
         self.assertRaises(TypeError, ParserTree(tokens2))
