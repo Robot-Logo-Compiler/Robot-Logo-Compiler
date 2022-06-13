@@ -72,3 +72,18 @@ class ParameterNode:
 
     def return_type(self):
         return "number"
+
+class BinaryOperationNode:
+
+    def __init__(self, type):
+        self.childs = []
+        self.type = type
+
+    def token_type(self):
+        return "bin_operator"
+
+    def return_type(self):
+        for child in self.childs:
+            if child.return_type() == "number":
+                pass #ERROR COMES HERE
+        return "number"
