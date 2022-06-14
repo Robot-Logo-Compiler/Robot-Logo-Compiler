@@ -1,59 +1,42 @@
 import lejos.nxt.*;
+import lejos.robotics.navigation.DifferentialPilot;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
-        init();
+        DifferentialPilot pilot = init();
+        pilot.setTravelSpeed(5.0);
+        pilot.setRotateSpeed(30.0);
 
         // insert generated code here
 
 
     }
 
-    private static void init(int speed) {
+    private static DifferentialPilot init(float wheelDiameter, float trackWidth) {
 
-        Motor.A.setSpeed(speed);
-        Motor.B.setSpeed(speed);
+        return new DifferentialPilot(wheelDiameter, 0.5*trackWidth, Motor.A, Motor.B);
     }
 
-    private static void init() {
+    private static DifferentialPilot init() {
 
-        Motor.A.setSpeed(100);
-        Motor.B.setSpeed(100);
-
-    }
-
-    private static void moveForward(int amount) throws InterruptedException {
-
-        Motor.A.forward();
-        Motor.B.forward();
-        Thread.sleep(500 * amount);
-        Motor.A.stop();
-        Motor.B.stop();
+        return new DifferentialPilot(2.165f, 0.5*8.46f, Motor.A, Motor.B); // default values in inches
 
     }
 
-    private static void moveBackward(int amount) throws InterruptedException {
-
-        Motor.A.backward();
-        Motor.B.backward();
-        Thread.sleep(500 * amount);
-        Motor.A.stop();
-        Motor.B.stop();
+    private static void travel(DifferentialPilot plt, float distance) {
         
+        plt.travel(distance);
     }
 
-    private static void rotate(int angle) {
+    private static void rotate(DifferentialPilot plt, double angle) {
 
-        Motor.A.rotate(angle);
-        Motor.B.rotate(-1 * angle);
+        plt.rotate(angle);
     }
 
     private static void printToLCD(String text) {
         
         LCD.drawString(text, 0, 0);
     }
-
-
 }
