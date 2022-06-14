@@ -18,15 +18,15 @@ class InputFileError():
     Error handler for file input in compiler.py
     '''
     #   These messages are only in English, since they are only for the teacher to see
-    def too_many_arguments():
+    def too_many_arguments(self):
         print('Too many arguments. Please provide one file of Logo code as argument.')
         raise_system_exit()
 
-    def no_arguments():
+    def no_arguments(self):
         print('No file provided as argument. Please provide one file of Logo code as argument.')
         raise_system_exit()
 
-    def file_read_error(file):
+    def file_read_error(self, file):
         print('Could not open file:', file, 'Please provide one file of Logo code as argument.')
         raise_system_exit()
 
@@ -34,7 +34,7 @@ class LexerError():
     '''
     Error handler for lexer.py
     '''
-    def unknown_command(command):
+    def unknown_command(self, command):
         print('En tunnistanut komentoa: "', command, '". Tarkista, että komento on olemassa ja että se on varmasti kirjoitettu oikein :)')
         # print('I could not recognize the command: ', command, '. Please check that the command is spelled correctly :)')
         raise_system_exit()
@@ -43,10 +43,10 @@ class ParserError():
     '''
     Error handler for parser.py
     '''
-    def parameter_without_command(node):
+    def parameter_without_command(self, node):
         print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
 
-    def child_is_invalid_type(keyword, input_child, correct_type, invalid_type):
+    def child_is_invalid_type(self, keyword, input_child, correct_type, invalid_type):
         print('Komento "', keyword, '" haluaa syötteeksi "', correct_type,
                 '" mutta sen sijaan komento sai syötteeksi "', invalid_type, '".' )
         print('Pystyisitkö vaihtamaan syötteen "', input_child.return_type(), '" tilalle oikeanlaisen syötteen?')
@@ -62,17 +62,19 @@ class SemanticException():
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?""")
 
-    def keyword_without_child(keyword):
+    def keyword_without_child(self, keyword):
         print(f"Unohtuiko sinulta parametri komennolta {keyword}?")
 
+    def wrong_number_of_parameters(self, keyword, given_amount, correct_amount):
+        print(f"Komento {keyword} sai {given_amount} parametria, mutta se haluaa {correct_amount}")
 
 class FileException():
-    def wrong_number_of_files(amount):
+    def wrong_number_of_files(self, amount):
         if amount == 0:
             print("Et antanut tiedostoa käännettäväksi.")
         if amount > 1:
             print("Annoit liian monta tiedostoa käännettäväksi.")
 
-    def os_not_able_to_open_file(path):
+    def os_not_able_to_open_file(self, path):
         print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnissa {path}")
     
