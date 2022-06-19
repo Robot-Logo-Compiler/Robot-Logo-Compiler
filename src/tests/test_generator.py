@@ -1,4 +1,3 @@
-from turtle import forward
 import unittest
 from src.code_generator import Generator
 
