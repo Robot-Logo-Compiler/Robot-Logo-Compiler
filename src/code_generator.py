@@ -52,7 +52,7 @@ class Generator:
     def generate_move_forward(cls, amount):
         '''This method returns the move forward command'''
 
-        java_command = "travel(" + amount + ")"
+        java_command = "travel(pilot, " + amount + ")"
         return java_command
 
     @classmethod
@@ -60,14 +60,14 @@ class Generator:
         '''This method returns the move backward command'''
 
         amount = int(amount)*-1
-        java_command = "travel(" + str(amount) + ")"
+        java_command = "travel(pilot, " + str(amount) + ")"
         return java_command
 
     @classmethod
     def generate_rotate_right(cls, amount):
         '''This method returns the rotate right command'''
 
-        java_command = "rotate(" + amount + ")"
+        java_command = "rotate(pilot, " + amount + ")"
         return java_command
 
     @classmethod
@@ -75,7 +75,7 @@ class Generator:
         '''This method returns the rotate left command'''
 
         amount = int(amount)*-1
-        java_command = "rotate(" + str(amount) + ")"
+        java_command = "rotate(pilot, " + str(amount) + ")"
         return java_command
 
     def generate_show(self, message):
