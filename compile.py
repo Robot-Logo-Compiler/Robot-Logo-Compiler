@@ -4,6 +4,7 @@ from src.logo_parser import ParserTree
 from src.code_generator import Generator
 from src.analyzer import Analyzer
 from pathlib import Path
+from src.logo_parser import parse
 
 
 
@@ -12,7 +13,7 @@ def main():
     if file:
         lexer = Lexer(file)
         tokens = lexer.create_tokens()
-        parsed_tokens = ParserTree(tokens)
+        parsed_tokens = parse(tokens)
         Analyzer(parsed_tokens)
         generator = Generator(parsed_tokens)
         generator.list_commands()

@@ -1,89 +1,168 @@
-from src.error_handler import ParserError
-class ParserTree:
+from src.logo_parsertree import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode
 
+
+class Tokens:
+    """A class that manages the token list, providing semi-global variables
+    for the parsing funtions
+    """
     def __init__(self, tokens):
-        self.root = None
-        self.create_tree(tokens)
-        #print(1)
+        """ tokens: list of the tokens as tuples
+        """
+        self._tokens = tokens
+        self._index = 0
 
-    def create_tree(self, tokens):
-        stack = []
-        self.root = CodeNode()
-        for token in tokens:
-            if token[0] == "KEYWORD":
-                node = KeywordNode(token[1])
-                self.root.add_child(node)
-                stack.append(self.root)
-                self.root = node
-            elif token[0] == "PARAMETER":
-                node = ParameterNode(value=token[1])
-                self.root.add_child(node)
-                try:
-                    self.root = stack.pop()
-                except IndexError:
-                    ParserError.parameter_without_command(node)
-                    #exit()
-        self.type_check()
-    def type_check(self):
-        self.root.return_type()
+    def next_token(self):
+        """Returns the type of the next token on the list
+        """
+        if len(self._tokens) >  self._index:
+            return self._tokens[self._index][0]
+        return "end"
 
-
-class CodeNode:
-
-    def __init__(self):
-        self.children = []
-
-    def add_child(self, node):
-        self.children.append(node)
-
-    def token_type(self):
-        return "code"
-
-    def return_type(self):
-        for child in self.children:
-            child.return_type()
-
-
-class KeywordNode:
-
-    def __init__(self, keyword):
-        self.child = None
-        self.keyword = keyword
-
-    def add_child(self, node):
-        self.child = node
-
-    def token_type(self):
-        return "keyword"
-
-    def return_type(self):
-        if not self.child.return_type() == "number":
-            ParserError.child_is_invalid_type(self.keyword, self.child, "number", self.child.return_type())
+    def next_token_value(self):
+        """Returns the value of the next token on the list
+        """
+        if len(self._tokens) >  self._index:
+            return self._tokens[self._index][1]
         return None
+   
+    def consume(self):
+        """Iterates the token list by one
+        """
+        self._index += 1
 
-class ParameterNode:
 
-    def __init__(self, value):
-        self.child = None
-        self.value = value
+def parse(tokens):
+    """Function that creates a parse tree for an input token list
+    Input:
+        tokens: token list containing tokens as tuples
+    Return:
+        parserTree-class for the given token list
+    """
+    tokens = Tokens(tokens)
+    root = code_block(tokens)
+    tree = ParserTree(root)
+    return tree
 
-    def token_type(self):
-        return "parameter"
 
-    def return_type(self):
-        return "number"
+def expect(expected_token, tokens):
+    """Test if next token on the token list is of the expected type, if it's
+    not it runs the error function
+    Input:
+        tokens: Tokens-class
+        token: the expected token value
+    """
+    if tokens.next_token_value() != expected_token:
+        tokens.consume()
+        error()
 
-class BinaryOperationNode:
 
-    def __init__(self, type):
-        self.childs = []
-        self.type = type
+def error():
+    """Gives an error message when called
+    """
+    print("Error has occurred")
 
-    def token_type(self):
-        return "bin_operator"
 
-    def return_type(self):
-        for child in self.childs:
-            if child.return_type() == "number":
-                pass #ERROR COMES HERE
-        return "number"
+def code_block(tokens):
+    """Works on the principle: CodeBlock -> Statement CodeBlock | 'Nothing' 
+    Creates a tree representing the CodeBlock based on this princible
+    Input:
+        tokens: Tokens-class
+    Returns:
+        Root of the tree repsresenting the CodeBlock
+    """
+    code = []
+
+    while tokens.next_token() == "KEYWORD":
+        code.append(statement(tokens))
+
+    return CodeNode(code)
+
+
+def statement(tokens):
+    """Works on the principle: Statement -> Keyword Parameter | Keyword Statement
+    Creates a tree representing the Statement based on this princible
+    Input:
+        tokens: Tokens-class
+    Returns:
+        Root of the tree repsresenting the Statement
+    """
+    keyword = tokens.next_token_value()
+    tokens.consume()
+
+    if tokens.next_token() == "KEYWORD":
+        parameter = statement(tokens)
+        return KeywordNode(keyword, parameter)
+
+    parameter = expression(tokens)
+    return KeywordNode(keyword, parameter)
+
+
+def expression(tokens):
+    """Works on the principle: Expression -> TimesExpression "+" Expression 
+                                           | TimesExpression "-" Expression
+                                           | TimesExpression
+    Creates a tree representing the Expression based on this princible
+    Input:
+        tokens: Tokens-class
+    Returns:
+        Root of the tree repsresenting the Expression
+    """
+    tree = times_expression(tokens)
+
+    while tokens.next_token_value() == "plus" or tokens.next_token_value() == "minus":
+        
+        operator = tokens.next_token_value()
+        tokens.consume()
+
+        tree_right = times_expression(tokens)
+        tree = BinaryOperationNode(operator, tree, tree_right)
+
+    return tree
+
+
+def times_expression(tokens):
+    """Works on the principle: Expression -> Parameter "*" TimesExpression 
+                                           | Parameter "/" TimesExpression
+                                           | Parameter
+    Creates a tree representing the TimesExpression based on this princible
+    Input:
+        tokens: Tokens-class
+    Returns:
+        Root of the tree repsresenting the TimesExpression
+    """
+    tree = parameter(tokens)
+
+    while tokens.next_token_value() == "multiply" or tokens.next_token_value() == "divide":
+
+        operator = tokens.next_token_value()
+        tokens.consume()
+
+        tree_right = parameter(tokens)
+        tree = BinaryOperationNode(operator, tree, tree_right)
+
+    return tree
+
+
+def parameter(tokens):
+    """Works on the principle: Parameter -> number | string | ( Expression )
+    Creates a tree representing the Parameter based on this princible
+    Input:
+        tokens: Tokens-class
+    Return:
+        Root of the tree representing the parameter
+    """
+    if tokens.next_token() == "PARAMETER":
+        tree = ParameterNode(tokens.next_token_value())
+        tokens.consume()
+        return tree
+
+    elif tokens.next_token_value() == "left_paren":
+        tokens.consume()
+        tree = expression(tokens)
+        expect("right_paren", tokens)
+        tokens.consume()
+        return tree
+
+    else:
+        error() #Requires a true Error message
+
