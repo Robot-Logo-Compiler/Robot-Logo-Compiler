@@ -2,7 +2,7 @@
 
 The current scope of the compiler consists of a main program called ```compile.py``` and several auxiliary programs that are imported to ```compile.py```. These auxiliary programs are the individual subcomponents of a compiler named in accordance with the tasks that they perform (lexer, parser and code generator). 
 
-The program is run as a command line program. By default files are read from **rootfolder**. The input file containing the input program written in the Logo programming language should be placed in ```root/testfiles```,although the **file path has to still be specified explicitly**. The input file should also contain the extension ```.logo```.
+The program is run as a command line program. By default files are read from **rootfolder**. The input file containing the input program written in the Logo programming language should be placed in ```root/testfiles```, although the **file path has to still be specified explicitly**. The input file should also contain the extension ```.logo```.
 
 It is important to have the ```JavaTemplate.java``` file in the templates folder before running the program in order to ensure successful compiling. 
 
