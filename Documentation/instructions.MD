@@ -12,12 +12,26 @@ The program is run with the terminal command
 
 The compiled Java output file will be in the rootfolder with the name ```Main.java```
 
-Current scope of the logo programming language: 
+| Command |                         Function                         |                                  Requirements                                 |
+|:-------:|:--------------------------------------------------------:|:-----------------------------------------------------------------------------:|
+| Forward |                Displaces the robot forward               |            1 argument as an integer or  a float or a math function.           |
+|   Back  |               Displaces the robot backwards              |                                 Same as above                                 |
+|   Left  | Turns the robot and then  displaces it in that direction |                                 Same as above                                 |
+|  Right  |              Same as above, but to the right             |                                 Same as above                                 |
+|   Show  |              Prints on the robots LCD screen             | At least 1 argument either as an integer, float or string or a math function. |
 
-|   Command  | Requirements                                                        |
-|:----------:|---------------------------------------------------------------------|
-| Eteen      | Requires 1 argument as an integer or a float.                       |
-| Taakse     | Requires 1 argument as an integer or a float.                       |
-| Vasemmalle | Requires 1 argument as an integer or a float.                       |
-| Oikealle   | Requires 1 argument as an integer or a float.                       |
-| Tulosta    | Requires at least 1 argument either as an integer, float or string. |
+
+## Supported math operations:
+
+| **Name**          | **Keyword/Symbol** | **Function**                                                  |
+|-------------------|--------------------|---------------------------------------------------------------|
+| Binary operations | + , - , * , /      | Basic Arithmetic                                              |
+| Square root       | SQRT               | Math function that outputs the square root of the given input |
+
+### Order of Operations
+
+The current implementation of the Logo language uses the same order of operations as in the Lisp language.
+Nesting functions or operations will always result in the innermost one being executed first.
+**Because brackets are optional in this Logo language, the order of operations may not be always intuitive**.
+For example SQRT 4 + 4 / 2 would be interpreted as SQRT (4 + 4 / 2) -> SQRT (4 + 2) -> SQRT 6
+
