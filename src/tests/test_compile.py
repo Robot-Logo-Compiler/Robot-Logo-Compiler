@@ -11,11 +11,13 @@ class testCompile(unittest.TestCase):
         sys.stdout = sys.__stdout__
 
     def test_no_file_provided(self):
-        openfile([])
+        with self.assertRaises(SystemExit) as error:      
+            openfile([])
         self.assertIn("Et antanut tiedostoa käännettäväksi.", self.capturedOutput.getvalue())
 
     def test_too_many_files_provided(self):
-        openfile(["file1", "file2"])
+        with self.assertRaises(SystemExit) as error:
+            openfile(["file1", "file2"])
         self.assertIn("Annoit liian monta tiedostoa käännettäväksi.", self.capturedOutput.getvalue())
 
 

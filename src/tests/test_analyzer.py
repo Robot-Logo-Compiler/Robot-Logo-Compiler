@@ -11,6 +11,7 @@ class testAnalyzer(unittest.TestCase):
     def tearDown(self):
         sys.stdout = sys.__stdout__
 
+
     def create_tree_with_one_command(self, keyword, parameter):
         keynode = KeywordNode(keyword)
         keynode.add_child(ParameterNode(parameter))
@@ -20,12 +21,15 @@ class testAnalyzer(unittest.TestCase):
         type(mock_tree).root = PropertyMock(return_value=root)
         return mock_tree
 
+
     def test_child_is_string_when_should_be_numeric(self):
-        Analyzer(self.create_tree_with_one_command("eteen", '"moi'))
+        with self.assertRaises(SystemExit) as error:
+            Analyzer(self.create_tree_with_one_command("eteen", '"moi'))
         self.assertIn("Komento eteen haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
 
     def test_missing_quotation_raises_exception(self):
-        Analyzer(self.create_tree_with_one_command("tulosta", 'moi'))
+        with self.assertRaises(SystemExit) as error:
+            Analyzer(self.create_tree_with_one_command("tulosta", 'moi'))
         self.assertIn("Komento tulosta haluaa syötteen tyyppiä", self.capturedOutput.getvalue())
 
     def test_child_is_correct_numeric(self):

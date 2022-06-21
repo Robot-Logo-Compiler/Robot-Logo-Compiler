@@ -45,6 +45,7 @@ class ParserError():
     '''
     def parameter_without_command(node):
         print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
+        raise_system_exit()
 
     def child_is_invalid_type(keyword, input_child, correct_type, invalid_type):
         print('Komento "', keyword, '" haluaa syötteeksi "', correct_type,
@@ -61,9 +62,12 @@ class SemanticException():
         print(f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
         mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
         Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?""")
+        raise_system_exit()
 
     def keyword_without_child(keyword):
         print(f"Unohtuiko sinulta parametri komennolta {keyword}?")
+        raise_system_exit()
+
 
 
 class FileException():
@@ -72,7 +76,9 @@ class FileException():
             print("Et antanut tiedostoa käännettäväksi.")
         if amount > 1:
             print("Annoit liian monta tiedostoa käännettäväksi.")
+        raise_system_exit()
 
     def os_not_able_to_open_file(path):
         print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnissa {path}")
+        raise_system_exit()
     
