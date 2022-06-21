@@ -1,4 +1,6 @@
-'''This module generates java code from the parser tree'''
+'''
+This module generates java code from the parser tree
+'''
 
 class Generator:
     '''
@@ -21,7 +23,7 @@ class Generator:
         '''This function creates the command list'''
 
         for child in self.tree.root.children:
-            self.command_list.append(self.commands_dict[child.keyword](child.child.value))
+            self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
 
     def generate_code(self): # pragma: no cover
         '''
@@ -78,5 +80,14 @@ class Generator:
 
         if message[0] == '"':
             message = message[1:]
-        java_command = 'printToLCD("' + message + '")'
+        java_command = 'printToLCD("' + message + '")' # quotations probably mess with calculations
         return java_command
+
+    def find_out_parameter(self,child):
+        '''This function finds and returns the correct parameter(s) for a command'''
+
+        calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
+        if hasattr(child, "value"):
+            return child.value
+        if hasattr(child, "child1"):
+            return self.find_out_parameter(child.child1) + calculation_type_dict[child.type] + self.find_out_parameter(child.child2)
