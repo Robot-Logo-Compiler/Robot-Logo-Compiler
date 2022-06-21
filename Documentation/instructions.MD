@@ -12,6 +12,9 @@ The program is run with the terminal command
 
 The compiled Java output file will be in the rootfolder with the name ```Main.java```
 
+# Current scope of the logo programming language: 
+
+
 | Command |                         Function                         |                                  Requirements                                 |
 |:-------:|:--------------------------------------------------------:|:-----------------------------------------------------------------------------:|
 | Forward |                Displaces the robot forward               |            1 argument as an integer or  a float or a math function.           |
