@@ -53,7 +53,7 @@ class Analyzer:
         '''This method checks if the parameter of a node is ot the correct type'''
         parameter_type = self.get_parameter_type(node.child)
         correct_type = self.keywords.get(node.keyword)
-        if (correct_type == "float" or correct_type == "string") and (parameter_type == "float" or parameter_type == "integer"):
+        if (correct_type == "float" or correct_type == "string") and (node.child.token_type == "bin_operator", parameter_type == "float" or parameter_type == "integer"):
             return 
         elif correct_type != parameter_type:
             SemanticException.child_is_invalid_type(self, node.keyword, node.child.value, correct_type, parameter_type)
