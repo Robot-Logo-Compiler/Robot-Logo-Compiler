@@ -1,4 +1,4 @@
-from logo_parser_new import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode
+from src.logo_parser_new import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode
 
 
 class Tokens:

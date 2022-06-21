@@ -6,6 +6,7 @@ from src.logo_parser import ParserTree
 from src.code_generator import Generator
 from src.analyzer import Analyzer
 from src.error_handler import FileException
+from src.parcer import parce
 
 def main():
     '''Main program function. It opens the path given as argument, and calls the different compiler functions'''
@@ -13,7 +14,7 @@ def main():
     if file:
         lexer = Lexer(file)
         tokens = lexer.create_tokens()
-        parsed_tokens = ParserTree(tokens)
+        parsed_tokens = parce(tokens)
         Analyzer(parsed_tokens)
         generator = Generator(parsed_tokens)
         generator.list_commands()

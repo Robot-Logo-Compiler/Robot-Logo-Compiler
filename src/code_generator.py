@@ -1,7 +1,6 @@
 '''
 This module generates java code from the parser tree
 '''
-from src.logo_parser import BinaryOperationNode
 
 class Generator:
     '''
@@ -24,10 +23,7 @@ class Generator:
         '''This function creates the command list'''
 
         for child in self.tree.root.children:
-            if hasattr(child.child, 'type'):
-                self.command_list.append(self.commands_dict[child.keyword](child.child))
-            #else:
-                #self.command_list.append(self.commands_dict[child.keyword](child.child.value))
+            self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
 
     def generate_code(self): # pragma: no cover
         '''
@@ -78,19 +74,20 @@ class Generator:
         java_command = "rotate(pilot, " + str(amount) + ")"
         return java_command
 
-    def generate_show(self, message):
+    @classmethod
+    def generate_show(cls, message):
         '''This method returns the show command'''
 
-        if isinstance(message, BinaryOperationNode):
-            if message.type == "plus":
-                result = self.count_plus(message.child1.value, message.child2.value)
-                java_command = 'printToLCD("' + result + '")'
-                return java_command
         if message[0] == '"':
             message = message[1:]
-        java_command = 'printToLCD("' + message + '")'
+        java_command = 'printToLCD("' + message + '")' # quotations probably mess with calculations
         return java_command
 
-    def count_plus(self, child1, child2):
-        result = int(child1) + int(child2)
-        return str(result)
+    def find_out_parameter(self,child):
+        '''This function finds and returns the correct parameter(s) for a command'''
+
+        calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
+        if hasattr(child, "value"):
+            return child.value
+        if hasattr(child, "child1"):
+            return self.find_out_parameter(child.child1) + calculation_type_dict[child.type] + self.find_out_parameter(child.child2)
