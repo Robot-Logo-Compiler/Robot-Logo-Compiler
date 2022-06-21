@@ -19,7 +19,7 @@ The compiled Java output file will be in the rootfolder with the name ```Main.ja
 |:-------:|:--------------------------------------------------------:|:-----------------------------------------------------------------------------:|
 | Forward |                Displaces the robot forward               |            1 argument as an integer or  a float or a math function.           |
 |   Back  |               Displaces the robot backwards              |                                 Same as above                                 |
-|   Left  | Turns the robot and then  displaces it in that direction |                                 Same as above                                 |
+|   Left  |          Rotates the robot (in degrees) to the left      |                                 Same as above                                 |
 |  Right  |              Same as above, but to the right             |                                 Same as above                                 |
 |   Show  |              Prints on the robots LCD screen             | At least 1 argument either as an integer, float or string or a math function. |
 
