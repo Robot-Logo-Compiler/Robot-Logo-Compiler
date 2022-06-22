@@ -12,11 +12,25 @@ class Lexer:
         self.symbols = LOGO_KEYWORDS_SYMBOLS
         self.functions = LOGO_KEYWORDS_MATH_FUNCTIONS
 
+    def create_split_list_from_input_code(self, input_code):
+        ''' Performs all the necessary string replacements from raw input code. '''
+        replace_dictionary = {'\n': ' ', 
+                            '(': ' ( ',
+                             ')': ' ) ',
+                             '+': ' + ',
+                             '-': ' - ',
+                             '/': ' / ',
+                             '*': ' * '
+                             }
+        return input_code.translate(str.maketrans(replace_dictionary)).split()    
+
     def create_tokens(self):
         ''' Goes through every word in code. If they are found in KEYWORDS, they are interpreted as
         commands, or otherwise parameters. '''
         token_list = []
+        
         split_list = self.input_code.replace('\n', ' ').replace('(', ' ( ').replace(')', ' ) ').split()
+        split_list = self.create_split_list_from_input_code(self.input_code)
 
         for element in split_list:
             if element not in self.symbols and element.lower() in self.keywords.keys():
@@ -29,7 +43,7 @@ class Lexer:
                 token_list.append(("MATH_FUNC", (self.functions[element])))
             else:
                 token_list.append(("PARAMETER", element))
-        #print(token_list)
+        # print(token_list)
         return token_list
 
     def set_input_code(self, input_code):

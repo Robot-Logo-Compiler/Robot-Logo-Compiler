@@ -1,5 +1,6 @@
 import unittest
 from src.lexer import Lexer
+from pathlib import Path
 
 class TestLexer(unittest.TestCase):
     def setUp(self):
@@ -42,3 +43,18 @@ class TestLexer(unittest.TestCase):
         expected_output = [('KEYWORD', 'show'), ('KEYWORD', 'sqrt'), ('PARAMETER', '4')]
         self.assertEqual(expected_output, test_input)
 
+    def test_all_math_functions_and_is_case_insensitive(self):
+        self.lexer.set_input_code("show sqrt 4")
+        test_input = self.lexer.create_tokens()
+        expected_output = [('KEYWORD', 'show'), ('KEYWORD', 'sqrt'), ('PARAMETER', '4')]
+        self.assertEqual(expected_output, test_input)
+
+    def test_all_binary_operations_ignore_spaces(self): 
+        try:
+            input_file = Path("testfiles/test9.logo").read_text()    
+        except OSError:
+            Exception.os_not_able_to_open_file("testfiles/test9.logo")
+        self.lexer.set_input_code(input_file)
+        test_input = self.lexer.create_tokens()
+        expected_output = [('KEYWORD', 'show'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'minus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'multiply'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'divide'), ('PARAMETER', '1'), ('KEYWORD', 'show'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'minus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'multiply'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'divide'), ('PARAMETER', '1'), ('KEYWORD', 'show'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'minus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'multiply'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'divide'), ('PARAMETER', '1'), ('KEYWORD', 'show'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'minus'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'multiply'), ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('BIN_OP', 'divide'), ('PARAMETER', '1')]
+        self.assertEqual(expected_output, test_input)
