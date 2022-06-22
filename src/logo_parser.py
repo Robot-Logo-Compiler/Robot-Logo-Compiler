@@ -72,9 +72,15 @@ def code_block(tokens):
     """
     code = []
 
-    while tokens.next_token() == "KEYWORD":
-        code.append(statement(tokens))
-
+    while True
+        if tokens.next_token() == "KEYWORD":
+            code.append(statement(tokens))
+        elif tokens.next_token() == "end":
+            break
+        else:
+            error()
+            break
+        
     return CodeNode(code)
 
 
