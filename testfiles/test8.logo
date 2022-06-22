@@ -1,0 +1,4 @@
+show 1 + 1 + 1 
+forward 2 + 4 - 3 
+back sqrt 4 + 3
+show "helllo
