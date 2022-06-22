@@ -55,8 +55,7 @@ class Generator:
     def generate_move_backward(cls, amount):
         '''This method returns the move backward command'''
 
-        amount = int(amount)*-1
-        java_command = "travel(pilot, " + str(amount) + ")"
+        java_command = "travel(pilot, (" + amount + ")*-1" + ")"
         return java_command
 
     @classmethod
@@ -70,8 +69,7 @@ class Generator:
     def generate_rotate_left(cls, amount):
         '''This method returns the rotate left command'''
 
-        amount = int(amount)*-1
-        java_command = "rotate(pilot, " + str(amount) + ")"
+        java_command = "rotate(pilot, (" + amount + ")*-1" + ")"
         return java_command
 
     @classmethod
@@ -80,7 +78,9 @@ class Generator:
 
         if message[0] == '"':
             message = message[1:]
-        java_command = 'printToLCD("' + message + '")' # quotations probably mess with calculations
+            java_command = 'printToLCD("' + message + '")'
+        else:
+            java_command = 'printToLCD("" + (' + message + '))'
         return java_command
 
     def find_out_parameter(self,child):
@@ -89,5 +89,7 @@ class Generator:
         calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
         if hasattr(child, "value"):
             return child.value
+        if hasattr(child, "keyword"):
+            return "Math." + child.keyword + "(" + self.find_out_parameter(child.child) + ")"
         if hasattr(child, "child1"):
             return self.find_out_parameter(child.child1) + calculation_type_dict[child.type] + self.find_out_parameter(child.child2)
