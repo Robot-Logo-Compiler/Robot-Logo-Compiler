@@ -57,6 +57,20 @@ class ParserError():
         # print('Would you please change the input "', input_child, '" into a correct one?')
         raise_system_exit()
 
+    def missing_right_parenthesis(expected_token, actual_token):
+        print("Sain", actual_token, "mutta odotin", expected_token)
+        print("Löytyi vasempi sulku, mutta eri määrä oikeita sulkuja")
+        raise_system_exit()
+
+    def found_extra_right_parenthesis(): 
+        print("Löysin ylimääräisen oikean sulun :(")
+        raise_system_exit()
+
+    def expected_keyword_but_found_something_else(invalid_token):
+        print("Odotin avainkomentoa, mutta sain aivan jotain muuta:", invalid_token)
+        raise_system_exit()
+
+
 class SemanticException():
     def child_is_invalid_type(self, keyword, parameter, correct_type, invalid_type):
         print(f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}

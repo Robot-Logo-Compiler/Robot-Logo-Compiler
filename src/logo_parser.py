@@ -1,5 +1,7 @@
+from cmath import exp
+from email.parser import Parser
 from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode
-
+from src.error_handler import ParserError
 
 class Tokens:
     """A class that manages the token list, providing semi-global variables
@@ -23,11 +25,12 @@ class Tokens:
         """
         if len(self._tokens) >  self._index:
             return self._tokens[self._index][1]
-        return None
+        return "end"
    
     def consume(self):
         """Iterates the token list by one
         """
+        # print(self.next_token_value())
         self._index += 1
 
 
@@ -51,16 +54,11 @@ def expect(expected_token, tokens):
         tokens: Tokens-class
         token: the expected token value
     """
+    # print("Expected print before if")
+    
     if tokens.next_token_value() != expected_token:
-        tokens.consume()
-        error()
-
-
-def error():
-    """Gives an error message when called
-    """
-    print("Error has occurred")
-
+        # print("Expected print after if")
+        ParserError.missing_right_parenthesis(expected_token, tokens.next_token_value())
 
 def code_block(tokens):
     """Works on the principle: CodeBlock -> Statement CodeBlock | 'Nothing' 
@@ -68,7 +66,7 @@ def code_block(tokens):
     Input:
         tokens: Tokens-class
     Returns:
-        Root of the tree repsresenting the CodeBlock
+        Root of the tree representing the CodeBlock
     """
     code = []
 
@@ -77,15 +75,16 @@ def code_block(tokens):
             code.append(statement(tokens))
         elif tokens.next_token() == "end":
             break
+        elif tokens.next_token_value() == "right_paren": 
+            ParserError.found_extra_right_parenthesis() 
         else:
-            error()
-            break
+            ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
         
     return CodeNode(code)
 
 
 def statement(tokens):
-    """Works on the principle: Statement -> Keyword Parameter | Keyword Statement
+    """Works on the principle: Statement -> Keyword Expression | Keyword Statement
     Creates a tree representing the Statement based on this princible
     Input:
         tokens: Tokens-class
@@ -162,18 +161,22 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
-    elif tokens.next_token_type() == "minus":
+    elif tokens.next_token_value() == "minus":
         tokens.consume()
-        tree = expression(tokens)
+        # tree = expression(tokens)
+        tree = parameter(tokens)
+        # tokens.consume()
         return BinaryOperationNode("multiply", tree, ParameterNode(-1))
 
     elif tokens.next_token_value() == "left_paren":
         tokens.consume()
         tree = expression(tokens)
+        # print("PARAMETER TOKEN VALUE", tokens.next_token_value())
         expect("right_paren", tokens)
+        
         tokens.consume()
         return tree
 
     else:
-        error() #Requires a true Error message
+        ParserError.error()
 

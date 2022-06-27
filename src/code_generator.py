@@ -88,7 +88,7 @@ class Generator:
 
         calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
         if hasattr(child, "value"):
-            return child.value
+            return str(child.value)
         if hasattr(child, "keyword"):
             return "Math." + child.keyword + "(" + self.find_out_parameter(child.child) + ")"
         if hasattr(child, "child1"):
