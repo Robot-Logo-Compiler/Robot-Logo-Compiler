@@ -162,6 +162,11 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
+    elif tokens.next_token_type() == "minus":
+        tokens.consume()
+        tree = expression(tokens)
+        return BinaryOperationNode("multiply", tree, ParameterNode(-1))
+
     elif tokens.next_token_value() == "left_paren":
         tokens.consume()
         tree = expression(tokens)
