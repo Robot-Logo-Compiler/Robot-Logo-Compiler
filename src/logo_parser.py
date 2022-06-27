@@ -1,11 +1,10 @@
-from cmath import exp
-from email.parser import Parser
 from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode
 from src.error_handler import ParserError
 
 class Tokens:
-    """A class that manages the token list, providing semi-global variables
-    for the parsing funtions
+    """A class that manages the token list that was given to the Parser by the Lexer.
+        Introduces global variables _tokens and _index 
+        The list, _token, is traversed through the method consume
     """
     def __init__(self, tokens):
         """ tokens: list of the tokens as tuples
@@ -30,12 +29,11 @@ class Tokens:
     def consume(self):
         """Iterates the token list by one
         """
-        # print(self.next_token_value())
         self._index += 1
 
 
 def parse(tokens):
-    """Function that creates a parse tree for an input token list
+    """Function that creates a parse tree from an input token list
     Input:
         tokens: token list containing tokens as tuples
     Return:
@@ -54,10 +52,8 @@ def expect(expected_token, tokens):
         tokens: Tokens-class
         token: the expected token value
     """
-    # print("Expected print before if")
-    
+
     if tokens.next_token_value() != expected_token:
-        # print("Expected print after if")
         ParserError.missing_right_parenthesis(expected_token, tokens.next_token_value())
 
 def code_block(tokens):
