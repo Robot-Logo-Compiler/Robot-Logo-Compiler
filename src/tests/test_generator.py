@@ -28,4 +28,4 @@ class TestGenerator(unittest.TestCase):
 
     def test_generator_creates_correct_command_list_calculations(self):
         self.generator3.list_commands()
-        self.assertEqual(['printToLCD("" + (1+1+1))', 'travel(pilot, 2+4-3)', 'travel(pilot, (Math.sqrt(4+3))*-1)', 'printToLCD("helllo")'],self.generator3.command_list)
+        self.assertEqual(['printToLCD("" + (((1+1)+1)))', 'travel(pilot, ((2+4)-3))', 'travel(pilot, (Math.sqrt((4+3)))*-1)', 'printToLCD("helllo")'],self.generator3.command_list)
