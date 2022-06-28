@@ -6,4 +6,3 @@ forward 4 * (4 / 2)
 forward 4 * 4 / 2
 back sqrt 4 + 3 / 2
 forward sqrt 4 + 3 / 2
-

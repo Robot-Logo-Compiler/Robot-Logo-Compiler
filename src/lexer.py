@@ -1,6 +1,5 @@
 '''This module splits Logo commands into a list of tokens for the parser'''
-from src.logo_keywords import LOGO_KEYWORDS, LOGO_KEYWORDS_BINARY_OPERATIONS, LOGO_KEYWORDS_MATH_FUNCTIONS, LOGO_KEYWORDS_SYMBOLS#, LOGO_ALL
-#from src.error_handler import LexerError
+from src.logo_keywords import LOGO_KEYWORDS, LOGO_KEYWORDS_BINARY_OPERATIONS, LOGO_KEYWORDS_MATH_FUNCTIONS, LOGO_KEYWORDS_SYMBOLS
 
 class Lexer:
     ''' This class splits a given Logo code by commands and compares them with a constant keyword list.
@@ -12,9 +11,10 @@ class Lexer:
         self.symbols = LOGO_KEYWORDS_SYMBOLS
         self.functions = LOGO_KEYWORDS_MATH_FUNCTIONS
 
-    def create_split_list_from_input_code(self, input_code):
+    @staticmethod
+    def create_split_list_from_input_code(input_code):
         ''' Performs all the necessary string replacements from raw input code. '''
-        replace_dictionary = {'\n': ' ', 
+        replace_dictionary = {'\n': ' ',
                             '(': ' ( ',
                              ')': ' ) ',
                              '+': ' + ',
@@ -22,15 +22,13 @@ class Lexer:
                              '/': ' / ',
                              '*': ' * '
                              }
-        return input_code.translate(str.maketrans(replace_dictionary)).split()    
+        return input_code.translate(str.maketrans(replace_dictionary)).split()
 
     def create_tokens(self):
         ''' Goes through every word in code. If they are found in KEYWORDS, they are interpreted as
         commands, or otherwise parameters. '''
         token_list = []
-        
-        split_list = self.input_code.replace('\n', ' ').replace('(', ' ( ').replace(')', ' ) ').split()
-        split_list = self.create_split_list_from_input_code(self.input_code)
+        split_list = Lexer.create_split_list_from_input_code(self.input_code)
 
         for element in split_list:
             if element not in self.symbols and element.lower() in self.keywords.keys():
