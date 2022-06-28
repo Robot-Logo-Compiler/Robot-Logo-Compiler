@@ -157,6 +157,11 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
+    if tokens.next_token() == "KEYWORD":
+        tree = statement(tokens)
+        # tokens.consume
+        return tree
+
     elif tokens.next_token_value() == "minus":
         tokens.consume()
         # tree = expression(tokens)
