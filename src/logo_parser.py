@@ -145,14 +145,18 @@ def times_expression(tokens):
 
 
 def parameter(tokens):
-    """Works on the principle: Parameter -> number | string | ( Expression )
+    """Works on the principle: Parameter -> number | string | ( Expression ) | Statement
     Creates a tree representing the Parameter based on this princible
     Input:
         tokens: Tokens-class
     Return:
         Root of the tree representing the parameter
     """
-    if tokens.next_token() == "PARAMETER":
+    if tokens.next_token() == "KEYWORD":
+        tree = statement(tokens)
+        return tree
+
+    elif tokens.next_token() == "PARAMETER":
         tree = ParameterNode(tokens.next_token_value())
         tokens.consume()
         return tree
