@@ -63,7 +63,7 @@ def reorder_token_list(tokens):
             new_token_list.append(tokens[index])
         index += 1
     return new_token_list
-    
+
 
 if __name__ == "__main__":
     tokens = [("SYMBOL", "left_paren"), ("SYMBOL", "left_paren"), ("PARAMETER", "2"), ("BIN_OP", "plus"), ("PARAMETER", "1") , ("SYMBOL", "right_paren"), ("BIN_OP", "minus"), ("PARAMETER", "1"), ("SYMBOL", "right_paren")]

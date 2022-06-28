@@ -3,7 +3,7 @@ from src.error_handler import ParserError
 
 class Tokens:
     """A class that manages the token list that was given to the Parser by the Lexer.
-        Introduces global variables _tokens and _index 
+        Introduces global variables _tokens and _index
         The list, _token, is traversed through the method consume
     """
     def __init__(self, tokens):
@@ -25,7 +25,7 @@ class Tokens:
         if len(self._tokens) >  self._index:
             return self._tokens[self._index][1]
         return "end"
-   
+
     def consume(self):
         """Iterates the token list by one
         """
@@ -57,7 +57,7 @@ def expect(expected_token, tokens):
         ParserError.missing_right_parenthesis(expected_token, tokens.next_token_value())
 
 def code_block(tokens):
-    """Works on the principle: CodeBlock -> Statement CodeBlock | 'Nothing' 
+    """Works on the principle: CodeBlock -> Statement CodeBlock | 'Nothing'
     Creates a tree representing the CodeBlock based on this princible
     Input:
         tokens: Tokens-class
@@ -71,11 +71,11 @@ def code_block(tokens):
             code.append(statement(tokens))
         elif tokens.next_token() == "end":
             break
-        elif tokens.next_token_value() == "right_paren": 
-            ParserError.found_extra_right_parenthesis() 
+        elif tokens.next_token_value() == "right_paren":
+            ParserError.found_extra_right_parenthesis()
         else:
             ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
-        
+
     return CodeNode(code)
 
 
@@ -99,7 +99,7 @@ def statement(tokens):
 
 
 def expression(tokens):
-    """Works on the principle: Expression -> TimesExpression "+" Expression 
+    """Works on the principle: Expression -> TimesExpression "+" Expression
                                            | TimesExpression "-" Expression
                                            | TimesExpression
     Creates a tree representing the Expression based on this princible
@@ -111,7 +111,7 @@ def expression(tokens):
     tree = times_expression(tokens)
 
     while tokens.next_token_value() == "plus" or tokens.next_token_value() == "minus":
-        
+
         operator = tokens.next_token_value()
         tokens.consume()
 
@@ -122,7 +122,7 @@ def expression(tokens):
 
 
 def times_expression(tokens):
-    """Works on the principle: Expression -> Parameter "*" TimesExpression 
+    """Works on the principle: Expression -> Parameter "*" TimesExpression
                                            | Parameter "/" TimesExpression
                                            | Parameter
     Creates a tree representing the TimesExpression based on this princible
@@ -169,10 +169,9 @@ def parameter(tokens):
         tree = expression(tokens)
         # print("PARAMETER TOKEN VALUE", tokens.next_token_value())
         expect("right_paren", tokens)
-        
+
         tokens.consume()
         return tree
 
     else:
-        ParserError.error()
-
+        ParserError.expected_parameter_but_found_something_else(tokens.next_token_value())

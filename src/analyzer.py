@@ -1,5 +1,5 @@
 '''
-This module houses the semantic analyzer, which analyzes the tree provided by 
+This module houses the semantic analyzer, which analyzes the tree provided by
 the parser for various semantic problems
 '''
 
@@ -54,6 +54,6 @@ class Analyzer:
         parameter_type = self.get_parameter_type(node.child)
         correct_type = self.keywords.get(node.keyword)
         if (correct_type == "float" or correct_type == "string") and (node.child.token_type == "bin_operator", parameter_type == "float" or parameter_type == "integer"):
-            return 
+            return
         elif correct_type != parameter_type:
             SemanticException.child_is_invalid_type(self, node.keyword, node.child.value, correct_type, parameter_type)
