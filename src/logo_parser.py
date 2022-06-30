@@ -33,7 +33,14 @@ class Tokens:
 
 
 def parse(tokens):
-    """Function that creates a parse tree from an input token list
+    """Driving function that creates a parse tree from an input token list.
+
+    Parsing is based on a recursive descent parser.
+    The different levels of recursion are defined as (from higher to lower)
+        ParserTree -> CodeBlock -> Statement -> (additive) Expression -> Multiplicative expression -> Parameter
+
+    The different levels of recursion create a subtree and adds it to the main parsing tree.
+
     Input:
         tokens: token list containing tokens as tuples
     Return:
@@ -47,22 +54,34 @@ def parse(tokens):
 
 def expect(expected_token, tokens):
     """Test if next token on the token list is of the expected type, if it's
-    not it runs the error function
+    not it runs the error function.
     Input:
         tokens: Tokens-class
         token: the expected token value
+    Raises:
+        ParserError: From src.error_handle module. Results in SystemExit
     """
 
     if tokens.next_token_value() != expected_token:
         ParserError.missing_right_parenthesis(expected_token, tokens.next_token_value())
 
 def code_block(tokens):
-    """Works on the principle: CodeBlock -> Statement CodeBlock | 'Nothing'
-    Creates a tree representing the CodeBlock based on this princible
+    """
+    Creates a CodeBlock object, which is a higher-level abstraction from a statement i.e. may contain
+    multiple statements.
+
+    For input code that has no loops or any other procedural code calls, a single CodeBlock
+    object describes the entire input code.
+
+    The Context-Free Grammar (CFG) rule for the working principle of the CodeBlock is:
+        CodeBlock -> Statement CodeBlock | 'Nothing'
+
     Input:
         tokens: Tokens-class
     Returns:
         Root of the tree representing the CodeBlock
+    Raises:
+        ParserError: From src.error_handle module. Results in SystemExit
     """
     code = []
 
@@ -80,8 +99,16 @@ def code_block(tokens):
 
 
 def statement(tokens):
-    """Works on the principle: Statement -> Keyword Expression | Keyword Statement
-    Creates a tree representing the Statement based on this princible
+    """
+    Creates a tree representing a statement by producing KeywordNode objects.
+    A statement is a single command containing a keyword and its required parameter e.g. Forward Sqrt 2.
+
+    Keyword Expressions differ from Keyword Statements in that keyword expressions contain binary operations.
+    E.g. Forward 3 + 3 is an expression while Forward Sqrt 2 is a statement.
+
+    CFG rule for statements is:
+        Statement -> Keyword Expression | Keyword Statement
+
     Input:
         tokens: Tokens-class
     Returns:
@@ -91,45 +118,55 @@ def statement(tokens):
     tokens.consume()
 
     if tokens.next_token() == "KEYWORD":
-        parameter = statement(tokens)
-        return KeywordNode(keyword, parameter)
+        current_parameter = statement(tokens)
+        return KeywordNode(keyword, current_parameter)
 
-    parameter = expression(tokens)
-    return KeywordNode(keyword, parameter)
+    current_parameter = additive_expression(tokens)
+    return KeywordNode(keyword, current_parameter)
 
 
-def expression(tokens):
-    """Works on the principle: Expression -> TimesExpression "+" Expression
-                                           | TimesExpression "-" Expression
-                                           | TimesExpression
-    Creates a tree representing the Expression based on this princible
+def additive_expression(tokens):
+    """
+    Creates a tree representing an expression containing binary operators.
+    By default all expressions are additive_expressions, thus the names are used interchangeably here.
+    Multiplicative expressions are handled first in accordance with mathematical order of operations.
+
+    Therefore, the CFG rule for expressions is:
+        Expression ->       Multiplicative Expression "+" Expression
+                        |   Multiplicative Expression "-" Expression
+                        |   Multiplicative Expression
     Input:
         tokens: Tokens-class
     Returns:
         Root of the tree repsresenting the Expression
     """
-    tree = times_expression(tokens)
+    tree = multiplicative_expression(tokens)
 
     while tokens.next_token_value() == "plus" or tokens.next_token_value() == "minus":
 
         operator = tokens.next_token_value()
         tokens.consume()
 
-        tree_right = times_expression(tokens)
+        tree_right = multiplicative_expression(tokens)
         tree = BinaryOperationNode(operator, tree, tree_right)
 
     return tree
 
 
-def times_expression(tokens):
-    """Works on the principle: Expression -> Parameter "*" TimesExpression
-                                           | Parameter "/" TimesExpression
-                                           | Parameter
-    Creates a tree representing the TimesExpression based on this princible
+def multiplicative_expression(tokens):
+    """
+    Creates a tree representing a multiplicative expression.
+    Please read the docstring of additive_expression for further details
+
+    The CFG rule is:
+        Expression ->       Parameter "*" Multilicative Expression
+                        |   Parameter "/" Multilicative Expression
+                        |   Parameter
+
     Input:
         tokens: Tokens-class
     Returns:
-        Root of the tree repsresenting the TimesExpression
+        Root of the tree repsresenting the Multiplicative Expression
     """
     tree = parameter(tokens)
 
@@ -143,35 +180,39 @@ def times_expression(tokens):
 
     return tree
 
-
+# pylint: disable=R1710
 def parameter(tokens):
-    """Works on the principle: Parameter -> number | string | ( Expression )
-    Creates a tree representing the Parameter based on this princible
+    """
+    Creates a parameter tree and as its name suggests, handels the return of all parameters.
+    The lowest level of recursion in the recurisve descent.
+
+    CFG rule is:
+        Parameter -> number | string | Expressions containing parenthesis
+
     Input:
         tokens: Tokens-class
     Return:
         Root of the tree representing the parameter
+    Raises:
+        ParserError: From src.error_handle module. Results in SystemExit
     """
     if tokens.next_token() == "PARAMETER":
         tree = ParameterNode(tokens.next_token_value())
         tokens.consume()
         return tree
 
-    if tokens.next_token() == "KEYWORD":
+    elif tokens.next_token() == "KEYWORD":
         tree = statement(tokens)
-        # tokens.consume
         return tree
 
     elif tokens.next_token_value() == "minus":
         tokens.consume()
-        # tree = expression(tokens)
         tree = parameter(tokens)
-        # tokens.consume()
         return BinaryOperationNode("multiply", tree, ParameterNode(-1))
 
     elif tokens.next_token_value() == "left_paren":
         tokens.consume()
-        tree = expression(tokens)
+        tree = additive_expression(tokens)
         # print("PARAMETER TOKEN VALUE", tokens.next_token_value())
         expect("right_paren", tokens)
 

@@ -53,10 +53,10 @@ class ParameterNode:
 
 class BinaryOperationNode:
 
-    def __init__(self, type="+", left=None, right=None):
+    def __init__(self, operand_type="+", left=None, right=None):
         self.child1 = left
         self.child2 = right
-        self.type = type
+        self.operand_type = operand_type
 
     def add_child(self, child):
         if self.child1 is None:
