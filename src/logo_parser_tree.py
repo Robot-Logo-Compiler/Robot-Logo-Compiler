@@ -22,7 +22,6 @@ class CodeNode:
     def complete(self):
         return False
 
-
 class KeywordNode:
 
     def __init__(self, keyword=None, parameter=None):
@@ -35,7 +34,13 @@ class KeywordNode:
     def token_type(self):
         return "keyword"
 
-
+    '''KeywordNode only accepts a parameter or a binary operation as a child'''
+    def expected_child(self, child):
+        if child.token_type == "parameter":
+            return True
+        if child.token_type == "bin_operator":
+            return True
+        return False
 
 
 class ParameterNode:
@@ -48,6 +53,10 @@ class ParameterNode:
 
     def add_child(self, child):
         pass
+
+    ''' ParameterNode can not have a child, always false'''
+    def expected_child(self, child):
+        return False
 
 
 
@@ -67,6 +76,9 @@ class BinaryOperationNode:
     def token_type(self):
         return "bin_operator"
 
-
-
-
+    def expected_child(self, child):
+        if child.token_type == "parameter":
+            return True
+        if child.token_type == "bin_operator":
+            return True
+        return False
