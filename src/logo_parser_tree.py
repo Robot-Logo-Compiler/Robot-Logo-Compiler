@@ -36,7 +36,7 @@ class KeywordNode:
 
     '''KeywordNode only accepts a parameter or a binary operation as a child'''
     def expected_child(self):
-        return ["bin_operator, parameter"]
+        return ["bin_operator", "parameter"]
 
 
 class ParameterNode:
@@ -73,4 +73,4 @@ class BinaryOperationNode:
         return "bin_operator"
 
     def expected_child(self):
-        return ["bin_operator, parameter"]
+        return ["bin_operator", "parameter"]
