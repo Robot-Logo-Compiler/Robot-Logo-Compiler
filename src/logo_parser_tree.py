@@ -35,12 +35,8 @@ class KeywordNode:
         return "keyword"
 
     '''KeywordNode only accepts a parameter or a binary operation as a child'''
-    def expected_child(self, child):
-        if child.token_type == "parameter":
-            return True
-        if child.token_type == "bin_operator":
-            return True
-        return False
+    def expected_child(self):
+        return ["bin_operator, parameter"]
 
 
 class ParameterNode:
@@ -55,8 +51,8 @@ class ParameterNode:
         pass
 
     ''' ParameterNode can not have a child, always false'''
-    def expected_child(self, child):
-        return False
+    def expected_child(self):
+        return []
 
 
 
@@ -76,9 +72,5 @@ class BinaryOperationNode:
     def token_type(self):
         return "bin_operator"
 
-    def expected_child(self, child):
-        if child.token_type == "parameter":
-            return True
-        if child.token_type == "bin_operator":
-            return True
-        return False
+    def expected_child(self):
+        return ["bin_operator, parameter"]
