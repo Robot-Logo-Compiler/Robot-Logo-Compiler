@@ -72,5 +72,6 @@ class BinaryOperationNode:
     def token_type(self):
         return "bin_operator"
 
+    ''' binary operation must have a parameter or another binary operation as a child'''
     def expected_child(self):
         return ["bin_operator", "parameter"]
