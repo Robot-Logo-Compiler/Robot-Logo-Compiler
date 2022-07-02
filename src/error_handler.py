@@ -97,10 +97,8 @@ class ParserError:
 class SemanticException:
     # pylint: disable=C0116
     @staticmethod
-    def child_is_invalid_type(keyword, parameter, correct_type, invalid_type):
-        print(f"""Komento {keyword} haluaa syötteen tyyppiä {correct_type}
-        mutta sen sijaan komento sai syötteen tyyppiä {invalid_type}
-        Pystyisitkö vaihtamaan syötteen {parameter} tilalle oikeanlaisen syötteen?""")
+    def child_is_invalid_type(command):
+        print(f"""Komento {command} sai syötteeksi väärän tyypin""")
         raise_system_exit()
 
     # pylint: disable=C0116

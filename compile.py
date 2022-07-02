@@ -14,7 +14,7 @@ def main():
         lexer = Lexer(file)
         tokens = lexer.create_tokens()
         parsed_tokens = parse(tokens)
-        # Analyzer(parsed_tokens)
+        Analyzer(parsed_tokens)
         generator = Generator(parsed_tokens)
         generator.list_commands()
         generator.generate_code()
