@@ -1,5 +1,6 @@
 '''This module splits Logo commands into a list of tokens for the parser'''
-from src.logo_keywords import LOGO_KEYWORDS, LOGO_KEYWORDS_BINARY_OPERATIONS, LOGO_KEYWORDS_MATH_FUNCTIONS, LOGO_KEYWORDS_SYMBOLS
+from src.error_handler import LexerError
+from src.logo_keywords import LOGO_KEYWORDS, LOGO_KEYWORDS_BINARY_OPERATIONS, LOGO_KEYWORDS_MATH_FUNCTIONS, LOGO_KEYWORDS_SYMBOLS, LOGO_VARIABLES
 
 class Lexer:
     ''' This class splits a given Logo code by commands and compares them with a constant keyword list.
@@ -10,6 +11,7 @@ class Lexer:
         self.binary_ops = LOGO_KEYWORDS_BINARY_OPERATIONS
         self.symbols = LOGO_KEYWORDS_SYMBOLS
         self.functions = LOGO_KEYWORDS_MATH_FUNCTIONS
+        self.variables = LOGO_VARIABLES
         self.symbol_table = {}
 
     @staticmethod
@@ -30,23 +32,28 @@ class Lexer:
         commands, or otherwise parameters. '''
         token_list = []
         split_list = Lexer.create_split_list_from_input_code(self.input_code)
-
-        skip = False
+        skip_count = 0
 
         for index, element in enumerate(split_list):
-            if skip:
-                skip = False
+            if skip_count != 0:
+                skip_count -= 1
                 continue
-            if element not in self.symbols and element.lower() in self.keywords.keys():
+
+            if element.lower() in self.variables.keys():
                 token_list.append(("KEYWORD", element.lower()))
-            elif ":" in element:
-                if index + 1 < len(split_list):
-                    variable_name = str(element.strip(":"))
-                    variable_value = split_list[index + 1].strip('"')
-                    self.symbol_table.update( { variable_name : variable_value })
+
+                if index + 2 >= len(split_list) or ":" not in split_list[index + 1]:
+                    LexerError.variable_assignment_failed()
+
+                variable_name = str(split_list[index + 1].strip(":"))
+                variable_value = split_list[index + 2].strip('"')
+                self.symbol_table.update( { variable_name : variable_value })
                 token_list.append(("VARIABLE", variable_name))
                 token_list.append(("PARAMETER", variable_value))
-                skip = True
+                skip_count = 2
+
+            elif element not in self.symbols and element.lower() in self.keywords.keys():
+                token_list.append(("KEYWORD", element.lower()))
             elif element in self.binary_ops.keys():
                 token_list.append(("BIN_OP", self.binary_ops[element]))
             elif element in self.symbols.keys():

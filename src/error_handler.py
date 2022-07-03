@@ -47,6 +47,12 @@ class LexerError:
         # print('I could not recognize the command: ', command, '. Please check that the command is spelled correctly :)')
         raise_system_exit()
 
+    # pylint: disable=C0116
+    @staticmethod
+    def variable_assignment_failed():
+        print("Lexer Error: missing argument when assigning a variable")
+        raise_system_exit()
+
 class ParserError:
     '''
     Error handler for parser.py

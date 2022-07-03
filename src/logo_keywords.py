@@ -8,7 +8,6 @@ LOGO_KEYWORDS_FIN = {
     'oikealle':'float',
     'vasemmalle':'float',
     'tulosta':'string',
-    'olkoon':'string'
     }
 
 LOGO_KEYWORDS_ENG = {
@@ -17,8 +16,12 @@ LOGO_KEYWORDS_ENG = {
     'right':'float',
     'left':'float',
     'show':'string',
-    'make':'string'
     }
+
+LOGO_VARIABLES = {
+    'olkoon':'string',
+    'make':'string'
+}
 
 LOGO_KEYWORDS_BINARY_OPERATIONS = {
     '+':'plus',
@@ -41,5 +44,6 @@ LOGO_KEYWORDS.update(LOGO_KEYWORDS_FIN)
 LOGO_KEYWORDS.update(LOGO_KEYWORDS_ENG)
 
 LOGO_ALL = LOGO_KEYWORDS
+LOGO_ALL.update(LOGO_VARIABLES)
 LOGO_ALL.update(LOGO_KEYWORDS_SYMBOLS)
 LOGO_ALL.update(LOGO_KEYWORDS_MATH_FUNCTIONS)
