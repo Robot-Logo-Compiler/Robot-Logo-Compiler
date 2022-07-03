@@ -42,10 +42,10 @@ class Lexer:
             if element.lower() in self.variables.keys():
                 token_list.append(("KEYWORD", element.lower()))
 
-                if index + 2 >= len(split_list) or ":" not in split_list[index + 1]:
+                if index + 2 >= len(split_list) or '"' not in split_list[index + 1]:
                     LexerError.variable_assignment_failed()
 
-                variable_name = str(split_list[index + 1].strip(":"))
+                variable_name = str(split_list[index + 1].strip('"'))
                 variable_value = split_list[index + 2].strip('"')
                 self.symbol_table.update( { variable_name : variable_value })
                 token_list.append(("VARIABLE", variable_name))
