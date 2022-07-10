@@ -1,6 +1,5 @@
-# -*- coding=utf-8 -*-
-
-from logo_parser_tree import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode, VariableNode
+from logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
+from logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
 from error_handler import ParserError
 
 class Tokens:
@@ -210,6 +209,11 @@ def parameter(tokens):
     """
     if tokens.next_token() == "PARAMETER":
         tree = ParameterNode(tokens.next_token_value())
+        tokens.consume()
+        return tree
+
+    if tokens.next_token() == "VARIABLE":
+        tree = TrueVariableNode(tokens.next_token_value())
         tokens.consume()
         return tree
 

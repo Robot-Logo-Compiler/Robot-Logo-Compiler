@@ -91,3 +91,16 @@ class VariableNode:
 
     def expected_child(self):
         return ["string", "parameter"]
+
+
+class TrueVariableNode:
+    def __init__(self, name=None):
+        self.name = name
+
+    def token_type(self, symbol_table=None):
+        if symbol_table is not None:
+            return symbol_table[self.name]
+        return "variable"
+
+    def expected_child(self):
+        return []
