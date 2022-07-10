@@ -18,6 +18,11 @@ LOGO_KEYWORDS_ENG = {
     'show':'string',
     }
 
+LOGO_VARIABLES = {
+    'olkoon':'string',
+    'make':'string'
+}
+
 LOGO_KEYWORDS_BINARY_OPERATIONS = {
     '+':'plus',
     '-':'minus',
@@ -39,5 +44,6 @@ LOGO_KEYWORDS.update(LOGO_KEYWORDS_FIN)
 LOGO_KEYWORDS.update(LOGO_KEYWORDS_ENG)
 
 LOGO_ALL = LOGO_KEYWORDS
+LOGO_ALL.update(LOGO_VARIABLES)
 LOGO_ALL.update(LOGO_KEYWORDS_SYMBOLS)
 LOGO_ALL.update(LOGO_KEYWORDS_MATH_FUNCTIONS)
