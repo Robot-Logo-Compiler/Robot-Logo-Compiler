@@ -75,3 +75,32 @@ class BinaryOperationNode:
     ''' binary operation must have a parameter or another binary operation as a child'''
     def expected_child(self):
         return ["bin_operator", "parameter"]
+
+
+
+class VariableNode:
+
+    def __init__(self, name=None, value=None):
+        self.name = name
+        self.value = value
+
+    def token_type(self, symbol_table=None):
+        if symbol_table is not None:
+            return symbol_table[self.name]
+        return "variable"
+
+    def expected_child(self):
+        return ["string", "parameter"]
+
+
+class TrueVariableNode:
+    def __init__(self, name=None):
+        self.name = name
+
+    def token_type(self, symbol_table=None):
+        if symbol_table is not None:
+            return symbol_table[self.name]
+        return "variable"
+
+    def expected_child(self):
+        return []

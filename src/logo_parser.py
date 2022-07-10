@@ -1,5 +1,6 @@
-from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, ParameterNode, BinaryOperationNode
-from src.error_handler import ParserError
+from logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
+from logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
+from error_handler import ParserError
 
 class Tokens:
     """A class that manages the token list that was given to the Parser by the Lexer.
@@ -87,16 +88,26 @@ def code_block(tokens):
 
     while True:
         if tokens.next_token() == "KEYWORD":
-            code.append(statement(tokens))
+            if tokens.next_token_value() == "make":
+                code.append(statement(tokens))
+            else:
+                code.append(statement(tokens))
         elif tokens.next_token() == "end":
             break
         elif tokens.next_token_value() == "right_paren":
             ParserError.found_extra_right_parenthesis()
+        elif tokens.next_token_value() == "right_braket":
+            return CodeNode(code)
         else:
             ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
 
     return CodeNode(code)
 
+def variable(tokens):
+    expect("string", tokens)
+    name = parameter(tokens)
+    tree = parameter(tokens)
+    return VariableNode(name, tree)
 
 def statement(tokens):
     """
@@ -201,6 +212,11 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
+    if tokens.next_token() == "VARIABLE":
+        tree = TrueVariableNode(tokens.next_token_value())
+        tokens.consume()
+        return tree
+
     elif tokens.next_token() == "KEYWORD":
         tree = statement(tokens)
         return tree
@@ -219,5 +235,20 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
+    elif tokens.next_token_value() == "left_braket":
+        tokens.consume()
+        tree = code_block(tokens)
+
+        expect("right_braket", tokens)
+        tokens.consume()
+
+        return tree
+
     else:
         ParserError.expected_parameter_but_found_something_else(tokens.next_token_value())
+
+
+
+if __name__ == "__main__":
+    tokens = [("KEYWORD", "forward"), ("SYMBOL", "left_braket"), ("KEYWORD", "left"), ("PARAMETER",1), ("SYMBOL", "right_braket")]
+    tree = parse(tokens)
