@@ -49,9 +49,53 @@ class LexerError:
 
     # pylint: disable=C0116
     @staticmethod
-    def variable_assignment_failed():
-        print("Lexer Error: missing argument when assigning a variable")
+    def invalid_special_character_detected(element):
+        print("Syötteellä", element, " on kirjaimia, joita en osaa käsitellä :(")
         raise_system_exit()
+
+    # pylint: disable=C0116
+    @staticmethod
+    def variable_assigned_without_a_value(variable_name):
+        print("Sain muuttujan nimen, mutta en arvoa muuttujalle")
+        raise_system_exit()
+
+    # pylint: disable=C0116
+    @staticmethod
+    def variable_named_without_a_quote_to_indicate_a_variable(variable_name):
+        print("Sain nimen muuttujalle, mutta nimeämiseen tarvitsen nimen eteen myös heittomerkin eli \" ")
+        print("Tee seuraava korjaus: ", variable_name, "->", '"' + variable_name)
+        raise_system_exit()
+
+    # pylint: disable=C0116
+    @staticmethod
+    def variable_name_first_character_is_not_string(variable_name):
+        print("Sain nimen muuttujalle, mutta nimen ensimmäinen kirja saa olla vain aakkoskirjain")
+        print("Tee seuraava korjaus tälle muuttujalle: ", variable_name)
+        raise_system_exit()
+
+    # pylint: disable=C0116
+    @staticmethod
+    def variable_name_contains_special_characters(variable_name):
+        print("Sain nimen muuttujalle, mutta nimessä ei saa olla erikoismerkkejä lukuunottamatta ensimmäistä heittomerkkiä \" ")
+        print("Tee seuraava korjaus tälle muuttujalle: ", variable_name)
+        raise_system_exit()
+
+    @staticmethod
+    def variable_name_not_defined():
+        print("Sain käskyn luoda muuttujan, mutta en muuttujan nimeä :(")
+        raise_system_exit()
+
+    @staticmethod
+    def code_is_too_short_for_variable_assignment():
+        print("Sain käskyksi luoda muuttujan, mutta koodia ei ole riittävästi muuttujan luomiseen")
+        raise_system_exit()
+
+    @staticmethod
+    def redefining_variable_value_with_a_different_type_than_previously(variable_name):
+        print("Nimesit muuttujan,", variable_name, ", uudeksi arvoksi eri tyypin kuin mitä aikaisemman arvon tyyppi oli :(")
+        print("Muuttujien arvon tyyppien pitää pysyä samana!")
+        raise_system_exit()
+
 
 class ParserError:
     '''
