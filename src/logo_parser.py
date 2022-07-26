@@ -87,11 +87,10 @@ def code_block(tokens):
     code = []
 
     while True:
-        if tokens.next_token() == "KEYWORD":
-            if tokens.next_token_value() == "make":
-                code.append(statement(tokens))
-            else:
-                code.append(statement(tokens))
+        if tokens.next_token_value() == "make":
+            code.append(variable(tokens))
+        elif tokens.next_token() == "KEYWORD":
+            code.append(statement(tokens))
         elif tokens.next_token() == "end":
             break
         elif tokens.next_token_value() == "right_paren":
@@ -104,10 +103,11 @@ def code_block(tokens):
     return CodeNode(code)
 
 def variable(tokens):
-    expect("string", tokens)
+    tokens.consume()
     name = parameter(tokens)
     tree = parameter(tokens)
     return VariableNode(name, tree)
+
 
 def statement(tokens):
     """
@@ -128,7 +128,7 @@ def statement(tokens):
     keyword = tokens.next_token_value()
     tokens.consume()
 
-    if tokens.next_token() == "KEYWORD":
+    if tokens.next_token() == "KEYWORD":   
         current_parameter = statement(tokens)
         return KeywordNode(keyword, current_parameter)
 
@@ -207,6 +207,9 @@ def parameter(tokens):
     Raises:
         ParserError: From src.error_handle module. Results in SystemExit
     """
+
+    #print(tokens.next_token_value())
+
     if tokens.next_token() == "PARAMETER":
         tree = ParameterNode(tokens.next_token_value())
         tokens.consume()
@@ -251,4 +254,5 @@ def parameter(tokens):
 
 if __name__ == "__main__":
     tokens = [("KEYWORD", "forward"), ("SYMBOL", "left_braket"), ("KEYWORD", "left"), ("PARAMETER",1), ("SYMBOL", "right_braket")]
+    tokens = [("KEYWORD", "make"), ("PARAMETER", "name"), ("PARAMETER", 1), ("KEYWORD","forward"), ("VARIABLE", "name")]
     tree = parse(tokens)
