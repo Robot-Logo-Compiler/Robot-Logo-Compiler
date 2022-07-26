@@ -41,7 +41,7 @@ class Lexer:
                 skip_count -= 1
                 continue
 
-            if element[0] != '"' and element[0] != ":" and not re.match("^[a-zA-Z0-9_+-/*]*$", element):
+            if element[0] != '"' and element[0] != ":" and not re.match("^[a-zA-Z0-9_+-/*()]*$", element):
                 LexerError.invalid_special_character_detected(element)
 
             elif element.lower() in self.variables.keys():
