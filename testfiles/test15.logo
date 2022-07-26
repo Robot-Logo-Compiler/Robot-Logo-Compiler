@@ -1,0 +1,11 @@
+show :
+show !
+show +
+make "123: 123
+show "123!
+show 123
+show !123
+show "123!"#!"
+show 123!"#!" 
+show 12:123123
+

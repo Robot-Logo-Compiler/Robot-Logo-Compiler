@@ -1,4 +1,5 @@
 '''This module splits Logo commands into a list of tokens for the parser'''
+import re
 from src.error_handler import LexerError
 from src.logo_keywords import LOGO_KEYWORDS, LOGO_KEYWORDS_BINARY_OPERATIONS, LOGO_KEYWORDS_MATH_FUNCTIONS, LOGO_KEYWORDS_SYMBOLS, LOGO_VARIABLES
 
@@ -34,24 +35,33 @@ class Lexer:
         split_list = Lexer.create_split_list_from_input_code(self.input_code)
         skip_count = 0
 
+
         for index, element in enumerate(split_list):
             if skip_count != 0:
                 skip_count -= 1
                 continue
 
-            if element.lower() in self.variables.keys():
+            if element[0] != '"' and element[0] != ":" and not re.match("^[a-zA-Z0-9_+-/*]*$", element):
+                LexerError.invalid_special_character_detected(element)
+
+            elif element.lower() in self.variables.keys():
                 token_list.append(("KEYWORD", element.lower()))
 
-                if index + 2 >= len(split_list) or '"' not in split_list[index + 1]:
-                    LexerError.variable_assignment_failed()
+                if index + 2 >= len(split_list):
+                    LexerError.code_is_too_short_for_variable_assignment()
 
-                variable_name = str(split_list[index + 1].strip('"'))
-                variable_value = split_list[index + 2].strip('"')
-                self.symbol_table.update( { variable_name : variable_value })
-                token_list.append(("VARIABLE", variable_name))
-                token_list.append(("PARAMETER", variable_value))
+                variable_name = Lexer.check_variable_name_for_errors(split_list[index + 1])
+                variable_value, no_errors = Lexer.check_variable_value_for_errors(variable_name, split_list[index + 2], self.symbol_table)
+
+                if no_errors:
+                    self.symbol_table.update( { variable_name : variable_value })
+                    token_list.append(("VARIABLE", variable_name))
+                    token_list.append(("PARAMETER", variable_value))
+
                 skip_count = 2
 
+            elif ":" in element[0]:
+                token_list.append(("VARIABLE", element.strip(":")))
             elif element not in self.symbols and element.lower() in self.keywords.keys():
                 token_list.append(("KEYWORD", element.lower()))
             elif element in self.binary_ops.keys():
@@ -62,9 +72,56 @@ class Lexer:
                 token_list.append(("MATH_FUNC", (self.functions[element])))
             else:
                 token_list.append(("PARAMETER", element))
-        print(token_list)
-        print(self.symbol_table)
+
+        # Prints
+        # print("Symbol table:", self.symbol_table)
+        # for i in token_list:
+            # print(i)
+
         return token_list
+
+    @staticmethod
+    def check_variable_name_for_errors(variable_name):
+        ''' Provides error checking when naming a variable '''
+
+        if variable_name in LOGO_KEYWORDS or variable_name in LOGO_VARIABLES:
+            LexerError.variable_name_not_defined()
+
+        if  '"' not in variable_name[0]:
+            LexerError.variable_named_without_a_quote_to_indicate_a_variable(variable_name)
+
+        else:
+            if len(variable_name) == 1:
+                LexerError.variable_name_not_defined()
+            elif not re.match("^[a-zA-Z]*$", variable_name[1]):
+                LexerError.variable_name_first_character_is_not_string(variable_name)
+            elif not re.match("^[a-zA-Z0-9]*$", variable_name[1:len(variable_name)]):
+                LexerError.variable_name_contains_special_characters(variable_name)
+
+        return variable_name.strip('"')
+
+    @staticmethod
+    def check_variable_value_for_errors(variable_name, variable_value, symbol_table):
+        ''' Provides error checking when defining a value for a variable '''
+
+        no_errors = False
+
+        if variable_name not in symbol_table.keys():
+            symbol_table.update( { variable_name : variable_value })
+            return variable_value.strip('"'), True
+
+        else:
+            existing_variable_value_type = symbol_table[variable_name].isdigit()
+            testing_variable_value = variable_value.replace(".", "").replace(",", "").isdigit()
+
+            if existing_variable_value_type == testing_variable_value:
+                no_errors = True
+            else:
+                LexerError.redefining_variable_value_with_a_different_type_than_previously(variable_name)
+
+        return variable_value.strip('"'), no_errors
+
+
 
     def set_input_code(self, input_code):
         ''' A setter function for input code. '''

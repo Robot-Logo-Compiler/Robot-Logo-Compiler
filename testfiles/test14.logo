@@ -1,0 +1,5 @@
+make "jaakko "123
+make "a "123
+make "b 123
+show :a + 3
+show 123
