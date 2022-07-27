@@ -8,6 +8,7 @@ LOGO_KEYWORDS_FIN = {
     'oikealle':'float',
     'vasemmalle':'float',
     'tulosta':'string',
+    'toista' :'void'
     }
 
 LOGO_KEYWORDS_ENG = {
@@ -16,6 +17,7 @@ LOGO_KEYWORDS_ENG = {
     'right':'float',
     'left':'float',
     'show':'string',
+    'repeat' :'void'
     }
 
 LOGO_VARIABLES = {
@@ -32,7 +34,9 @@ LOGO_KEYWORDS_BINARY_OPERATIONS = {
 
 LOGO_KEYWORDS_SYMBOLS = {
     '(':'left_paren',
-    ')':'right_paren'
+    ')':'right_paren',
+    '[':'left_sq_bracket',
+    ']':'right_sq_bracket'
     }
 
 LOGO_KEYWORDS_MATH_FUNCTIONS = {

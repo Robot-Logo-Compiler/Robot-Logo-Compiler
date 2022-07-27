@@ -57,6 +57,7 @@ class LexerError:
     @staticmethod
     def variable_assigned_without_a_value(variable_name):
         print("Sain muuttujan nimen, mutta en arvoa muuttujalle")
+        print("Antaisitko muuttujalle", variable_name, " myös arvon?")
         raise_system_exit()
 
     # pylint: disable=C0116

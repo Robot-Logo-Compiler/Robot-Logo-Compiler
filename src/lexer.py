@@ -19,13 +19,15 @@ class Lexer:
     def create_split_list_from_input_code(input_code):
         ''' Performs all the necessary string replacements from raw input code. '''
         replace_dictionary = {'\n': ' ',
-                            '(': ' ( ',
-                             ')': ' ) ',
-                             '+': ' + ',
-                             '-': ' - ',
-                             '/': ' / ',
-                             '*': ' * '
-                             }
+                              '(': ' ( ',
+                              ')': ' ) ',
+                              '[': ' [ ',
+                              ']': ' ] ',
+                              '+': ' + ',
+                              '-': ' - ',
+                              '/': ' / ',
+                              '*': ' * '
+                              }
         return input_code.translate(str.maketrans(replace_dictionary)).split()
 
     def create_tokens(self):
@@ -41,7 +43,8 @@ class Lexer:
                 skip_count -= 1
                 continue
 
-            if element[0] != '"' and element[0] != ":" and not re.match("^[a-zA-Z0-9_+-/*()]*$", element):
+            if element[0] != '"' and element[0] != ":" and not re.match("^[a-zA-Z0-9_+-/*()\[\]]*$", element):
+                print("ELEMENT", element)
                 LexerError.invalid_special_character_detected(element)
 
             elif element.lower() in self.variables.keys():
@@ -74,9 +77,9 @@ class Lexer:
                 token_list.append(("PARAMETER", element))
 
         # Prints
-        # print("Symbol table:", self.symbol_table)
-        # for i in token_list:
-            # print(i)
+        print("Symbol table:", self.symbol_table)
+        for i in token_list:
+            print(i)
 
         return token_list
 
