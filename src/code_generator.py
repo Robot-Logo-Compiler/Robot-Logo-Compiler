@@ -2,6 +2,9 @@
 This module generates java code from the parser tree
 '''
 
+from src.logo_parser_tree import VariableNode
+
+
 class Generator:
     '''
     This class generates java code from the parser tree that it gets as input.
@@ -23,7 +26,10 @@ class Generator:
         '''This function creates the command list'''
 
         for child in self.tree.root.children:
-            self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
+            if isinstance(child, VariableNode):
+                self.command_list.append(self.generate_variable(child.name.name, child.value.value))
+            else:
+                self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
 
     def generate_code(self): # pragma: no cover
         '''
@@ -83,7 +89,24 @@ class Generator:
             java_command = 'printToLCD("" + (' + message + '))'
         return java_command
 
-    def find_out_parameter(self,child):
+    def generate_variable(self, name, value):
+        '''This method returns the variable assigning command'''
+
+        if self.can_be_float(value):
+            java_command = "double " + name + "=" + value
+        else:
+            java_command = 'String ' + name + '="' + value + '"'
+        return java_command
+
+    @classmethod
+    def can_be_float(cls, value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+
+    def find_out_parameter(self, child):
         '''This function finds and returns the correct parameter(s) for a command'''
 
         calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
@@ -91,5 +114,7 @@ class Generator:
             return str(child.value)
         if hasattr(child, "keyword"):
             return "Math." + child.keyword + "(" + self.find_out_parameter(child.child) + ")"
+        if hasattr(child, "name"):
+            return child.name
         if hasattr(child, "child1"):
             return "(" + self.find_out_parameter(child.child1) + calculation_type_dict[child.operand_type] + self.find_out_parameter(child.child2) + ")"
