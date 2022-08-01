@@ -93,6 +93,7 @@ disable=raw-checker-failed,
         deprecated-pragma,
         use-symbolic-message-instead,
         C0201,
+        C0301,
         E0211,
         E1101
 

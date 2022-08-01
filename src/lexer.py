@@ -44,7 +44,6 @@ class Lexer:
                 continue
 
             if element[0] != '"' and element[0] != ":" and not re.match("^[a-zA-Z0-9_+-/*()\[\]]*$", element):
-                print("ELEMENT", element)
                 LexerError.invalid_special_character_detected(element)
 
             elif element.lower() in self.variables.keys():
@@ -77,10 +76,11 @@ class Lexer:
                 token_list.append(("PARAMETER", element))
 
         # Prints
-        print("Symbol table:", self.symbol_table)
-        for i in token_list:
-            print(i)
-
+        # print("Symbol table:", self.symbol_table)
+        # for i in token_list:
+        #     print(i)
+        # print(self.symbol_table)
+        # print(token_list)
         return token_list
 
     @staticmethod
@@ -129,3 +129,6 @@ class Lexer:
     def set_input_code(self, input_code):
         ''' A setter function for input code. '''
         self.input_code = input_code
+
+    def get_symbol_table(self):
+        return self.symbol_table

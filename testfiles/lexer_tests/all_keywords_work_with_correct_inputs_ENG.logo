@@ -1,0 +1,5 @@
+show "Moikka
+show 123
+forward 5 back 5 right 45 forward 5 left 90 back 5 
+make "a 123
+make "b "omena
