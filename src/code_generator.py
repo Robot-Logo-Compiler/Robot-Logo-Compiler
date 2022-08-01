@@ -92,7 +92,9 @@ class Generator:
     def generate_variable(self, name, value):
         '''This method returns the variable assigning command'''
 
-        if self.can_be_float(value):
+        if value.isnumeric():
+            java_command = "int " + name + "=" + value
+        elif self.can_be_float(value):
             java_command = "double " + name + "=" + value
         else:
             java_command = 'String ' + name + '="' + value + '"'
