@@ -1,3 +1,31 @@
+# Instructions
+
+The program compiles a Logo program into a leJOS NXJ supported Java file. The operating system, leJOS, needs a particular version of Java in order to compile the file into leJOS bytecode. For further instructions concerning leJOS, please [navigate here](https://lejos.sourceforge.io/).
+
+## Writing Logo code
+
+### Strings and variables
+In Logo, a string type of variable must be preceed with a quotation mark. For example ```show "string``` will print
+> string
+
+
+Also, variable setting command *make* is followed by a variable name with preceeding quotation marks. A variable is called with a colon preceeding the variable name.
+
+~~~~
+make "word "string
+show :word
+~~~~
+> string
+>
+
+
+Numerical values are set with no preceeding symbols.
+~~~~
+make "iq 120
+show :iq
+~~~~
+> 120
+
 ## Usage 
 
 The program is run as a command line program. By default files are read from **rootfolder**. The input file containing the input program written in the Logo programming language should be placed in ```root/testfiles```, although the **file path has to still be specified explicitly**. The input file should also contain the extension ```.logo```.
