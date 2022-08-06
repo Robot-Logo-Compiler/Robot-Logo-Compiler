@@ -24,5 +24,5 @@ Definition of done the user stories in general is the following:
 
 ## Documentation 
 
-[Instructions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/instructions.MD)
-[Käyttöohjeet](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/kayttoohjeet.MD)
+* [Instructions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/instructions.MD)
+* [Käyttöohjeet](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/kayttoohjeet.MD)
