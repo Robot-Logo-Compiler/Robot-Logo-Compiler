@@ -53,6 +53,11 @@ Esim. ```SQRT 4 + 4 / 2``` on Logossa sama kuin ```SQRT (4 + 4 / 2)``` eli ```SQ
 | Peruslaskutoimitukset  | + - * /             | Perusaritmetiikka                                             |
 | Neliöjuuri             | SQRT                | Palauttaa neliöjuuren annetusta luvusta                       |
 
+### Muuttujat
+| Komento       |  Tehtävä                               | Parametri                                                                         |
+|:-------------:|:--------------------------------------:|:---------------------------------------------------------------------------------:|
+|  Olkoon       |  Asettaa muuttujan                     | Muuttujan nimi merkkijonona ja sille asetettava arvo tai arvon palauttava funktio |
+
 
 
 ## Kääntäjän käyttäminen
