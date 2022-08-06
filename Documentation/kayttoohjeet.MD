@@ -14,7 +14,7 @@ Logossa merkkijono tunnistetaan jonoa edeltävällä lainausmerkillä, esim. kä
 Toisaalta muuttujan asettava käsky *olkoon* vaatii muuttujan eteen myös lainausmerkit. Muuttujaa kutsutaan asettamalla sen eteen kaksoispiste.
 ~~~~
 olkoon "jono "merkkijono
-show :jono
+tulosta :jono
 ~~~~
 > merkkijono
 >
@@ -23,7 +23,7 @@ show :jono
 Numeroille ei luonnollisesti tarvitse lainausmerkkejä:
 ~~~~
 olkoon "iq 120
-show :iq
+tulosta :iq
 ~~~~
 > 120
 
