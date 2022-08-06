@@ -1,6 +1,4 @@
-### Usage 
-
-The current scope of the compiler consists of a main program called ```compile.py``` and several auxiliary programs that are imported to ```compile.py```. These auxiliary programs are the individual subcomponents of a compiler named in accordance with the tasks that they perform (lexer, parser and code generator). 
+## Usage 
 
 The program is run as a command line program. By default files are read from **rootfolder**. The input file containing the input program written in the Logo programming language should be placed in ```root/testfiles```, although the **file path has to still be specified explicitly**. The input file should also contain the extension ```.logo```.
 
@@ -12,8 +10,9 @@ The program is run with the terminal command
 
 The compiled Java output file will be in the rootfolder with the name ```Main.java```
 
-# Current scope of the logo programming language: 
+## Supported operations
 
+### Moving operations
 
 | Command |                         Function                         |                                  Requirements                                 |
 |:-------:|:--------------------------------------------------------:|:-----------------------------------------------------------------------------:|
@@ -24,12 +23,21 @@ The compiled Java output file will be in the rootfolder with the name ```Main.ja
 |   Show  |              Prints on the robots LCD screen             | At least 1 argument either as an integer, float or string or a math function. |
 
 
-## Supported math operations:
+### Math operations:
 
 | **Name**          | **Keyword/Symbol** | **Function**                                                  |
 |-------------------|--------------------|---------------------------------------------------------------|
 | Binary operations | + , - , * , /      | Basic Arithmetic                                              |
 | Square root       | SQRT               | Math function that outputs the square root of the given input |
+
+
+### Variable setting
+
+| Command | Function                   | Requirements                                                                                            |
+|:-------:|:--------------------------:|:-------------------------------------------------------------------------------------------------------:|
+| Make    | Sets a value to a variable | 2 arguments: A string for variable name and a number or string or a functiong returning either of these |
+
+
 
 ### Order of Operations
 
