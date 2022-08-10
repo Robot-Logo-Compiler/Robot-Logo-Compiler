@@ -71,12 +71,11 @@ class BinaryOperationNode:
 
     def token_type(self):
         return "bin_operator"
+        #Should return number. All binary operators are considered equivalent to numbers
 
     ''' binary operation must have a parameter or another binary operation as a child'''
     def expected_child(self):
         return ["bin_operator", "parameter"]
-
-
 
 class VariableNode:
 
@@ -91,7 +90,6 @@ class VariableNode:
 
     def expected_child(self):
         return ["string", "parameter"]
-
 
 class TrueVariableNode:
     def __init__(self, name=None):

@@ -128,7 +128,7 @@ def statement(tokens):
     keyword = tokens.next_token_value()
     tokens.consume()
 
-    if tokens.next_token() == "KEYWORD":   
+    if tokens.next_token() == "KEYWORD":
         current_parameter = statement(tokens)
         return KeywordNode(keyword, current_parameter)
 
