@@ -47,8 +47,17 @@ class ParameterNode:
     def token_type(self):
         return "parameter"
 
-    def add_child(self, child):
-        pass
+    ''' ParameterNode can not have a child, always false'''
+    def expected_child(self):
+        return []
+
+class StringNode:
+
+    def __init__(self, value=None):
+        self.value = value
+
+    def token_type(self):
+        return "string"
 
     ''' ParameterNode can not have a child, always false'''
     def expected_child(self):
@@ -77,6 +86,14 @@ class BinaryOperationNode:
     def expected_child(self):
         return ["bin_operator", "parameter"]
 
+<<<<<<< HEAD
+=======
+    def get_type(self):
+        return "double"
+
+
+
+>>>>>>> 191c210c65069672aebaa1a32864d3618dcf0f6b
 class VariableNode:
 
     def __init__(self, name=None, value=None):
