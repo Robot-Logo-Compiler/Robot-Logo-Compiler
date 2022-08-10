@@ -1,6 +1,7 @@
-from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
+from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, NameVariableNode
 from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
 from src.error_handler import ParserError
+
 
 class Tokens:
     """A class that manages the token list that was given to the Parser by the Lexer.
@@ -95,7 +96,7 @@ def code_block(tokens):
             break
         elif tokens.next_token_value() == "right_paren":
             ParserError.found_extra_right_parenthesis()
-        elif tokens.next_token_value() == "right_braket":
+        elif tokens.next_token_value() == "right_bracket":
             return CodeNode(code)
         else:
             ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
@@ -216,7 +217,7 @@ def parameter(tokens):
         return tree
 
     if tokens.next_token() == "VARIABLE":
-        tree = TrueVariableNode(tokens.next_token_value())
+        tree = NameVariableNode(tokens.next_token_value())
         tokens.consume()
         return tree
 
@@ -238,11 +239,11 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
-    elif tokens.next_token_value() == "left_braket":
+    elif tokens.next_token_value() == "left_bracket":
         tokens.consume()
         tree = code_block(tokens)
 
-        expect("right_braket", tokens)
+        expect("right_bracket", tokens)
         tokens.consume()
 
         return tree
@@ -253,6 +254,8 @@ def parameter(tokens):
 
 
 if __name__ == "__main__":
-    tokens = [("KEYWORD", "forward"), ("SYMBOL", "left_braket"), ("KEYWORD", "left"), ("PARAMETER",1), ("SYMBOL", "right_braket")]
+    tokens = [("KEYWORD", "forward"), ("SYMBOL", "left_bracket"), ("KEYWORD", "left"), ("PARAMETER",1), ("SYMBOL", "right_bracket")]
     tokens = [("KEYWORD", "make"), ("PARAMETER", "name"), ("PARAMETER", 1), ("KEYWORD","forward"), ("VARIABLE", "name")]
     tree = parse(tokens)
+
+

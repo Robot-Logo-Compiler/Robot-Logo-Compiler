@@ -118,5 +118,5 @@ class Generator:
             return "Math." + child.keyword + "(" + self.find_out_parameter(child.child) + ")"
         if hasattr(child, "name"):
             return child.name
-        if hasattr(child, "child1"):
-            return "(" + self.find_out_parameter(child.child1) + calculation_type_dict[child.operand_type] + self.find_out_parameter(child.child2) + ")"
+        if hasattr(child, "child_one"):
+            return "(" + self.find_out_parameter(child.child_one) + calculation_type_dict[child.operand_type] + self.find_out_parameter(child.child_two) + ")"
