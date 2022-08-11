@@ -1,6 +1,7 @@
 """Contains the child-classes and the class ParserTree that the parse function creates
 """
 from src.error_handler import SemanticException
+from logo_functions import LOGO_FUNCTIONS
 
 class ParserTree:
 
@@ -174,4 +175,17 @@ class NameVariableNode:
 
     def __str__(self) -> str:
         return '(' + 'NameVariableNode' + ' Name is: ' + self.name.__str__() + ') ->'
+
+
+class FunctionNode:
+    def __init__(self, name=None, parameters=[]):
+        self.name = name
+        self.parameters = parameters
+
+    def expected_child(self):
+        return LOGO_FUNCTIONS[self.name]["parameters"]
+
+    def __str__(self) -> str:
+        return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'    
+
 
