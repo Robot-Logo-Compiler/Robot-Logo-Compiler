@@ -1,7 +1,7 @@
 """Contains the child-classes and the class ParserTree that the parse function creates
 """
 from src.error_handler import SemanticException
-from logo_functions import LOGO_FUNCTIONS
+from src.logo_functions import LOGO_FUNCTIONS
 
 class ParserTree:
 
@@ -99,7 +99,7 @@ class StringNode:
 
 class BinaryOperationNode:
 
-    def __init__(self, operand_type="+", left=None, right=None):
+    def __init__(self, operand_type="plus", left=None, right=None):
         self.child_one = left
         self.child_two = right
         self.operand_type = operand_type

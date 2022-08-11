@@ -1,6 +1,7 @@
 from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, NameVariableNode
-from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
+from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode, FunctionNode
 from src.error_handler import ParserError
+from src.logo_functions import LOGO_FUNCTIONS
 
 
 class Tokens:
@@ -88,7 +89,9 @@ def code_block(tokens):
     code = []
 
     while True:
-        if tokens.next_token_value() == "make":
+        if tokens.next_token_value() in LOGO_FUNCTIONS:
+            code.append(logo_function(tokens))
+        elif tokens.next_token_value() == "make":
             code.append(variable(tokens))
         elif tokens.next_token() == "KEYWORD":
             code.append(statement(tokens))
@@ -102,6 +105,15 @@ def code_block(tokens):
             ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
 
     return CodeNode(code)
+
+def logo_function(tokens):
+    name = tokens.next_token_value()
+    tokens.consume()
+    parameters = []
+    for _ in LOGO_FUNCTIONS[name]["parameters"]:
+        parameters.append(parameter(tokens))
+    return FunctionNode(name, parameters)
+
 
 def variable(tokens):
     tokens.consume()
@@ -209,7 +221,6 @@ def parameter(tokens):
         ParserError: From src.error_handle module. Results in SystemExit
     """
 
-    #print(tokens.next_token_value())
 
     if tokens.next_token() == "PARAMETER":
         tree = ParameterNode(tokens.next_token_value())
@@ -223,6 +234,10 @@ def parameter(tokens):
 
     elif tokens.next_token() == "KEYWORD":
         tree = statement(tokens)
+        return tree
+
+    elif tokens.next_token() == "FUNCTION" and tokens.next_token_value() in LOGO_FUNCTIONS:
+        tree = logo_function(tokens)
         return tree
 
     elif tokens.next_token_value() == "minus":
