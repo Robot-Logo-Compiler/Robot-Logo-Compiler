@@ -41,7 +41,15 @@ class KeywordNode:
         if not isinstance(self.keyword, str):
             SemanticException.child_is_invalid_type(self.keyword)
 
-        child_is_valid_type = isinstance(self.child, str) or isinstance(self.child, int) or isinstance(self.child, float) or isinstance(self.child, KeywordNode) or isinstance(self.child, ParameterNode) or isinstance(self.child, StringNode) or isinstance(self.child, BinaryOperationNode) or isinstance(self.child, VariableNode) or isinstance(self.child, NameVariableNode)
+        child_is_valid_type =  isinstance(self.child, str) \
+                            or isinstance(self.child, int) \
+                            or isinstance(self.child, float) \
+                            or isinstance(self.child, KeywordNode) \
+                            or isinstance(self.child, ParameterNode) \
+                            or isinstance(self.child, StringNode) \
+                            or isinstance(self.child, BinaryOperationNode) \
+                            or isinstance(self.child, VariableNode) \
+                            or isinstance(self.child, NameVariableNode)
 
         if not child_is_valid_type:
             SemanticException.child_is_invalid_type(self.child.__str__())
@@ -68,7 +76,9 @@ class ParameterNode:
 
     def check_type(self):
 
-        child_is_valid_type = isinstance(self.child, str) or isinstance(self.child, int) or isinstance(self.child, float)
+        child_is_valid_type =  isinstance(self.child, str) \
+                            or isinstance(self.child, int) \
+                            or isinstance(self.child, float)
 
         if not child_is_valid_type:
             SemanticException.child_is_invalid_type(self.child.__str__())
@@ -167,12 +177,20 @@ class VariableNode:
 
     def check_type(self):
 
-        child_is_valid_type = isinstance(self.name, str) or isinstance(self.name, NameVariableNode)
+        child_is_valid_type =  isinstance(self.name, str) \
+                            or isinstance(self.name, NameVariableNode)
 
         if not child_is_valid_type:
             SemanticException.child_is_invalid_type('VariableNode Name ')
 
-        child_is_valid_type = isinstance(self.value, str) or isinstance(self.value, int) or isinstance(self.value, float) or isinstance(self.value, KeywordNode) or isinstance(self.value, ParameterNode) or isinstance(self.value, StringNode) or isinstance(self.value, BinaryOperationNode) or isinstance(self.value, VariableNode) or isinstance(self.value, NameVariableNode)
+        child_is_valid_type =  isinstance(self.value, str) \
+                            or isinstance(self.value, int) or isinstance(self.value, float) \
+                            or isinstance(self.value, KeywordNode) \
+                            or isinstance(self.value, ParameterNode) \
+                            or isinstance(self.value, StringNode) \
+                            or isinstance(self.value, BinaryOperationNode) \
+                            or isinstance(self.value, VariableNode) \
+                            or isinstance(self.value, NameVariableNode)
 
         if not child_is_valid_type:
             SemanticException.child_is_invalid_type('VariableNode Value ')
