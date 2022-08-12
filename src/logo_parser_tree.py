@@ -119,10 +119,11 @@ class BinaryOperationNode:
         return ["bin_operator", "parameter"]
 
     def check_type(self):
-        if isinstance(self.child_one, int) or isinstance(self.child_one, float):
+        if isinstance(self.child_one, int) or isinstance(self.child_one, float) or isinstance(self.child_one, VariableNode):
             SemanticException.child_is_invalid_type('BinaryOperationNode child_one ')
 
-        if isinstance(self.child_two, int) or isinstance(self.child_two, float):
+        if isinstance(self.child_two, int) or isinstance(self.child_two, float) or isinstance(self.child_two, VariableNode):
+            print("alksdjf")
             SemanticException.child_is_invalid_type('BinaryOperationNode child_two ')
 
     def get_type(self):
@@ -130,32 +131,6 @@ class BinaryOperationNode:
 
     def __str__(self) -> str:
         return '(' + 'BinaryOperationsNode' + ' Child_one: ' + self.child_one.__str__() + ' Child_two: ' + self.child_two.__str__() + ') ->'
-
-class VariableNode:
-
-    def __init__(self, name=None, value=None):
-        self.name = name
-        self.value = value
-
-    def token_type(self, symbol_table=None):
-        if symbol_table is not None:
-            return symbol_table[self.name]
-        return "variable"
-
-    def expected_child(self):
-        return ["string", "parameter"]
-
-    def check_type(self):
-        if not isinstance(self.name, str):
-            SemanticException.child_is_invalid_type('VariableNode Name ')
-
-        child_is_valid_type = isinstance(self.value, str) or isinstance(self.value, int) or isinstance(self.value, float) or isinstance(self.value, KeywordNode) or isinstance(self.value, ParameterNode) or isinstance(self.value, StringNode) or isinstance(self.value, BinaryOperationNode) or isinstance(self.value, VariableNode) or isinstance(self.value, NameVariableNode)
-
-        if not child_is_valid_type:
-            SemanticException.child_is_invalid_type('VariableNode Value ')
-
-    def __str__(self) -> str:
-        return '(' + 'VariableNode' + ' name: ' + self.name.__str__() + " value: " + self.value.__str__() + ') ->'
 
 class NameVariableNode:
     def __init__(self, name=None):
@@ -176,6 +151,37 @@ class NameVariableNode:
     def __str__(self) -> str:
         return '(' + 'NameVariableNode' + ' Name is: ' + self.name.__str__() + ') ->'
 
+class VariableNode:
+
+    def __init__(self, name=None, value=None):
+        self.name = name
+        self.value = value
+
+    def token_type(self, symbol_table=None):
+        if symbol_table is not None:
+            return symbol_table[self.name]
+        return "variable"
+
+    def expected_child(self):
+        return ["string", "parameter"]
+
+    def check_type(self):
+
+        child_is_valid_type = isinstance(self.name, str) or isinstance(self.name, NameVariableNode)
+
+        if not child_is_valid_type:
+            SemanticException.child_is_invalid_type('VariableNode Name ')
+
+        child_is_valid_type = isinstance(self.value, str) or isinstance(self.value, int) or isinstance(self.value, float) or isinstance(self.value, KeywordNode) or isinstance(self.value, ParameterNode) or isinstance(self.value, StringNode) or isinstance(self.value, BinaryOperationNode) or isinstance(self.value, VariableNode) or isinstance(self.value, NameVariableNode)
+
+        if not child_is_valid_type:
+            SemanticException.child_is_invalid_type('VariableNode Value ')
+
+    def __str__(self) -> str:
+        return '(' + 'VariableNode' + ' name: ' + self.name.__str__() + " value: " + self.value.__str__() + ') ->'
+
+
+
 
 class FunctionNode:
     def __init__(self, name=None, parameters=[]):
@@ -186,6 +192,6 @@ class FunctionNode:
         return LOGO_FUNCTIONS[self.name]["parameters"]
 
     def __str__(self) -> str:
-        return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'    
+        return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'
 
 

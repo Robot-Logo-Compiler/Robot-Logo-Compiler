@@ -80,7 +80,7 @@ class Lexer:
         # for i in token_list:
         #     print(i)
         # print(self.symbol_table)
-        # print(token_list)
+        print(token_list)
         return token_list
 
     @staticmethod

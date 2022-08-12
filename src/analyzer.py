@@ -16,7 +16,7 @@ class Analyzer:
         for child in tree:
             print(child)
             child.check_type()
-            self.check_type(child)
+            # self.check_type(child)
 
     def check_type(self, node):
         """Compares nodes child's type with wanted type."""
