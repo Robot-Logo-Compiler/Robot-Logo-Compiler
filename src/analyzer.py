@@ -18,20 +18,4 @@ class Analyzer:
 
         for child in tree:
             child.check_types(symbol_table)
-            #print(child)
-            #child.check_type()
-            # self.check_type(child)
-
-    def check_type(self, node):
-        """Compares nodes child's type with wanted type."""
-
-        if hasattr(node, "child"):
-            if self.check_type(node.child) not in node.expected_child():
-                SemanticException.child_is_invalid_type(node.keyword)
-        elif hasattr(node, "child_one"):
-            if self.check_type(node.child_one) not in node.expected_child():
-                SemanticException.child_is_invalid_type(node.keyword)
-        elif hasattr(node, "child_two"):
-            if self.check_type(node.child_two) not in node.expected_child():
-                SemanticException.child_is_invalid_type(node.keyword)
-        return node.token_type()
+            child.check_type()

@@ -41,21 +41,25 @@ class KeywordNode:
         self.child.check_types(st)
 
     def check_type(self):
-        if not isinstance(self.keyword, str):
+        valid_types = ["str","int","float","KeywordNode","Parameternode","Stringnode","BinaryOperationNode","VariableNode","NameVariableNode"]
+        if self.child.check_type() not in valid_types:
             SemanticException.child_is_invalid_type(self.keyword)
+        return "KeywordNode"
+        #if not isinstance(self.keyword, str):
+        #    SemanticException.child_is_invalid_type(self.keyword)
 
-        child_is_valid_type =  isinstance(self.child, str) \
-                            or isinstance(self.child, int) \
-                            or isinstance(self.child, float) \
-                            or isinstance(self.child, KeywordNode) \
-                            or isinstance(self.child, ParameterNode) \
-                            or isinstance(self.child, StringNode) \
-                            or isinstance(self.child, BinaryOperationNode) \
-                            or isinstance(self.child, VariableNode) \
-                            or isinstance(self.child, NameVariableNode)
+        #child_is_valid_type =  isinstance(self.child, str) \
+        #                    or isinstance(self.child, int) \
+        #                    or isinstance(self.child, float) \
+        #                    or isinstance(self.child, KeywordNode) \
+        #                    or isinstance(self.child, ParameterNode) \
+        #                    or isinstance(self.child, StringNode) \
+        #                    or isinstance(self.child, BinaryOperationNode) \
+        #                    or isinstance(self.child, VariableNode) \
+        #                    or isinstance(self.child, NameVariableNode)
 
-        if not child_is_valid_type:
-            SemanticException.child_is_invalid_type(self.child.__str__())
+        #if not child_is_valid_type:
+        #    SemanticException.child_is_invalid_type(self.child.__str__())
 
 
     '''KeywordNode only accepts a parameter or a binary operation as a child'''
@@ -78,6 +82,12 @@ class ParameterNode:
         return []
 
     def check_type(self):
+        if self.value.isnumeric():
+            return "int"
+        elif self.can_be_float(self.value):
+            return "float"
+        else:
+            return "str"
 
         child_is_valid_type =  isinstance(self.child, str) \
                             or isinstance(self.child, int) \
@@ -150,15 +160,20 @@ class BinaryOperationNode:
     def check_types(self, st):
         self.child_one.check_types(st)
         self.child_two.check_types(st)
-        if self.child_one.get_type() != "double" or self.child_two.get_type() != "double":
-            print("eitoimi") #needs error
+        
 
     def check_type(self):
+        valid_types = ["int","float","KeywordNode"]
+        if self.child_one.check_type() not in valid_types:
+            SemanticException.child_is_invalid_type(self)
+        if self.child_two.check_type() not in valid_types:
+            print("Ff3")
+            SemanticException.child_is_invalid_type(self)
+        return "float"
         if isinstance(self.child_one, int) or isinstance(self.child_one, float) or isinstance(self.child_one, VariableNode):
             SemanticException.child_is_invalid_type('BinaryOperationNode child_one ')
 
         if isinstance(self.child_two, int) or isinstance(self.child_two, float) or isinstance(self.child_two, VariableNode):
-            print("alksdjf")
             SemanticException.child_is_invalid_type('BinaryOperationNode child_two ')
 
     def get_type(self):
@@ -180,8 +195,9 @@ class NameVariableNode:
         return []
 
     def check_type(self):
-        if not isinstance(self.keyword, str):
+        if not isinstance(self.name, str):
             SemanticException.child_is_invalid_type('NameVariableNode ')
+        return "str"
 
     def get_type(self, st):
         return "void"
@@ -207,6 +223,13 @@ class VariableNode:
         st[self.name.name] = self.value.get_type()
 
     def check_type(self):
+        valid_types_value = ["str","int","float"]
+        if self.name.check_type() != "str":
+            SemanticException.child_is_invalid_type(self.name)
+        if self.value.check_type() not in valid_types_value:
+            SemanticException.child_is_invalid_type(self.name)
+
+        return "VariableNode"
 
         child_is_valid_type =  isinstance(self.name, str) \
                             or isinstance(self.name, NameVariableNode)
@@ -229,9 +252,6 @@ class VariableNode:
     def __str__(self) -> str:
         return '(' + 'VariableNode' + ' name: ' + self.name.__str__() + " value: " + self.value.__str__() + ') ->'
 
-
-
-
 class FunctionNode:
     def __init__(self, name=None, parameters=[]):
         self.name = name
@@ -240,11 +260,15 @@ class FunctionNode:
     def expected_child(self):
         return LOGO_FUNCTIONS[self.name]["parameters"]
 
+    def check_type(self):
+        valid_types = ["str","int","float","KeywordNode","Parameternode","Stringnode","BinaryOperationNode","VariableNode","NameVariableNode"]
+        for parameter in self.parameters:
+            if parameter.check_type() not in valid_types:
+                SemanticException.child_is_invalid_type(self.keyword)
+
     def check_types(self, st):
         for parameter in self.parameters:
             parameter.get_type(st)
 
     def __str__(self) -> str:
         return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'
-
-
