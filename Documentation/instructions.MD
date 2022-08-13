@@ -6,7 +6,7 @@ The program compiles a Logo program into a leJOS NXJ supported Java file, ```Mai
 
 ### Calibrating the robot
 
-The robots rotating and traveling can be calibrated with preset configurations. Before compiling add a file ```config.properties``` to the same folder. All the following presets have to be set. 
+The robot's rotating and traveling need to be calibrated with preset configurations. Before compiling ```Main.java``` add a file ```config.properties``` to the same folder. All the following presets have to be set. 
 
 For example:
 ~~~~
@@ -16,7 +16,7 @@ travelSpeed=5.0
 rotatingSpeed=30.0
 ~~~~
 
-Where travel speed's unit is number of wheel diameters in second and rotating speed's unit is degrees in second.
+Here the travel speed's unit is number of wheel diameters in second and rotating speed's unit is degrees in second.
 
 ## Writing Logo code
 
