@@ -89,12 +89,12 @@ def code_block(tokens):
     code = []
 
     while True:
-        if tokens.next_token_value() in LOGO_FUNCTIONS:
+        if tokens.next_token() == "KEYWORD":
+            code.append(statement(tokens))
+        elif tokens.next_token_value() in LOGO_FUNCTIONS:
             code.append(logo_function(tokens))
         elif tokens.next_token_value() == "make":
             code.append(variable(tokens))
-        elif tokens.next_token() == "KEYWORD":
-            code.append(statement(tokens))
         elif tokens.next_token() == "end":
             break
         elif tokens.next_token_value() == "right_paren":
