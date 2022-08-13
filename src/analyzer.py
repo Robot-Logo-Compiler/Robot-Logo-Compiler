@@ -1,6 +1,9 @@
 """This module is the semantic analyzer"""
 from src.error_handler import SemanticException
 
+global symbol_table
+symbol_table = {}
+
 class Analyzer:
     """
     This is the analyzer class.
@@ -14,8 +17,9 @@ class Analyzer:
         """Runs the check type function for all children in the parser tree."""
 
         for child in tree:
-            print(child)
-            child.check_type()
+            child.check_types(symbol_table)
+            #print(child)
+            #child.check_type()
             # self.check_type(child)
 
     def check_type(self, node):

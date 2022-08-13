@@ -37,6 +37,9 @@ class KeywordNode:
     def token_type(self):
         return "keyword"
 
+    def check_types(self, st):
+        self.child.check_types(st)
+
     def check_type(self):
         if not isinstance(self.keyword, str):
             SemanticException.child_is_invalid_type(self.keyword)
@@ -83,6 +86,22 @@ class ParameterNode:
         if not child_is_valid_type:
             SemanticException.child_is_invalid_type(self.child.__str__())
 
+    def check_types(self, st):
+        self.get_type()
+
+    def get_type(self):
+        if self.can_be_float(self.value):
+            return "double"
+        if isinstance(self.value, str):
+            return "String"
+    
+    def can_be_float(self, value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+
     def __str__(self) -> str:
         return '(' + 'ParameterNode ' + ' value: ' + self.value.__str__() + ') ->'
 
@@ -128,6 +147,12 @@ class BinaryOperationNode:
     def expected_child(self):
         return ["bin_operator", "parameter"]
 
+    def check_types(self, st):
+        self.child_one.check_types(st)
+        self.child_two.check_types(st)
+        if self.child_one.get_type() != "double" or self.child_two.get_type() != "double":
+            print("eitoimi") #needs error
+
     def check_type(self):
         if isinstance(self.child_one, int) or isinstance(self.child_one, float) or isinstance(self.child_one, VariableNode):
             SemanticException.child_is_invalid_type('BinaryOperationNode child_one ')
@@ -158,6 +183,9 @@ class NameVariableNode:
         if not isinstance(self.keyword, str):
             SemanticException.child_is_invalid_type('NameVariableNode ')
 
+    def get_type(self, st):
+        return "void"
+
     def __str__(self) -> str:
         return '(' + 'NameVariableNode' + ' Name is: ' + self.name.__str__() + ') ->'
 
@@ -174,6 +202,9 @@ class VariableNode:
 
     def expected_child(self):
         return ["string", "parameter"]
+
+    def check_types(self, st):
+        st[self.name.name] = self.value.get_type()
 
     def check_type(self):
 
@@ -208,6 +239,10 @@ class FunctionNode:
 
     def expected_child(self):
         return LOGO_FUNCTIONS[self.name]["parameters"]
+
+    def check_types(self, st):
+        for parameter in self.parameters:
+            parameter.get_type(st)
 
     def __str__(self) -> str:
         return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'

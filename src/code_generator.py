@@ -3,6 +3,7 @@ This module generates java code from the parser tree
 '''
 
 from src.logo_parser_tree import VariableNode
+import src.analyzer
 
 
 class Generator:
@@ -28,6 +29,8 @@ class Generator:
         for child in self.tree.root.children:
             if isinstance(child, VariableNode):
                 self.command_list.append(self.generate_variable(child.name.name, child.value.value))
+            elif hasattr(child, "name"):
+                self.command_list.append(self.commands_dict[child.name](self.find_out_parameter(child.parameters[0])))
             else:
                 self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
 
@@ -92,21 +95,12 @@ class Generator:
     def generate_variable(self, name, value):
         '''This method returns the variable assigning command'''
 
-        if value.isnumeric():
-            java_command = "int " + name + "=" + value
-        elif self.can_be_float(value):
-            java_command = "double " + name + "=" + value
-        else:
-            java_command = 'String ' + name + '="' + value + '"'
+        java_command = src.analyzer.symbol_table[name] + " " + name + "=" + value
+        if src.analyzer.symbol_table[name] == "double":
+            java_command = src.analyzer.symbol_table[name] + " " + name + "=" + value
+        elif src.analyzer.symbol_table[name] == "String":
+            java_command = src.analyzer.symbol_table[name] + " " + name + '="' + value + '"'
         return java_command
-
-    @classmethod
-    def can_be_float(cls, value):
-        try:
-            float(value)
-            return True
-        except ValueError:
-            return False
 
     def find_out_parameter(self, child):
         '''This function finds and returns the correct parameter(s) for a command'''
