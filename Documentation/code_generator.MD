@@ -14,4 +14,4 @@ For generating variables (Logo command ```MAKE```), the class imports ```parser_
 For a template to insert the ready Java code, the class uses ```JavaTemplate.java``` located in the ```templates``` folder.
 
 ## Known issues
-At the moment, code generator is playing guessing games with variables. It probably should use a symbol table.
+At the moment, code generator only supports functions with one parameter.
