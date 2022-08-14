@@ -269,7 +269,7 @@ class FunctionNode:
         valid_types = ["str","int","float","KeywordNode","Parameternode","Stringnode","BinaryOperationNode","VariableNode","NameVariableNode"]
         for parameter in self.parameters:
             if parameter.check_type() not in valid_types:
-                SemanticException.child_is_invalid_type(self.keyword)
+                SemanticException.child_is_invalid_type(self.name)
 
     def check_types(self, st):
         for parameter in self.parameters:
