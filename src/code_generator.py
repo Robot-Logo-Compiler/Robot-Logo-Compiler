@@ -3,7 +3,7 @@ This module generates java code from the parser tree
 '''
 
 from src.logo_parser_tree import VariableNode
-import src.analyzer
+from src.analyzer import symbol_table
 
 
 class Generator:
@@ -95,11 +95,11 @@ class Generator:
     def generate_variable(self, name, value):
         '''This method returns the variable assigning command'''
 
-        java_command = src.analyzer.symbol_table[name] + " " + name + "=" + value
-        if src.analyzer.symbol_table[name] == "double":
-            java_command = src.analyzer.symbol_table[name] + " " + name + "=" + value
-        elif src.analyzer.symbol_table[name] == "String":
-            java_command = src.analyzer.symbol_table[name] + " " + name + '="' + value + '"'
+        java_command = symbol_table[name] + " " + name + "=" + value
+        if symbol_table[name] == "double":
+            java_command = symbol_table[name] + " " + name + "=" + value
+        elif symbol_table[name] == "String":
+            java_command = symbol_table[name] + " " + name + '="' + value + '"'
         return java_command
 
     def find_out_parameter(self, child):
