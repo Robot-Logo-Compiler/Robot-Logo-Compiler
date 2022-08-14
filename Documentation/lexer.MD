@@ -8,7 +8,9 @@ Lexer has a constructor with the source code as parameter named as ```input_code
 
 
 ## Dependencies
-```logo_keywords.py``` contains all (key)words lexer can interpret as commands, symbols, setting variables, and math operations and functions. Keywords are supported in English and Finnish. See also [user instructions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/instructions.MD) for preset commands.
+```logo_keywords.py``` contains all (key)words lexer can interpret as commands, symbols, setting variables, and math operations and functions. Keywords are supported in English and Finnish. See also [user instructions](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/instructions.MD) for supported commands.
+
+```LexerError``` is a class in ```error_handler.py``` module. If an error has occured while executing lexical analysis, a simple Finnish error message is shown.
 
 ## Known issues
 At the moment, lexer raises error with variable names it should accept. For example, some Scandinavian alphabets such as å,ä and ö should be ok but are not.
