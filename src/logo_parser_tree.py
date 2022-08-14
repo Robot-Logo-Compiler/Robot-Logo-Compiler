@@ -248,6 +248,11 @@ class VariableNode:
 
         if not child_is_valid_type:
             SemanticException.child_is_invalid_type('VariableNode Value ')
+    #TestVersion
+    def type_check(self, symbol_table):
+        if self.name not in symbol_table:
+            print("ERROR")
+        return symbol_table[self.name]
 
     def __str__(self) -> str:
         return '(' + 'VariableNode' + ' name: ' + self.name.__str__() + " value: " + self.value.__str__() + ') ->'
@@ -269,6 +274,13 @@ class FunctionNode:
     def check_types(self, st):
         for parameter in self.parameters:
             parameter.get_type(st)
+
+    #testversion
+    def type_check(self, symbol_table):
+        for i in range(len(self.parameters)):
+            if not self.parameters[i].type_check(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
+                SemanticException.child_is_invalid_type(self.name)
+        return LOGO_FUNCTIONS[self.name]["return"]
 
     def __str__(self) -> str:
         return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'
