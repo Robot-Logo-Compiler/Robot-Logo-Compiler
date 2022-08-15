@@ -26,6 +26,7 @@ We are using the term CodeBlocks and CodeNodes interchangeably in technical term
 For input code that has no loops or any other procedural code calls, a single CodeBlock object describes the entire input code.
 
 The Context-Free Grammar (CFG) rule for the working principle of the CodeBlock is:
+
         CodeBlock -> Statement CodeBlock | 'Nothing'
 
 
@@ -49,7 +50,7 @@ Multiplicative expressions are handled first in accordance with mathematical ord
 
 Therefore, the CFG rule for additive expressions is:
 
-Expression ->           Multiplicative Expression "+" Expression
+    Expression ->       Multiplicative Expression "+" Expression
                     |   Multiplicative Expression "-" Expression
                     |   Multiplicative Expression
 
@@ -68,6 +69,7 @@ The CFG rule for multiplicative expressions is:
 The lowest level of recursion in the recurisve descent meaning that the direction of recursion reverses upwards from downwards. As its name suggests, handels the return of all parameters.
 
 CFG rule is:
+
     Parameter ->        Number (includes, integers, floats and doubles)
                     |   String
                     |   Expressions containing parenthesis
