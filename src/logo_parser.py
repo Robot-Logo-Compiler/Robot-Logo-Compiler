@@ -111,7 +111,7 @@ def logo_function(tokens):
     tokens.consume()
     parameters = []
     for _ in LOGO_FUNCTIONS[name]["parameters"]:
-        parameters.append(parameter(tokens))
+        parameters.append(additive_expression(tokens))
     return FunctionNode(name, parameters)
 
 
