@@ -41,7 +41,7 @@ class KeywordNode:
         self.child.check_types(st)
 
     def check_type(self):
-        valid_types = ["str","int","float","KeywordNode","Parameternode","BinaryOperationNode","VariableNode","NameVariableNode"]
+        valid_types = ["str","int","float","Parameternode","BinaryOperationNode","VariableNode","NameVariableNode"]
         if self.child.check_type() not in valid_types:
             SemanticException.child_is_invalid_type(self.keyword)
         return "KeywordNode"
