@@ -17,5 +17,5 @@ class Analyzer:
         """Runs the check type function for all children in the parser tree."""
 
         for child in tree:
-            child.check_types(symbol_table)
-            child.check_type()
+            child.create_table(symbol_table)
+            child.check_type(symbol_table)

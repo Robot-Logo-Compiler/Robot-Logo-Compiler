@@ -13,7 +13,7 @@ LOGO_FUNCTIONS = {
         "parameters": ["number"],
         "return": None
     },
-    "backward": {
+    "back": {
         "parameters": ["number"],
         "return": None
     },
@@ -23,6 +23,10 @@ LOGO_FUNCTIONS = {
     },
     "right": {
         "parameters": ["number"],
+        "return": None
+    },
+    "show": {
+        "parameters": ["number", "str"],
         "return": None
     }
 }
