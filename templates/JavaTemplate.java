@@ -1,13 +1,31 @@
+import java.io.FileInputStream;
+import java.util.Properties;
 import lejos.nxt.*;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Main {
 
     public static void main(String[] args) {
-
+        
         DifferentialPilot pilot = init();
-        pilot.setTravelSpeed(5.0);
-        pilot.setRotateSpeed(30.0);
+        
+        try {
+            Properties prop = new Properties();
+            prop.load(new FileInputStream("config.properties"));
+            float wheelDiameter = Float.valueOf(prop.getProperty("wheelDiameter"));
+            float trackWidth = Float.valueOf(prop.getProperty("trackWidth"));
+            double travelSpeed = Double.valueOf(prop.getProperty("travelSpeed"));
+            double rotatingSpeed = Double.valueOf(prop.getProperty("rotatingSpeed"));
+            pilot = init(wheelDiameter, trackWidth);
+            setTravelSpeed(pilot, travelSpeed);
+            setRotatingSpeed(pilot, rotatingSpeed);
+            
+        } catch (Exception e) {
+            // use default values
+            setTravelSpeed(pilot, 5.0);
+            setRotatingSpeed(pilot, 30.0);
+        }
+
 
         // insert generated code here
 
@@ -38,5 +56,13 @@ public class Main {
     private static void printToLCD(String text) {
         
         LCD.drawString(text, 0, 0);
+    }
+    
+    private static void setTravelSpeed(DifferentialPilot plt, double travelSpeed) {
+        plt.setLinearSpeed(travelSpeed);
+    }
+    
+    private static void setRotatingSpeed(DifferentialPilot plt, double angularSpeed) {
+        plt.setAngularSpeed(angularSpeed);
     }
 }

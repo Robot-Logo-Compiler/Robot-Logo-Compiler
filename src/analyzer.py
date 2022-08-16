@@ -4,7 +4,7 @@ from src.error_handler import SemanticException
 class Analyzer:
     """
     This is the analyzer class.
-    It goes through the parser tree and checks it for errors.
+    It goes through the parser tree and checks it for errors with nodes' children and their return type.
     """
 
     def __init__(self, tree):
