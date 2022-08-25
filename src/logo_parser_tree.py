@@ -73,7 +73,7 @@ class ParameterNode:
             return "double"
         if isinstance(self.value, str):
             return "String"
-    
+
     def can_be_float(self, value):
         try:
             float(value)
@@ -110,7 +110,6 @@ class BinaryOperationNode:
         if self.child_one.check_type() not in valid_types:
             SemanticException.child_is_invalid_type(self)
         if self.child_two.check_type() not in valid_types:
-            print("Ff3")
             SemanticException.child_is_invalid_type(self)
         return "float"
 

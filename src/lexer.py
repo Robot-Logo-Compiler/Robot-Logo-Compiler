@@ -52,7 +52,11 @@ class Lexer:
                 variable_value = split_list[index + 2].strip('"')
 
                 token_list.append(("VARIABLE", variable_name))
-                token_list.append(("PARAMETER", variable_value))
+
+                if ":" in variable_value[0]:
+                    token_list.append(("VARIABLE", variable_value.strip(":")))
+                else:
+                    token_list.append(("PARAMETER", variable_value))
 
                 skip_count = 2
 
@@ -67,14 +71,15 @@ class Lexer:
             elif element in self.functions.keys():
                 token_list.append(("MATH_FUNC", (self.functions[element])))
             else:
-                token_list.append(("PARAMETER", element))
+                if ":" in element[0]:
+                    token_list.append(("VARIABLE", element.strip(":")))
+                else:
+                    token_list.append(("PARAMETER", element))
 
         # Prints
-        # print("Symbol table:", self.symbol_table)
         # for i in token_list:
         #     print(i)
-        # print(self.symbol_table)
-        print(token_list)
+        # print(token_list)
         return token_list
 
     @staticmethod
