@@ -37,14 +37,13 @@ class KeywordNode:
     def token_type(self):
         return "keyword"
 
-    def check_types(self, st):
-        self.child.check_types(st)
+    def create_table(self, symbol_table):
+        self.child.create_table(symbol_table)
 
-    def check_type(self):
-        valid_types = ["str","int","float","KeywordNode","Parameternode","BinaryOperationNode","VariableNode","NameVariableNode"]
-        if self.child.check_type() not in valid_types:
-            SemanticException.child_is_invalid_type(self.keyword)
-        return "KeywordNode"
+    def check_type(self, symbol_table):
+        if not self.child.check_type(symbol_table) in LOGO_FUNCTIONS[self.keyword]["parameters"]:
+            SemanticException.child_is_invalid_type(self.child)
+        return LOGO_FUNCTIONS[self.keyword]["return"]
 
     def __str__(self) -> str:
         return '(' + 'KeywordNode ' + ' keyword: ' + self.keyword.__str__() + ' parameter: ' + self.child.__str__() + ') ->'
@@ -57,23 +56,26 @@ class ParameterNode:
     def token_type(self):
         return "parameter"
 
-    def check_type(self):
-        if self.value.isnumeric():
-            return "int"
-        elif self.can_be_float(self.value):
-            return "float"
+    def check_type(self, symbol_table):
+        if self.can_be_float(self.value):
+            return "number"
         else:
             return "str"
 
-    def check_types(self, st):
+    def create_table(self, symbol_table):
         self.get_type()
 
     def get_type(self):
         if self.can_be_float(self.value):
-            return "double"
+            return "number"
         if isinstance(self.value, str):
+<<<<<<< HEAD
             return "String"
 
+=======
+            return "str"
+    
+>>>>>>> c762a3ac12d16d86135a43b17c176299a6ab2f16
     def can_be_float(self, value):
         try:
             float(value)
@@ -97,24 +99,25 @@ class BinaryOperationNode:
         elif self.child_two is None:
             self.child_two = child
 
-    def token_type(self):
-        return "bin_operator"
-        #Should return number. All binary operators are considered equivalent to numbers
+    def create_table(self, symbol_table):
+        self.child_one.create_table(symbol_table)
+        self.child_two.create_table(symbol_table)
 
-    def check_types(self, st):
-        self.child_one.check_types(st)
-        self.child_two.check_types(st)
-
-    def check_type(self):
-        valid_types = ["int","float","KeywordNode"]
-        if self.child_one.check_type() not in valid_types:
+    def check_type(self, symbol_table):
+        valid_types = ["number","KeywordNode"]
+        if self.child_one.check_type(symbol_table) not in valid_types:
             SemanticException.child_is_invalid_type(self)
+<<<<<<< HEAD
         if self.child_two.check_type() not in valid_types:
+=======
+        if self.child_two.check_type(symbol_table) not in valid_types:
+            print(self.child_two.check_type(symbol_table))
+>>>>>>> c762a3ac12d16d86135a43b17c176299a6ab2f16
             SemanticException.child_is_invalid_type(self)
-        return "float"
+        return "number"
 
     def get_type(self):
-        return "double"
+        return "number"
 
     def __str__(self) -> str:
         return '(' + 'BinaryOperationsNode' + ' Child_one: ' + self.child_one.__str__() + ' Child_two: ' + self.child_two.__str__() + ') ->'
@@ -128,16 +131,18 @@ class NameVariableNode:
             return symbol_table[self.name]
         return "variable"
 
-    def check_types(self, st):
-        return self.get_type(st)
+    def create_table(self, symbol_table):
+        return self.get_type(symbol_table)
 
-    def check_type(self):
+    def check_type(self, symbol_table):
+        if self.name not in symbol_table:
+            print("ERROR")
+        return symbol_table[self.name]
+
+    def get_type(self, symbol_table):
         if not isinstance(self.name, str):
             SemanticException.child_is_invalid_type('NameVariableNode ')
         return "str"
-
-    def get_type(self, st):
-        return "void"
 
     def __str__(self) -> str:
         return '(' + 'NameVariableNode' + ' Name is: ' + self.name.__str__() + ') ->'
@@ -153,23 +158,18 @@ class VariableNode:
             return symbol_table[self.name]
         return "variable"
 
-    def check_types(self, st):
-        st[self.name.name] = self.value.get_type()
+    def create_table(self, symbol_table):
+        symbol_table[self.name.name] = self.value.get_type()
 
-    def check_type(self):
-        valid_types_value = ["str","int","float"]
-        if self.name.check_type() != "str":
+    def check_type(self, symbol_table):
+        valid_types_value = ["str","number"]
+        if self.name.get_type(symbol_table) != "str":
+            print(self.name.check_type(symbol_table))
             SemanticException.child_is_invalid_type(self.name)
-        if self.value.check_type() not in valid_types_value:
+        if self.value.check_type(symbol_table) not in valid_types_value:
             SemanticException.child_is_invalid_type(self.name)
 
         return "VariableNode"
-
-    #TestVersion
-    def type_check(self, symbol_table):
-        if self.name not in symbol_table:
-            print("ERROR")
-        return symbol_table[self.name]
 
     def __str__(self) -> str:
         return '(' + 'VariableNode' + ' name: ' + self.name.__str__() + " value: " + self.value.__str__() + ') ->'
@@ -182,20 +182,13 @@ class FunctionNode:
     def expected_child(self):
         return LOGO_FUNCTIONS[self.name]["parameters"]
 
-    def check_type(self):
-        valid_types = ["str","int","float","KeywordNode","Parameternode","Stringnode","BinaryOperationNode","VariableNode","NameVariableNode"]
+    def create_table(self, symbol_table):
         for parameter in self.parameters:
-            if parameter.check_type() not in valid_types:
-                SemanticException.child_is_invalid_type(self.name)
+            parameter.get_type(symbol_table)
 
-    def check_types(self, st):
-        for parameter in self.parameters:
-            parameter.get_type(st)
-
-    #testversion
-    def type_check(self, symbol_table):
+    def check_type(self, symbol_table):
         for i in range(len(self.parameters)):
-            if not self.parameters[i].type_check(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
+            if not self.parameters[i].check_type(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
                 SemanticException.child_is_invalid_type(self.name)
         return LOGO_FUNCTIONS[self.name]["return"]
 
