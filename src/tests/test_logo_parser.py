@@ -41,3 +41,8 @@ class TestParser(unittest.TestCase):
         tokens = [('FUNCTION', 'sqrt'), ('PARAMETER', 1), ("BIN_OP", "plus"), ('PARAMETER', 2)]
         tree = parse(tokens)
         self.assertEqual(1, tree.root.children[0].parameters[0].child_one.value)
+
+    def test_simple_binary_operation_works_with_a_variable(self):
+        tokens = [('FUNCTION', 'sqrt'), ('PARAMETER', 1), ("BIN_OP", "plus"), ('VARIABLE', "x")]
+        tree = parse(tokens)
+        self.assertEqual(1, tree.root.children[0].parameters[0].child_one.value)

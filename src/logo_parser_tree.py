@@ -1,6 +1,6 @@
 """Contains the child-classes and the class ParserTree that the parse function creates
 """
-from src.error_handler import SemanticException
+from src.error_handler import SemanticException, TypeException
 from src.logo_functions import LOGO_FUNCTIONS
 
 class ParserTree:
@@ -19,11 +19,16 @@ class CodeNode:
     def token_type(self):
         return "code"
 
-    def complete(self):
-        return False
-
+    def check_type(self, symbol_table):
+        for child in self.children:
+            child.check_type(symbol_table)
+        return "codeblock"
+    
     def __str__(self) -> str:
-        return '(CodeNode)->'
+        code = ""
+        for child in self.children:
+            code += child.__str__() + "\n"
+        return code
 
 class KeywordNode:
 
@@ -41,12 +46,17 @@ class KeywordNode:
         self.child.create_table(symbol_table)
 
     def check_type(self, symbol_table):
-        if not self.child.check_type(symbol_table) in LOGO_FUNCTIONS[self.keyword]["parameters"]:
-            SemanticException.child_is_invalid_type(self.child)
+        for i in range(len(LOGO_FUNCTIONS[self.keyword]["parameters"])):
+            if not self.child.check_type(symbol_table) in LOGO_FUNCTIONS[self.keyword]["parameters"][i]:
+                print(self)
+                TypeException.function_got_wrong_parameter_type(
+                    self.keyword,
+                    self.child.check_type(symbol_table),
+                    LOGO_FUNCTIONS[self.keyword]["parameters"][i])
         return LOGO_FUNCTIONS[self.keyword]["return"]
 
     def __str__(self) -> str:
-        return '(' + 'KeywordNode ' + ' keyword: ' + self.keyword.__str__() + ' parameter: ' + self.child.__str__() + ') ->'
+        return f"{self.keyword} {self.child}"
 
 class ParameterNode:
 
@@ -69,13 +79,8 @@ class ParameterNode:
         if self.can_be_float(self.value):
             return "number"
         if isinstance(self.value, str):
-<<<<<<< HEAD
-            return "String"
-
-=======
             return "str"
     
->>>>>>> c762a3ac12d16d86135a43b17c176299a6ab2f16
     def can_be_float(self, value):
         try:
             float(value)
@@ -84,7 +89,7 @@ class ParameterNode:
             return False
 
     def __str__(self) -> str:
-        return '(' + 'ParameterNode ' + ' value: ' + self.value.__str__() + ') ->'
+        return self.value
 
 class BinaryOperationNode:
 
@@ -104,16 +109,10 @@ class BinaryOperationNode:
         self.child_two.create_table(symbol_table)
 
     def check_type(self, symbol_table):
-        valid_types = ["number","KeywordNode"]
-        if self.child_one.check_type(symbol_table) not in valid_types:
-            SemanticException.child_is_invalid_type(self)
-<<<<<<< HEAD
-        if self.child_two.check_type() not in valid_types:
-=======
-        if self.child_two.check_type(symbol_table) not in valid_types:
-            print(self.child_two.check_type(symbol_table))
->>>>>>> c762a3ac12d16d86135a43b17c176299a6ab2f16
-            SemanticException.child_is_invalid_type(self)
+        if self.child_one.check_type(symbol_table) != "number":
+            TypeException.binary_operation_something_that_is_not_a_number()
+        if self.child_two.check_type(symbol_table) != "number":
+            TypeException.binary_operation_something_that_is_not_a_number()
         return "number"
 
     def get_type(self):
@@ -135,6 +134,8 @@ class NameVariableNode:
         return self.get_type(symbol_table)
 
     def check_type(self, symbol_table):
+        if symbol_table == {}:
+            return "number"
         if self.name not in symbol_table:
             print("ERROR")
         return symbol_table[self.name]
@@ -145,7 +146,7 @@ class NameVariableNode:
         return "str"
 
     def __str__(self) -> str:
-        return '(' + 'NameVariableNode' + ' Name is: ' + self.name.__str__() + ') ->'
+        return f":{self.name}"
 
 class VariableNode:
 
@@ -162,17 +163,14 @@ class VariableNode:
         symbol_table[self.name.name] = self.value.get_type()
 
     def check_type(self, symbol_table):
-        valid_types_value = ["str","number"]
-        if self.name.get_type(symbol_table) != "str":
-            print(self.name.check_type(symbol_table))
+        if self.name.check_type(symbol_table) != "str":
             SemanticException.child_is_invalid_type(self.name)
-        if self.value.check_type(symbol_table) not in valid_types_value:
+        if self.value.check_type(symbol_table) is None:
             SemanticException.child_is_invalid_type(self.name)
-
-        return "VariableNode"
+        return None
 
     def __str__(self) -> str:
-        return '(' + 'VariableNode' + ' name: ' + self.name.__str__() + " value: " + self.value.__str__() + ') ->'
+        return f"make {self.name} {self.value}"
 
 class FunctionNode:
     def __init__(self, name=None, parameters=[]):
