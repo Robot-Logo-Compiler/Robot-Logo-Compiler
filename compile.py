@@ -13,9 +13,10 @@ def main():
     if file:
         lexer = Lexer(file)
         tokens = lexer.create_tokens()
+        symbol_table = lexer.get_symbol_table()
         parsed_tokens = parse(tokens)
-        Analyzer(parsed_tokens)
-        generator = Generator(parsed_tokens)
+        Analyzer(parsed_tokens, symbol_table)
+        generator = Generator(parsed_tokens, symbol_table)
         generator.list_commands()
         generator.generate_code()
 
