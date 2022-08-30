@@ -13,6 +13,7 @@ class Lexer:
         self.symbols = LOGO_KEYWORDS_SYMBOLS
         self.functions = LOGO_KEYWORDS_MATH_FUNCTIONS
         self.variables = LOGO_VARIABLES
+        self.symbol_table = {}
 
     @staticmethod
     def create_split_list_from_input_code(input_code):
@@ -51,7 +52,7 @@ class Lexer:
                 variable_name = Lexer.check_variable_name_for_errors(split_list[index + 1])
                 variable_value = split_list[index + 2].strip('"')
 
-                token_list.append(("VARIABLE", variable_name))
+                token_list.append(("PARAMETER", variable_name))
 
                 if ":" in variable_value[0]:
                     token_list.append(("VARIABLE", variable_value.strip(":")))

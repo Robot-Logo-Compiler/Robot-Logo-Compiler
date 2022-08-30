@@ -3,7 +3,6 @@ This module generates java code from the parser tree
 '''
 
 from src.logo_parser_tree import VariableNode
-from src.analyzer import symbol_table
 
 
 class Generator:
@@ -13,9 +12,10 @@ class Generator:
     Then it pastes the commands from that list to a copy of the template.
     '''
 
-    def __init__(self, tree):
+    def __init__(self, tree, symbol_table):
         self.command_list = []
         self.tree = tree
+        self.symbol_table = symbol_table
         self.commands_dict = {
         "eteen": self.generate_move_forward, "forward": self.generate_move_forward,
         "taakse": self.generate_move_backward, "back": self.generate_move_backward,
@@ -28,7 +28,7 @@ class Generator:
 
         for child in self.tree.root.children:
             if isinstance(child, VariableNode):
-                self.command_list.append(self.generate_variable(child.name.name, child.value.value))
+                self.command_list.append(self.generate_variable(child.name.value, child.value.value))
             elif hasattr(child, "name"):
                 self.command_list.append(self.commands_dict[child.name](self.find_out_parameter(child.parameters[0])))
             else:
@@ -95,10 +95,10 @@ class Generator:
     def generate_variable(self, name, value):
         '''This method returns the variable assigning command'''
 
-        java_command = symbol_table[name] + " " + name + "=" + value
-        if symbol_table[name] == "number":
+        java_command = self.symbol_table[name] + " " + name + "=" + value
+        if self.symbol_table[name] == "number":
             java_command = "double " + name + "=" + value
-        elif symbol_table[name] == "str":
+        elif self.symbol_table[name] == "str":
             java_command = "String " + name + '="' + value + '"'
         return java_command
 

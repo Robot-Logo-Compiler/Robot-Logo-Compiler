@@ -6,17 +6,17 @@ class TestGenerator(unittest.TestCase):
     def setUp(self):
         self.generator = Generator(parse([('KEYWORD', 'tulosta'), ('PARAMETER', '"moikka'),
         ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '4'),
-        ('KEYWORD', 'vasemmalle'), ('PARAMETER', '7'), ('KEYWORD', 'oikealle'), ('PARAMETER', '9')]))
+        ('KEYWORD', 'vasemmalle'), ('PARAMETER', '7'), ('KEYWORD', 'oikealle'), ('PARAMETER', '9')]), {})
 
         self.generator2 = Generator(parse([('KEYWORD', 'forward'), ('PARAMETER', '4'), ('KEYWORD', 'left'),
         ('PARAMETER', '55'), ('KEYWORD', 'show'), ('PARAMETER', '"vaarakieli'), ('KEYWORD', 'back'),
-        ('PARAMETER', '333'), ('KEYWORD', 'right'), ('PARAMETER', '1')]))
+        ('PARAMETER', '333'), ('KEYWORD', 'right'), ('PARAMETER', '1')]), {})
 
         self.generator3 = Generator(parse([('KEYWORD', 'show'), ('PARAMETER', '1'), ('BIN_OP', 'plus'),
         ('PARAMETER', '1'), ('BIN_OP', 'plus'), ('PARAMETER', '1'), ('KEYWORD', 'forward'),
         ('PARAMETER', '2'), ('BIN_OP', 'plus'), ('PARAMETER', '4'), ('BIN_OP', 'minus'), ('PARAMETER', '3'),
         ('KEYWORD', 'back'), ('KEYWORD', 'sqrt'), ('PARAMETER', '4'), ('BIN_OP', 'plus'), ('PARAMETER', '3'),
-        ('KEYWORD', 'show'), ('PARAMETER', '"helllo')]))
+        ('KEYWORD', 'show'), ('PARAMETER', '"helllo')]), {})
 
     def test_generator_creates_correct_command_list_finnish(self):
         self.generator.list_commands()

@@ -13,12 +13,6 @@ class CodeNode:
     def __init__(self, children=[]):
         self.children = children
 
-    def add_child(self, node):
-        self.children.append(node)
-
-    def token_type(self):
-        return "code"
-
     def check_type(self, symbol_table):
         for child in self.children:
             child.check_type(symbol_table)
@@ -47,8 +41,9 @@ class KeywordNode:
 
     def check_type(self, symbol_table):
         for i in range(len(LOGO_FUNCTIONS[self.keyword]["parameters"])):
-            if not self.child.check_type(symbol_table) in LOGO_FUNCTIONS[self.keyword]["parameters"][i]:
-                print(self)
+            if LOGO_FUNCTIONS[self.keyword]["parameters"][i] == "any":
+                self.child.check_type(symbol_table)
+            elif not self.child.check_type(symbol_table) in LOGO_FUNCTIONS[self.keyword]["parameters"][i]:
                 TypeException.function_got_wrong_parameter_type(
                     self.keyword,
                     self.child.check_type(symbol_table),
@@ -72,9 +67,6 @@ class ParameterNode:
         else:
             return "str"
 
-    def create_table(self, symbol_table):
-        self.get_type()
-
     def get_type(self):
         if self.can_be_float(self.value):
             return "number"
@@ -89,7 +81,7 @@ class ParameterNode:
             return False
 
     def __str__(self) -> str:
-        return self.value
+        return str(self.value)
 
 class BinaryOperationNode:
 
@@ -119,23 +111,18 @@ class BinaryOperationNode:
         return "number"
 
     def __str__(self) -> str:
-        return '(' + 'BinaryOperationsNode' + ' Child_one: ' + self.child_one.__str__() + ' Child_two: ' + self.child_two.__str__() + ') ->'
+        return f"{self.child_one} {self.operand_type} {self.child_two}"
 
 class NameVariableNode:
     def __init__(self, name=None):
         self.name = name
-
-    def token_type(self, symbol_table=None):
-        if symbol_table is not None:
-            return symbol_table[self.name]
-        return "variable"
 
     def create_table(self, symbol_table):
         return self.get_type(symbol_table)
 
     def check_type(self, symbol_table):
         if symbol_table == {}:
-            return "number"
+            return "str"
         if self.name not in symbol_table:
             print("ERROR")
         return symbol_table[self.name]
@@ -154,19 +141,10 @@ class VariableNode:
         self.name = name
         self.value = value
 
-    def token_type(self, symbol_table=None):
-        if symbol_table is not None:
-            return symbol_table[self.name]
-        return "variable"
-
-    def create_table(self, symbol_table):
-        symbol_table[self.name.name] = self.value.get_type()
-
     def check_type(self, symbol_table):
         if self.name.check_type(symbol_table) != "str":
-            SemanticException.child_is_invalid_type(self.name)
-        if self.value.check_type(symbol_table) is None:
-            SemanticException.child_is_invalid_type(self.name)
+            TypeException.function_got_wrong_parameter_type("make", self.name.check_type(symbol_table), "string")
+        symbol_table[self.name.__str__()] = self.value.check_type(symbol_table)
         return None
 
     def __str__(self) -> str:
@@ -186,9 +164,14 @@ class FunctionNode:
 
     def check_type(self, symbol_table):
         for i in range(len(self.parameters)):
-            if not self.parameters[i].check_type(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
+            if LOGO_FUNCTIONS[self.name]["parameters"][i] == "any":
+                self.parameters[i].check_type(symbol_table)
+            elif not self.parameters[i].check_type(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
                 TypeException.function_got_wrong_parameter_type(self.name, self.parameters[i].check_type(symbol_table, LOGO_FUNCTIONS[self.name]["parameters"][i]))
         return LOGO_FUNCTIONS[self.name]["return"]
 
     def __str__(self) -> str:
-        return '(' + 'FunctionNode' +  ' Name is: ' + self.name + ' Parameters: ' + self.parameters.__str__() + ') ->'
+        string = self.name
+        for parameter in self.parameters:
+            string += f" {parameter}"
+        return string + "\n"
