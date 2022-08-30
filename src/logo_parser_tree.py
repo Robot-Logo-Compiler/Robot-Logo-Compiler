@@ -187,7 +187,7 @@ class FunctionNode:
     def check_type(self, symbol_table):
         for i in range(len(self.parameters)):
             if not self.parameters[i].check_type(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
-                SemanticException.child_is_invalid_type(self.name)
+                TypeException.function_got_wrong_parameter_type(self.name, self.parameters[i].check_type(symbol_table, LOGO_FUNCTIONS[self.name]["parameters"][i]))
         return LOGO_FUNCTIONS[self.name]["return"]
 
     def __str__(self) -> str:
