@@ -35,3 +35,4 @@ Definition of done the user stories in general is the following:
 * [Parser](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/parser.MD)
 * [Semantic analyzer](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/analyzer.MD)
 * [Code Generator](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/code_generator.MD)
+* [Java Template](https://github.com/Robot-Logo-Compiler/Robot-Logo-Compiler/blob/main/Documentation/JavaTemplate.MD)
