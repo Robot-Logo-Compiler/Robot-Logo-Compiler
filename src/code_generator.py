@@ -32,6 +32,8 @@ class Generator:
                     self.command_list.append(self.generate_variable(child.name.value, child.value.value))
                 elif hasattr(child.value, "name"):
                     self.command_list.append(self.generate_variable(child.name.value, child.value.name))
+                elif hasattr(child.value, "child_one"):
+                    self.command_list.append(self.generate_variable(child.name.value, self.find_out_parameter(child.value)))
             elif hasattr(child, "name"):
                 self.command_list.append(self.commands_dict[child.name](self.find_out_parameter(child.parameters[0])))
             else:
