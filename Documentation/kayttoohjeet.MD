@@ -8,15 +8,15 @@ Ohjelma kääntää logo-kielellä kirjoitetun tiedoston leJOS NXJ-käyttöjärj
 
 Java-kääntäjän kanssa voi asettaa robotille alkuarvot, joita se tarvitsee esim. kääntymisen kalibrointiin. Tällöin luo ennen java-ohjelman kääntämistä Main.javan kanssa samaan hakemistoon tiedosto nimeltä ```config.properties```. Kaikki seuraavat alkuarvot tulee määritellä, jotta ohjelma luo ne:
 
-* wheelDiameter on renkaan läpimitta tuumissa.
-* trackWidth on akseliväli tuumissa
+* wheelDiameter on renkaan läpimitta sentteinä
+* trackWidth on akseliväli sentteinä
 * travelSpeed on etenemisnopeus renkaan läpimittaa sekunnissa
 * rotatingSpeed on kääntymisnopeus astetta sekunnissa
 
 Esimerkiksi:
 ~~~~
-wheelDiameter=2.165
-trackWidth=8.5
+wheelDiameter=5.5
+trackWidth=21.6
 travelSpeed=5.0
 rotatingSpeed=30.0
 ~~~~
