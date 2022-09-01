@@ -12,8 +12,8 @@ public class Main {
         try {
             Properties prop = new Properties();
             prop.load(new FileInputStream("config.properties"));
-            float wheelDiameter = Float.valueOf(prop.getProperty("wheelDiameter"));
-            float trackWidth = Float.valueOf(prop.getProperty("trackWidth"));
+            float wheelDiameter = Float.valueOf(prop.getProperty("wheelDiameter")) * 0.393700787f;
+            float trackWidth = Float.valueOf(prop.getProperty("trackWidth")) * 0.393700787f;
             double travelSpeed = Double.valueOf(prop.getProperty("travelSpeed"));
             double rotatingSpeed = Double.valueOf(prop.getProperty("rotatingSpeed"));
             pilot = init(wheelDiameter, trackWidth);

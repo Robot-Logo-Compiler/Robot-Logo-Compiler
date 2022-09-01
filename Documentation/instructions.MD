@@ -8,10 +8,15 @@ The program compiles a Logo program into a leJOS NXJ supported Java file, ```Mai
 
 The robot's rotating and traveling need to be calibrated with preset configurations. Before compiling ```Main.java``` add a file ```config.properties``` to the same folder. All the following presets have to be set. 
 
+* wheelDiameter is the diameter of the wheel in centimeters
+* trackWidth is the wheelbase in centimeters
+* travelSpeed is the speed and is set as the diameter of the wheel per second
+* rotatingSpeed is the speed of rotation and is set as degrees per second
+
 For example:
 ~~~~
-wheelDiameter=2.165
-trackWidth=8.5
+wheelDiameter=5.5
+trackWidth=21.6
 travelSpeed=5.0
 rotatingSpeed=30.0
 ~~~~
