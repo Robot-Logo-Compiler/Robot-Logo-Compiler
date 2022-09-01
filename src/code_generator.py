@@ -27,8 +27,10 @@ class Generator:
         '''This function creates the command list'''
 
         for child in self.tree.root.children:
-            if isinstance(child, VariableNode):
+            if hasattr(child.value, "value"):
                 self.command_list.append(self.generate_variable(child.name.value, child.value.value))
+            elif hasattr(child.value, "name"):
+                self.command_list.append(self.generate_variable(child.name.value, child.value.name))
             elif hasattr(child, "name"):
                 self.command_list.append(self.commands_dict[child.name](self.find_out_parameter(child.parameters[0])))
             else:
