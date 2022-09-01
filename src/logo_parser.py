@@ -1,5 +1,5 @@
-from logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
-from logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
+from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
+from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
 from error_handler import ParserError
 
 class Tokens:
