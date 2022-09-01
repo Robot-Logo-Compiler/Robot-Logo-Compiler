@@ -2,6 +2,9 @@
 This module generates java code from the parser tree
 '''
 
+from src.logo_parser_tree import VariableNode
+
+
 class Generator:
     '''
     This class generates java code from the parser tree that it gets as input.
@@ -9,9 +12,10 @@ class Generator:
     Then it pastes the commands from that list to a copy of the template.
     '''
 
-    def __init__(self, tree):
+    def __init__(self, tree, symbol_table):
         self.command_list = []
         self.tree = tree
+        self.symbol_table = symbol_table
         self.commands_dict = {
         "eteen": self.generate_move_forward, "forward": self.generate_move_forward,
         "taakse": self.generate_move_backward, "back": self.generate_move_backward,
@@ -23,7 +27,12 @@ class Generator:
         '''This function creates the command list'''
 
         for child in self.tree.root.children:
-            self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
+            if isinstance(child, VariableNode):
+                self.command_list.append(self.generate_variable(child.name.value, child.value.value))
+            elif hasattr(child, "name"):
+                self.command_list.append(self.commands_dict[child.name](self.find_out_parameter(child.parameters[0])))
+            else:
+                self.command_list.append(self.commands_dict[child.keyword](self.find_out_parameter(child.child)))
 
     def generate_code(self): # pragma: no cover
         '''
@@ -83,7 +92,17 @@ class Generator:
             java_command = 'printToLCD("" + (' + message + '))'
         return java_command
 
-    def find_out_parameter(self,child):
+    def generate_variable(self, name, value):
+        '''This method returns the variable assigning command'''
+
+        java_command = self.symbol_table[name] + " " + name + "=" + value
+        if self.symbol_table[name] == "number":
+            java_command = "double " + name + "=" + value
+        elif self.symbol_table[name] == "str":
+            java_command = "String " + name + '="' + value + '"'
+        return java_command
+
+    def find_out_parameter(self, child):
         '''This function finds and returns the correct parameter(s) for a command'''
 
         calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
@@ -91,5 +110,7 @@ class Generator:
             return str(child.value)
         if hasattr(child, "keyword"):
             return "Math." + child.keyword + "(" + self.find_out_parameter(child.child) + ")"
-        if hasattr(child, "child1"):
-            return "(" + self.find_out_parameter(child.child1) + calculation_type_dict[child.operand_type] + self.find_out_parameter(child.child2) + ")"
+        if hasattr(child, "name"):
+            return child.name
+        if hasattr(child, "child_one"):
+            return "(" + self.find_out_parameter(child.child_one) + calculation_type_dict[child.operand_type] + self.find_out_parameter(child.child_two) + ")"

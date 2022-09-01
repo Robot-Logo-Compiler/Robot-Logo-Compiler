@@ -1,0 +1,4 @@
+make "a 123
+make "a 123.0
+make "a "123
+make "a "Moimoimoi

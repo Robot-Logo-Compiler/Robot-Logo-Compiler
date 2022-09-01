@@ -1,26 +1,28 @@
 """Contains the child-classes and the class ParserTree that the parse function creates
 """
-
+from src.error_handler import SemanticException, TypeException
+from src.logo_functions import LOGO_FUNCTIONS
 
 class ParserTree:
 
     def __init__(self, root):
         self.root = root
 
-
 class CodeNode:
 
     def __init__(self, children=[]):
         self.children = children
 
-    def add_child(self, node):
-        self.children.append(node)
-
-    def token_type(self):
-        return "code"
-
-    def complete(self):
-        return False
+    def check_type(self, symbol_table):
+        for child in self.children:
+            child.check_type(symbol_table)
+        return "codeblock"
+    
+    def __str__(self) -> str:
+        code = ""
+        for child in self.children:
+            code += child.__str__() + "\n"
+        return code
 
 class KeywordNode:
 
@@ -34,10 +36,22 @@ class KeywordNode:
     def token_type(self):
         return "keyword"
 
-    '''KeywordNode only accepts a parameter or a binary operation as a child'''
-    def expected_child(self):
-        return ["bin_operator", "parameter"]
+    def create_table(self, symbol_table):
+        self.child.create_table(symbol_table)
 
+    def check_type(self, symbol_table):
+        for i in range(len(LOGO_FUNCTIONS[self.keyword]["parameters"])):
+            if LOGO_FUNCTIONS[self.keyword]["parameters"][i] == "any":
+                self.child.check_type(symbol_table)
+            elif not self.child.check_type(symbol_table) in LOGO_FUNCTIONS[self.keyword]["parameters"][i]:
+                TypeException.function_got_wrong_parameter_type(
+                    self.keyword,
+                    self.child.check_type(symbol_table),
+                    LOGO_FUNCTIONS[self.keyword]["parameters"][i])
+        return LOGO_FUNCTIONS[self.keyword]["return"]
+
+    def __str__(self) -> str:
+        return f"{self.keyword} {self.child}"
 
 class ParameterNode:
 
@@ -47,36 +61,79 @@ class ParameterNode:
     def token_type(self):
         return "parameter"
 
-    def add_child(self, child):
-        pass
+    def check_type(self, symbol_table):
+        if self.can_be_float(self.value):
+            return "number"
+        else:
+            return "str"
 
-    ''' ParameterNode can not have a child, always false'''
-    def expected_child(self):
-        return []
+    def get_type(self):
+        if self.can_be_float(self.value):
+            return "number"
+        if isinstance(self.value, str):
+            return "str"
+    
+    def can_be_float(self, value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
 
-
+    def __str__(self) -> str:
+        return str(self.value)
 
 class BinaryOperationNode:
 
-    def __init__(self, operand_type="+", left=None, right=None):
-        self.child1 = left
-        self.child2 = right
+    def __init__(self, operand_type="plus", left=None, right=None):
+        self.child_one = left
+        self.child_two = right
         self.operand_type = operand_type
 
     def add_child(self, child):
-        if self.child1 is None:
-            self.child1 = child
-        elif self.child2 is None:
-            self.child2 = child
+        if self.child_one is None:
+            self.child_one = child
+        elif self.child_two is None:
+            self.child_two = child
 
-    def token_type(self):
-        return "bin_operator"
+    def create_table(self, symbol_table):
+        self.child_one.create_table(symbol_table)
+        self.child_two.create_table(symbol_table)
 
-    ''' binary operation must have a parameter or another binary operation as a child'''
-    def expected_child(self):
-        return ["bin_operator", "parameter"]
+    def check_type(self, symbol_table):
+        if self.child_one.check_type(symbol_table) != "number":
+            TypeException.binary_operation_something_that_is_not_a_number()
+        if self.child_two.check_type(symbol_table) != "number":
+            TypeException.binary_operation_something_that_is_not_a_number()
+        return "number"
 
+    def get_type(self):
+        return "number"
 
+    def __str__(self) -> str:
+        return f"{self.child_one} {self.operand_type} {self.child_two}"
+
+class NameVariableNode:
+    def __init__(self, name=None):
+        self.name = name
+
+    def create_table(self, symbol_table):
+        return self.get_type(symbol_table)
+
+    def check_type(self, symbol_table):
+        if symbol_table == {}:
+            return "str"
+        if self.name not in symbol_table:
+            print("ERROR")
+        return symbol_table[self.name]
+
+    def get_type(self, symbol_table):
+        if not isinstance(self.name, str):
+            SemanticException.child_is_invalid_type('NameVariableNode ')
+        return "str"
+
+    def __str__(self) -> str:
+        return f":{self.name}"
 
 class VariableNode:
 
@@ -84,23 +141,38 @@ class VariableNode:
         self.name = name
         self.value = value
 
-    def token_type(self, symbol_table=None):
-        if symbol_table is not None:
-            return symbol_table[self.name]
-        return "variable"
+    def check_type(self, symbol_table):
+        if self.name.check_type(symbol_table) != "str":
+            TypeException.function_got_wrong_parameter_type("make", self.name.check_type(symbol_table), "string")
+        symbol_table[self.name.__str__()] = self.value.check_type(symbol_table)
+        return None
 
-    def expected_child(self):
-        return ["string", "parameter"]
+    def __str__(self) -> str:
+        return f"make {self.name} {self.value}"
 
-
-class TrueVariableNode:
-    def __init__(self, name=None):
+class FunctionNode:
+    def __init__(self, name=None, parameters=[]):
         self.name = name
-
-    def token_type(self, symbol_table=None):
-        if symbol_table is not None:
-            return symbol_table[self.name]
-        return "variable"
+        self.parameters = parameters
 
     def expected_child(self):
-        return []
+        return LOGO_FUNCTIONS[self.name]["parameters"]
+
+    def create_table(self, symbol_table):
+        for parameter in self.parameters:
+            parameter.get_type(symbol_table)
+
+    def check_type(self, symbol_table):
+        for i in range(len(self.parameters)):
+            if LOGO_FUNCTIONS[self.name]["parameters"][i] == "any":
+                self.parameters[i].check_type(symbol_table)
+            elif not self.parameters[i].check_type(symbol_table) == LOGO_FUNCTIONS[self.name]["parameters"][i]:
+                TypeException.function_got_wrong_parameter_type(self.name, self.parameters[i].check_type(symbol_table, LOGO_FUNCTIONS[self.name]["parameters"][i]))
+        return LOGO_FUNCTIONS[self.name]["return"]
+
+    def __str__(self) -> str:
+        string = self.name
+        for parameter in self.parameters:
+            string += f" {parameter}"
+        return string + "\n"
+

@@ -1,0 +1,4 @@
+make
+make "a
+make 123
+make "a 123

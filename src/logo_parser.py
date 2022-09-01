@@ -1,6 +1,8 @@
-from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
-from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
+from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, NameVariableNode
+from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode, FunctionNode
 from src.error_handler import ParserError
+from src.logo_functions import LOGO_FUNCTIONS
+
 
 class Tokens:
     """A class that manages the token list that was given to the Parser by the Lexer.
@@ -42,7 +44,7 @@ def parse(tokens):
 
     The different levels of recursion create a subtree and adds it to the main parsing tree.
 
-    Input:
+    Input:rue
         tokens: token list containing tokens as tuples
     Return:
         parserTree-class for the given token list
@@ -69,7 +71,7 @@ def expect(expected_token, tokens):
 def code_block(tokens):
     """
     Creates a CodeBlock object, which is a higher-level abstraction from a statement i.e. may contain
-    multiple statements.
+    multiple statements.rue
 
     For input code that has no loops or any other procedural code calls, a single CodeBlock
     object describes the entire input code.
@@ -87,27 +89,39 @@ def code_block(tokens):
     code = []
 
     while True:
-        if tokens.next_token() == "KEYWORD":
-            if tokens.next_token_value() == "make":
-                code.append(statement(tokens))
-            else:
-                code.append(statement(tokens))
+        if tokens.next_token_value() == "make":
+            code.append(variable(tokens))
+        elif tokens.next_token() == "KEYWORD":
+            code.append(statement(tokens))
+        elif tokens.next_token_value() in LOGO_FUNCTIONS:
+            code.append(logo_function(tokens))
         elif tokens.next_token() == "end":
             break
         elif tokens.next_token_value() == "right_paren":
             ParserError.found_extra_right_parenthesis()
-        elif tokens.next_token_value() == "right_braket":
+        elif tokens.next_token_value() == "right_bracket":
             return CodeNode(code)
         else:
             ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
 
     return CodeNode(code)
 
+
+def logo_function(tokens):
+    name = tokens.next_token_value()
+    tokens.consume()
+    parameters = []
+    for _ in LOGO_FUNCTIONS[name]["parameters"]:
+        parameters.append(additive_expression(tokens))
+    return FunctionNode(name, parameters)
+
+
 def variable(tokens):
-    expect("string", tokens)
+    tokens.consume()
     name = parameter(tokens)
     tree = parameter(tokens)
     return VariableNode(name, tree)
+
 
 def statement(tokens):
     """
@@ -144,7 +158,7 @@ def additive_expression(tokens):
 
     Therefore, the CFG rule for expressions is:
         Expression ->       Multiplicative Expression "+" Expression
-                        |   Multiplicative Expression "-" Expression
+                        |   Multiplicative Expression "-" Expressionrue
                         |   Multiplicative Expression
     Input:
         tokens: Tokens-class
@@ -207,18 +221,25 @@ def parameter(tokens):
     Raises:
         ParserError: From src.error_handle module. Results in SystemExit
     """
+
+
     if tokens.next_token() == "PARAMETER":
+        
         tree = ParameterNode(tokens.next_token_value())
         tokens.consume()
         return tree
 
     if tokens.next_token() == "VARIABLE":
-        tree = TrueVariableNode(tokens.next_token_value())
+        tree = NameVariableNode(tokens.next_token_value())
         tokens.consume()
         return tree
 
     elif tokens.next_token() == "KEYWORD":
         tree = statement(tokens)
+        return tree
+
+    elif tokens.next_token() == "FUNCTION" and tokens.next_token_value() in LOGO_FUNCTIONS:
+        tree = logo_function(tokens)
         return tree
 
     elif tokens.next_token_value() == "minus":
@@ -235,11 +256,11 @@ def parameter(tokens):
         tokens.consume()
         return tree
 
-    elif tokens.next_token_value() == "left_braket":
+    elif tokens.next_token_value() == "left_bracket":
         tokens.consume()
         tree = code_block(tokens)
 
-        expect("right_braket", tokens)
+        expect("right_bracket", tokens)
         tokens.consume()
 
         return tree
@@ -248,7 +269,3 @@ def parameter(tokens):
         ParserError.expected_parameter_but_found_something_else(tokens.next_token_value())
 
 
-
-if __name__ == "__main__":
-    tokens = [("KEYWORD", "forward"), ("SYMBOL", "left_braket"), ("KEYWORD", "left"), ("PARAMETER",1), ("SYMBOL", "right_braket")]
-    tree = parse(tokens)
