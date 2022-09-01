@@ -1,6 +1,6 @@
 from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, TrueVariableNode
 from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode
-from error_handler import ParserError
+from src.error_handler import ParserError
 
 class Tokens:
     """A class that manages the token list that was given to the Parser by the Lexer.
