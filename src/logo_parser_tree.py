@@ -121,11 +121,9 @@ class NameVariableNode:
         return self.get_type(symbol_table)
 
     def check_type(self, symbol_table):
-        if symbol_table == {}:
-            return "str"
-        if self.name not in symbol_table:
+        if '"' + self.name not in symbol_table:
             print("ERROR")
-        return symbol_table[self.name]
+        return symbol_table['"' + self.name]
 
     def get_type(self, symbol_table):
         if not isinstance(self.name, str):

@@ -94,11 +94,12 @@ class Generator:
     def generate_variable(self, name, value):
         '''This method returns the variable assigning command'''
 
+
         java_command = self.symbol_table[name] + " " + name + "=" + value
         if self.symbol_table[name] == "number":
-            java_command = "double " + name + "=" + value
+            java_command = "double " + name[1:] + "=" + value
         elif self.symbol_table[name] == "str":
-            java_command = "String " + name + '="' + value+ '"'
+            java_command = "String " + name[1:] + '="' + value[1:] + '"'
         return java_command
 
     def find_out_parameter(self, child):
