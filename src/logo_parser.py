@@ -1,5 +1,4 @@
-from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, NameVariableNode
-from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode, FunctionNode
+from src.logo_parser_tree import *
 from src.error_handler import ParserError
 from src.logo_functions import LOGO_FUNCTIONS
 
@@ -223,6 +222,7 @@ def parameter(tokens):
 
 
     if tokens.next_token() == "PARAMETER":
+        
         tree = ParameterNode(tokens.next_token_value())
         tokens.consume()
         return tree
