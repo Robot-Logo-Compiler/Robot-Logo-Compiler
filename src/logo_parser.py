@@ -119,7 +119,7 @@ def logo_function(tokens):
 def variable(tokens):
     tokens.consume()
     name = parameter(tokens)
-    tree = parameter(tokens)
+    tree = additive_expression(tokens)
     return VariableNode(name, tree)
 
 
