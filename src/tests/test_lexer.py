@@ -76,14 +76,14 @@ class TestLexer(unittest.TestCase):
         input_file = self.load_input_file("testfiles/lexer_tests/all_keywords_work_with_correct_inputs_FIN.logo")
         self.lexer.set_input_code(input_file)
         test_input = self.lexer.create_tokens()
-        expected_output = [('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka'), ('KEYWORD', 'tulosta'), ('PARAMETER', '123'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'oikealle'), ('PARAMETER', '45'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'vasemmalle'), ('PARAMETER', '90'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'olkoon'), ('PARAMETER', 'a'), ('PARAMETER', '123'), ('KEYWORD', 'olkoon'), ('PARAMETER', 'b'), ('PARAMETER', 'omena')]
+        expected_output = [('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka'), ('KEYWORD', 'tulosta'), ('PARAMETER', '123'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'oikealle'), ('PARAMETER', '45'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'vasemmalle'), ('PARAMETER', '90'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'olkoon'), ('PARAMETER', '"a'), ('PARAMETER', '123'), ('KEYWORD', 'olkoon'), ('PARAMETER', '"b'), ('PARAMETER', '"omena')]
         self.assertEqual(expected_output, test_input)
 
     def test_all_keywords_work_with_correct_inputs_ENG(self):
         input_file = self.load_input_file("testfiles/lexer_tests/all_keywords_work_with_correct_inputs_FIN.logo")
         self.lexer.set_input_code(input_file)
         test_input = self.lexer.create_tokens()
-        expected_output = [('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka'), ('KEYWORD', 'tulosta'), ('PARAMETER', '123'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'oikealle'), ('PARAMETER', '45'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'vasemmalle'), ('PARAMETER', '90'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'olkoon'), ('PARAMETER', 'a'), ('PARAMETER', '123'), ('KEYWORD', 'olkoon'), ('PARAMETER', 'b'), ('PARAMETER', 'omena')]
+        expected_output = [('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka'), ('KEYWORD', 'tulosta'), ('PARAMETER', '123'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'oikealle'), ('PARAMETER', '45'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'vasemmalle'), ('PARAMETER', '90'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'olkoon'), ('PARAMETER', '"a'), ('PARAMETER', '123'), ('KEYWORD', 'olkoon'), ('PARAMETER', '"b'), ('PARAMETER', '"omena')]
         self.assertEqual(expected_output, test_input)
 
     def test_square_root_function_is_recognized(self):
@@ -117,7 +117,7 @@ class TestLexer(unittest.TestCase):
         input_file = self.load_input_file("testfiles/lexer_tests/correct_variable_syntax_works.logo")
         self.lexer.set_input_code(input_file)
         test_input = self.lexer.create_tokens()
-        expected_output = [('KEYWORD', 'make'), ('PARAMETER', 'a'), ('PARAMETER', '123'), ('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'make'), ('PARAMETER', 'a'), ('PARAMETER', '654'), ('KEYWORD', 'make'), ('PARAMETER', 'b'), ('PARAMETER', '654'), ('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka')]
+        expected_output = [('KEYWORD', 'make'), ('PARAMETER', '"a'), ('PARAMETER', '"123'), ('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka'), ('KEYWORD', 'eteen'), ('PARAMETER', '5'), ('KEYWORD', 'taakse'), ('PARAMETER', '5'), ('KEYWORD', 'make'), ('PARAMETER', '"a'), ('PARAMETER', '654'), ('KEYWORD', 'make'), ('PARAMETER', '"b'), ('PARAMETER', '"654'), ('KEYWORD', 'tulosta'), ('PARAMETER', '"Moikka')]
         self.assertEqual(expected_output, test_input)
 
     def test_correct_symbol_table(self):

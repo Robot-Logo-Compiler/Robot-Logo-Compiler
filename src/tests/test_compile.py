@@ -20,4 +20,3 @@ class testCompile(unittest.TestCase):
             openfile(["file1", "file2"])
         self.assertIn("Annoit liian monta tiedostoa käännettäväksi.", self.capturedOutput.getvalue())
 
-

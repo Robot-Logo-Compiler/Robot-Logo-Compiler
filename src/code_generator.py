@@ -86,10 +86,9 @@ class Generator:
         '''This method returns the show command'''
 
         if message[0] == '"':
-            message = message[1:]
-            java_command = 'printToLCD("' + message + '")'
+            java_command = 'printToLCD("' + message[1:] + '")'
         else:
-            java_command = 'printToLCD("" + (' + message + '))'
+            java_command = 'printToLCD("" + (' + message+ '))'
         return java_command
 
     def generate_variable(self, name, value):
@@ -99,7 +98,7 @@ class Generator:
         if self.symbol_table[name] == "number":
             java_command = "double " + name + "=" + value
         elif self.symbol_table[name] == "str":
-            java_command = "String " + name + '="' + value + '"'
+            java_command = "String " + name + '="' + value+ '"'
         return java_command
 
     def find_out_parameter(self, child):
@@ -107,7 +106,7 @@ class Generator:
 
         calculation_type_dict = {"plus":"+","minus":"-","multiply":"*","divide":"/"}
         if hasattr(child, "value"):
-            return str(child.value)
+            return child.value
         if hasattr(child, "keyword"):
             return "Math." + child.keyword + "(" + self.find_out_parameter(child.child) + ")"
         if hasattr(child, "name"):

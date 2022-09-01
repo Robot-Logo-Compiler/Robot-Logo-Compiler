@@ -56,16 +56,16 @@ class KeywordNode:
 class ParameterNode:
 
     def __init__(self, value=None):
+        self.is_string = value[0] == '"'
         self.value = value
 
     def token_type(self):
         return "parameter"
 
     def check_type(self, symbol_table):
-        if self.can_be_float(self.value):
-            return "number"
-        else:
+        if self.is_string:
             return "str"
+        return "number"
 
     def get_type(self):
         if self.can_be_float(self.value):

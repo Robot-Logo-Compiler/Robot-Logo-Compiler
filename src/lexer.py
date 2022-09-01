@@ -50,7 +50,7 @@ class Lexer:
                     LexerError.code_is_too_short_for_variable_assignment()
 
                 variable_name = Lexer.check_variable_name_for_errors(split_list[index + 1])
-                variable_value = split_list[index + 2].strip('"')
+                variable_value = split_list[index + 2]
 
                 token_list.append(("PARAMETER", variable_name))
 
@@ -93,7 +93,7 @@ class Lexer:
         if  '"' not in variable_name[0]:
             LexerError.variable_named_without_a_quote_to_indicate_a_variable(variable_name)
 
-        return variable_name.strip('"')
+        return variable_name
 
     def set_input_code(self, input_code):
         ''' A setter function for input code. '''
