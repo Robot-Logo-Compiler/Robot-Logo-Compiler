@@ -1,4 +1,5 @@
-from src.logo_parser_tree import *
+from src.logo_parser_tree import KeywordNode, ParserTree, CodeNode, NameVariableNode
+from src.logo_parser_tree import ParameterNode, BinaryOperationNode, VariableNode, FunctionNode
 from src.error_handler import ParserError
 from src.logo_functions import LOGO_FUNCTIONS
 
@@ -43,7 +44,7 @@ def parse(tokens):
 
     The different levels of recursion create a subtree and adds it to the main parsing tree.
 
-    Input:
+    Input:rue
         tokens: token list containing tokens as tuples
     Return:
         parserTree-class for the given token list
@@ -70,7 +71,7 @@ def expect(expected_token, tokens):
 def code_block(tokens):
     """
     Creates a CodeBlock object, which is a higher-level abstraction from a statement i.e. may contain
-    multiple statements.
+    multiple statements.rue
 
     For input code that has no loops or any other procedural code calls, a single CodeBlock
     object describes the entire input code.
@@ -104,6 +105,7 @@ def code_block(tokens):
             ParserError.expected_keyword_but_found_something_else(tokens.next_token_value())
 
     return CodeNode(code)
+
 
 def logo_function(tokens):
     name = tokens.next_token_value()
@@ -156,7 +158,7 @@ def additive_expression(tokens):
 
     Therefore, the CFG rule for expressions is:
         Expression ->       Multiplicative Expression "+" Expression
-                        |   Multiplicative Expression "-" Expression
+                        |   Multiplicative Expression "-" Expressionrue
                         |   Multiplicative Expression
     Input:
         tokens: Tokens-class
@@ -265,12 +267,5 @@ def parameter(tokens):
 
     else:
         ParserError.expected_parameter_but_found_something_else(tokens.next_token_value())
-
-
-
-if __name__ == "__main__":
-    tokens = [("KEYWORD", "forward"), ("SYMBOL", "left_bracket"), ("KEYWORD", "left"), ("PARAMETER",1), ("SYMBOL", "right_bracket")]
-    tokens = [("KEYWORD", "make"), ("PARAMETER", "name"), ("PARAMETER", 1), ("KEYWORD","forward"), ("VARIABLE", "name")]
-    tree = parse(tokens)
 
 

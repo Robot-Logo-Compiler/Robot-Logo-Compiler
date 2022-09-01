@@ -5,7 +5,6 @@ class Analyzer:
     This is the analyzer class.
     It goes through the parser tree and checks it for errors with nodes' children and their return type.
     """
-
     def __init__(self, tree, symbol_table={}):
         self.go_through_children(tree.root, symbol_table)
 
