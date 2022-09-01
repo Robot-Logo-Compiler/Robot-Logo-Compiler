@@ -105,7 +105,7 @@ class ParserError:
     # pylint: disable=C0116
     @staticmethod
     def parameter_without_command(node):
-        print(f"Annoit komennoksi {node.value} joka ei ole komentosana. Unohtuiko sinulta komento?")
+        print(f"Annoit komennoksi {node.value}, joka ei ole komentosana. Unohtuiko sinulta komento?")
         raise_system_exit()
 
     # pylint: disable=C0116
@@ -155,7 +155,7 @@ class SemanticException:
     # pylint: disable=C0116
     @staticmethod
     def keyword_without_child(keyword):
-        print(f"Unohtuiko sinulta parametri komennolta {keyword}?")
+        print(f"Unohtuiko sinulta parametri komennosta {keyword}?")
         raise_system_exit()
 
 class FileException:
@@ -171,22 +171,21 @@ class FileException:
     # pylint: disable=C0116
     @staticmethod
     def os_not_able_to_open_file(path):
-        print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnissa {path}")
+        print(f"Käyttöjärjestelmä ei pystynyt avaamaan tiedostoa sijainnista {path}")
         raise_system_exit()
 
 class TypeException:
     @staticmethod
     def function_got_wrong_parameter_type(function_name, parameter, expected):
-        print(f"{function_name}-funktio sai syötteeksi tyypin: {parameter} vaikka se haluaa jotakin joka palauttaa tyypin: {expected}" )
+        print(f"{function_name}-funktio sai syötteeksi tyypin: {parameter}, vaikka se haluaa jotakin, joka palauttaa tyypin: {expected}" )
         raise_system_exit()
 
     @staticmethod
     def binary_operation_something_that_is_not_a_number():
-        print(f"Laskutoimituksessa on osa joka ei ole numero tai plauta numeroa")
+        print("Laskutoimituksen yhteydessä saa olla vain numeroita. Nyt siellä on jotain muuta myös mukana :(")
         raise_system_exit()
 
     @staticmethod
     def temporary_error():
-        print(f"Tuotementon virhe tapahtui")
+        print(f"Tuntematon virhe tapahtui")
         raise_system_exit()
-    
