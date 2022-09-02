@@ -1,15 +1,18 @@
 """Contains the child-classes and the class ParserTree that the parse function creates
 """
-from src.error_handler import SemanticException, TypeException
+from src.error_handler import TypeException
 from src.logo_functions import LOGO_FUNCTIONS
 
 class ParserTree:
+    """The main class used to handle parcer tree nodes
+    """
 
     def __init__(self, root):
         self.root = root
 
 class CodeNode:
-
+    """The node on the parser tree containing blocks of code
+    """
     def __init__(self, children=[]):
         self.children = children
 
@@ -25,6 +28,8 @@ class CodeNode:
         return code
 
 class KeywordNode:
+    """The node containing keywords, eg. functions that have no return value
+    """
 
     def __init__(self, keyword=None, parameter=None):
         self.child = parameter
@@ -54,6 +59,8 @@ class KeywordNode:
         return f"{self.keyword} {self.child}"
 
 class ParameterNode:
+    """Node meant to contain strings and numbers
+    """
 
     def __init__(self, value=None):
         self.is_string = value[0] == '"'
@@ -84,6 +91,8 @@ class ParameterNode:
         return str(self.value)
 
 class BinaryOperationNode:
+    """Node that contains binary operations
+    """
 
     def __init__(self, operand_type="plus", left=None, right=None):
         self.child_one = left
@@ -114,6 +123,8 @@ class BinaryOperationNode:
         return f"{self.child_one} {self.operand_type} {self.child_two}"
 
 class NameVariableNode:
+    """Node that contains references to variables
+    """
     def __init__(self, name=None):
         self.name = name
 
@@ -122,19 +133,15 @@ class NameVariableNode:
 
     def check_type(self, symbol_table):
         if '"' + self.name not in symbol_table:
-            print("ERROR")
+            TypeException.variable_referenced_before_assignement(self.name)
         return symbol_table['"' + self.name]
-
-    def get_type(self, symbol_table):
-        if not isinstance(self.name, str):
-            SemanticException.child_is_invalid_type('NameVariableNode ')
-        return "str"
 
     def __str__(self) -> str:
         return f":{self.name}"
 
 class VariableNode:
-
+    """Node that contains the function for creating variables
+    """
     def __init__(self, name=None, value=None):
         self.name = name
         self.value = value
@@ -149,6 +156,8 @@ class VariableNode:
         return f"make {self.name} {self.value}"
 
 class FunctionNode:
+    """Node that contains functions with 'variable' parameters and return types
+    """
     def __init__(self, name=None, parameters=[]):
         self.name = name
         self.parameters = parameters

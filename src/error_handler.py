@@ -189,3 +189,8 @@ class TypeException:
     def temporary_error():
         print(f"Tuntematon virhe tapahtui")
         raise_system_exit()
+
+    @staticmethod
+    def variable_referenced_before_assignement(name):
+        print(f"Muuttujaan {name} viitattiin ennen sen luontia")
+        raise_system_exit()
