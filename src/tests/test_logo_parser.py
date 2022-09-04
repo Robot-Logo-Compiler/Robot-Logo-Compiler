@@ -23,7 +23,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual("45", tree.root.children[3].child.value)
         self.assertEqual("90", tree.root.children[4].child.value)
 
-    def test_basic_binary_operatiosn_create_the_correct_tree(self):
+    def test_basic_binary_operation_create_the_correct_tree(self):
         tokens = [('KEYWORD', 'forward'), ('PARAMETER', "1"), ('BIN_OP', 'plus'), ('PARAMETER', "5")]
         tree = parse(tokens)
         self.assertEqual("plus", tree.root.children[0].child.operand_type)

@@ -21,7 +21,7 @@ class CodeNode:
             child.check_type(symbol_table)
         return "codeblock"
     
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         code = ""
         for child in self.children:
             code += child.__str__() + "\n"
@@ -35,15 +35,6 @@ class KeywordNode:
         self.child = parameter
         self.keyword = keyword
 
-    def add_child(self, node):
-        self.child = node
-
-    def token_type(self):
-        return "keyword"
-
-    def create_table(self, symbol_table):
-        self.child.create_table(symbol_table)
-
     def check_type(self, symbol_table):
         for i in range(len(LOGO_FUNCTIONS[self.keyword]["parameters"])):
             if LOGO_FUNCTIONS[self.keyword]["parameters"][i] == "any":
@@ -55,7 +46,7 @@ class KeywordNode:
                     LOGO_FUNCTIONS[self.keyword]["parameters"][i])
         return LOGO_FUNCTIONS[self.keyword]["return"]
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         return f"{self.keyword} {self.child}"
 
 class ParameterNode:
@@ -66,28 +57,12 @@ class ParameterNode:
         self.is_string = value[0] == '"'
         self.value = value
 
-    def token_type(self):
-        return "parameter"
-
     def check_type(self, symbol_table):
         if self.is_string:
             return "str"
         return "number"
 
-    def get_type(self):
-        if self.can_be_float(self.value):
-            return "number"
-        if isinstance(self.value, str):
-            return "str"
-    
-    def can_be_float(self, value):
-        try:
-            float(value)
-            return True
-        except ValueError:
-            return False
-
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         return str(self.value)
 
 class BinaryOperationNode:
@@ -99,16 +74,6 @@ class BinaryOperationNode:
         self.child_two = right
         self.operand_type = operand_type
 
-    def add_child(self, child):
-        if self.child_one is None:
-            self.child_one = child
-        elif self.child_two is None:
-            self.child_two = child
-
-    def create_table(self, symbol_table):
-        self.child_one.create_table(symbol_table)
-        self.child_two.create_table(symbol_table)
-
     def check_type(self, symbol_table):
         if self.child_one.check_type(symbol_table) != "number":
             TypeException.binary_operation_something_that_is_not_a_number()
@@ -116,10 +81,7 @@ class BinaryOperationNode:
             TypeException.binary_operation_something_that_is_not_a_number()
         return "number"
 
-    def get_type(self):
-        return "number"
-
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         return f"{self.child_one} {self.operand_type} {self.child_two}"
 
 class NameVariableNode:
@@ -128,15 +90,12 @@ class NameVariableNode:
     def __init__(self, name=None):
         self.name = name
 
-    def create_table(self, symbol_table):
-        return self.get_type(symbol_table)
-
     def check_type(self, symbol_table):
         if '"' + self.name not in symbol_table:
             TypeException.variable_referenced_before_assignement(self.name)
         return symbol_table['"' + self.name]
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         return f":{self.name}"
 
 class VariableNode:
@@ -152,7 +111,7 @@ class VariableNode:
         symbol_table[self.name.__str__()] = self.value.check_type(symbol_table)
         return None
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         return f"make {self.name} {self.value}"
 
 class FunctionNode:
@@ -162,13 +121,6 @@ class FunctionNode:
         self.name = name
         self.parameters = parameters
 
-    def expected_child(self):
-        return LOGO_FUNCTIONS[self.name]["parameters"]
-
-    def create_table(self, symbol_table):
-        for parameter in self.parameters:
-            parameter.get_type(symbol_table)
-
     def check_type(self, symbol_table):
         for i in range(len(self.parameters)):
             if LOGO_FUNCTIONS[self.name]["parameters"][i] == "any":
@@ -177,7 +129,7 @@ class FunctionNode:
                 TypeException.function_got_wrong_parameter_type(self.name, self.parameters[i].check_type(symbol_table, LOGO_FUNCTIONS[self.name]["parameters"][i]))
         return LOGO_FUNCTIONS[self.name]["return"]
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:# pragma: no cover
         string = self.name
         for parameter in self.parameters:
             string += f" {parameter}"

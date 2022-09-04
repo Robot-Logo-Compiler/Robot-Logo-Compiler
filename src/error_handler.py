@@ -1,4 +1,4 @@
-# import sys
+import sys
 # import inspect
 '''
 As the name suggests, this module handels all of the error messages that the compiler raises.
@@ -177,13 +177,11 @@ class FileException:
 class TypeException:
     @staticmethod
     def function_got_wrong_parameter_type(function_name, parameter, expected):
-        print(f"{function_name}-funktio sai syötteeksi tyypin: {parameter}, vaikka se haluaa jotakin, joka palauttaa tyypin: {expected}" )
-        raise_system_exit()
+        sys.exit(f"{function_name}-funktio sai syötteeksi tyypin: {parameter}, vaikka se haluaa jotakin, joka palauttaa tyypin: {expected}" )
 
     @staticmethod
     def binary_operation_something_that_is_not_a_number():
-        print("Laskutoimituksen yhteydessä saa olla vain numeroita. Nyt siellä on jotain muuta myös mukana :(")
-        raise_system_exit()
+        sys.exit("Laskutoimituksen yhteydessä saa olla vain numeroita. Nyt siellä on jotain muuta myös mukana :(")
 
     @staticmethod
     def temporary_error():
@@ -192,5 +190,4 @@ class TypeException:
 
     @staticmethod
     def variable_referenced_before_assignement(name):
-        print(f"Muuttujaan {name} viitattiin ennen sen luontia")
-        raise_system_exit()
+        sys.exit(f"Muuttujaan {name} viitattiin ennen sen luontia")
