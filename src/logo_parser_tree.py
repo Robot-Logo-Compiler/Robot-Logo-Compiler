@@ -20,7 +20,7 @@ class CodeNode:
         for child in self.children:
             child.check_type(symbol_table)
         return "codeblock"
-    
+
     def __str__(self) -> str:# pragma: no cover
         code = ""
         for child in self.children:
@@ -134,4 +134,3 @@ class FunctionNode:
         for parameter in self.parameters:
             string += f" {parameter}"
         return string + "\n"
-
