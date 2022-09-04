@@ -1,5 +1,4 @@
 '''This module splits Logo commands into a list of tokens for the parser'''
-import re
 from src.error_handler import LexerError
 from src.logo_keywords import LOGO_KEYWORDS, LOGO_KEYWORDS_BINARY_OPERATIONS, LOGO_KEYWORDS_MATH_FUNCTIONS, LOGO_KEYWORDS_SYMBOLS, LOGO_VARIABLES
 
@@ -101,4 +100,3 @@ class Lexer:
 
     def get_symbol_table(self):
         return self.symbol_table
-

@@ -1,10 +1,10 @@
-import sys
-# import inspect
 '''
 As the name suggests, this module handels all of the error messages that the compiler raises.
 When SystemExit(0) is called via raise_system_exit(), no tracebacks will be shown and the compiler will stop executing.
 The terminal message will only consist of the custom compiler error message specified in this script.
 '''
+import sys
+# import inspect
 
 def raise_system_exit():
     '''

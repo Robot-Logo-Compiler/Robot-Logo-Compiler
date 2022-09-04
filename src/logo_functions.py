@@ -5,7 +5,7 @@ LOGO_FUNCTIONS_ENG = {
     },
     "sum": {
         "parameters": ["number", "number"],
-        "return": "number"  
+        "return": "number"
     },
 
     "forward": {
@@ -42,7 +42,7 @@ LOGO_FUNCTIONS_FIN = {
     },
     "summa": {
         "parameters": ["number", "number"],
-        "return": "number"  
+        "return": "number"
     },
 
     "eteen": {

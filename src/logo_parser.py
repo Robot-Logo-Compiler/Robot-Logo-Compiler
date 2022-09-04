@@ -224,7 +224,7 @@ def parameter(tokens):
 
 
     if tokens.next_token() == "PARAMETER":
-        
+
         tree = ParameterNode(tokens.next_token_value())
         tokens.consume()
         return tree
@@ -267,5 +267,3 @@ def parameter(tokens):
 
     else:
         ParserError.expected_parameter_but_found_something_else(tokens.next_token_value())
-
-
