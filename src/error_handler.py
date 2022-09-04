@@ -163,10 +163,9 @@ class FileException:
     @staticmethod
     def wrong_number_of_files(amount):
         if amount == 0:
-            print("Et antanut tiedostoa käännettäväksi.")
+            sys.exit("Et antanut tiedostoa käännettäväksi.")
         if amount > 1:
-            print("Annoit liian monta tiedostoa käännettäväksi.")
-        raise_system_exit()
+            sys.exit("Annoit liian monta tiedostoa käännettäväksi.")
 
     # pylint: disable=C0116
     @staticmethod
@@ -182,11 +181,6 @@ class TypeException:
     @staticmethod
     def binary_operation_something_that_is_not_a_number():
         sys.exit("Laskutoimituksen yhteydessä saa olla vain numeroita. Nyt siellä on jotain muuta myös mukana :(")
-
-    @staticmethod
-    def temporary_error():
-        print(f"Tuntematon virhe tapahtui")
-        raise_system_exit()
 
     @staticmethod
     def variable_referenced_before_assignement(name):
