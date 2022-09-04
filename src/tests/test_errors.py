@@ -2,6 +2,7 @@ import unittest
 from src.logo_parser import parse
 from src.analyzer import Analyzer
 from compile import openfile
+from src.lexer import Lexer
 
 class TestParserTreeErrors(unittest.TestCase):
     def setUp(self):
@@ -56,3 +57,17 @@ class TestFileOpenErrors(unittest.TestCase):
             openfile(self.files2)
         self.assertEqual(error.exception.code, "Annoit liian monta tiedostoa käännettäväksi.")
 
+class TestLexerErrors(unittest.TestCase):
+    def setUp(self):
+        self.lexer1 = Lexer('make "3')
+        self.lexer2 = Lexer('make greg 4')
+
+    def test_cant_create_variable_without_enough_information(self):
+        with self.assertRaises(SystemExit) as error:
+            self.lexer1.create_tokens()
+        self.assertEqual(error.exception.code, "Sain käskyksi luoda muuttujan, mutta koodia ei ole riittävästi muuttujan luomiseen")
+
+    def test_cant_create_variable_without_enough_information(self):
+        with self.assertRaises(SystemExit) as error:
+            self.lexer2.create_tokens()
+        self.assertEqual(error.exception.code, 'Sain nimen muuttujalle, mutta nimeämiseen tarvitsen nimen eteen myös heittomerkin eli "\nTee seuraava korjaus: greg -> "greg')

@@ -42,20 +42,20 @@ class LexerError:
     '''
     # pylint: disable=C0116
     @staticmethod
-    def unknown_command(command):
+    def unknown_command(command):# pragma: no cover, coverage disabled because this is not in use
         print('En tunnistanut komentoa: "', command, '". Tarkista, että komento on olemassa ja että se on varmasti kirjoitettu oikein :)')
         # print('I could not recognize the command: ', command, '. Please check that the command is spelled correctly :)')
         raise_system_exit()
 
     # pylint: disable=C0116
     @staticmethod
-    def invalid_special_character_detected(element):
+    def invalid_special_character_detected(element):# pragma: no cover, coverage disabled because this is not in use
         print("Syötteellä", element, " on kirjaimia, joita en osaa käsitellä :(")
         raise_system_exit()
 
     # pylint: disable=C0116
     @staticmethod
-    def variable_assigned_without_a_value(variable_name):
+    def variable_assigned_without_a_value(variable_name):# pragma: no cover, coverage disabled because this is not in use
         print("Sain muuttujan nimen, mutta en arvoa muuttujalle")
         print("Antaisitko muuttujalle", variable_name, " myös arvon?")
         raise_system_exit()
@@ -63,20 +63,19 @@ class LexerError:
     # pylint: disable=C0116
     @staticmethod
     def variable_named_without_a_quote_to_indicate_a_variable(variable_name):
-        print("Sain nimen muuttujalle, mutta nimeämiseen tarvitsen nimen eteen myös heittomerkin eli \" ")
-        print("Tee seuraava korjaus: ", variable_name, "->", '"' + variable_name)
-        raise_system_exit()
+        newline = '\n'
+        sys.exit(f'Sain nimen muuttujalle, mutta nimeämiseen tarvitsen nimen eteen myös heittomerkin eli "{newline}Tee seuraava korjaus: {variable_name} -> "{variable_name}')
 
     # pylint: disable=C0116
     @staticmethod
-    def variable_name_first_character_is_not_string(variable_name):
+    def variable_name_first_character_is_not_string(variable_name):# pragma: no cover, coverage disabled because this is not in use
         print("Sain nimen muuttujalle, mutta nimen ensimmäinen kirja saa olla vain aakkoskirjain")
         print("Tee seuraava korjaus tälle muuttujalle: ", variable_name)
         raise_system_exit()
 
     # pylint: disable=C0116
     @staticmethod
-    def variable_name_contains_special_characters(variable_name):
+    def variable_name_contains_special_characters(variable_name):# pragma: no cover, coverage disabled because this is not in use
         print("Sain nimen muuttujalle, mutta nimessä ei saa olla erikoismerkkejä lukuunottamatta ensimmäistä heittomerkkiä \" ")
         print("Tee seuraava korjaus tälle muuttujalle: ", variable_name)
         raise_system_exit()
@@ -88,8 +87,7 @@ class LexerError:
 
     @staticmethod
     def code_is_too_short_for_variable_assignment():
-        print("Sain käskyksi luoda muuttujan, mutta koodia ei ole riittävästi muuttujan luomiseen")
-        raise_system_exit()
+        sys.exit("Sain käskyksi luoda muuttujan, mutta koodia ei ole riittävästi muuttujan luomiseen")
 
     @staticmethod
     def redefining_variable_value_with_a_different_type_than_previously(variable_name):
