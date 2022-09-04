@@ -24,7 +24,9 @@ class Generator:
         "tulosta": self.generate_show, "show": self.generate_show}
 
     def list_commands(self):
-        '''This function creates the command list'''
+        '''This function creates the command list one command at a time.
+        Commands are created by first checking what type of command it is (variable, function, keyword)
+        and then finding out what type of variable it is or what parameters it has.'''
 
         for child in self.tree.root.children:
             if isinstance(child, VariableNode):

@@ -2,7 +2,7 @@
 
 ## Yleistä
 
-Ohjelma kääntää logo-kielellä kirjoitetun tiedoston leJOS NXJ-käyttöjärjestelmän tukemaksi java-tiedostoksi ```Main.java```. leJOS tarvitsee oman versionsa java-kääntäjästä. Tarkemmat ohjeet kääntäjän asentamiseen löytyvät [täältä](https://lejos.sourceforge.io/). 
+Ohjelma kääntää logo-kielellä kirjoitetun tiedoston leJOS NXJ-käyttöjärjestelmän tukemaksi java-tiedostoksi ```Main.java```. leJOS tarvitsee oman versionsa java-kääntäjästä. Tarkemmat ohjeet kääntäjän asentamiseen löytyvät [täältä](https://lejos.sourceforge.io/). Kääntäjän kanssa käytössä ollut Lejos versio on Lejos 0.9.1 beta ja käytössä ollut java versio on ollut java 18.0.1.1.
 
 ### Robotin kalibrointi
 
@@ -88,4 +88,9 @@ Kääntäjä suoritetaan Linuxilla komentoriviltä. Pääohjelma compile.py suor
 
 Käännetty Java-ohjelma on juurihakemistossa oleva Main.java.
 
+
+## Ongelmia
+
+Lejosin sivuilta löytyvät ohjeet pilot rajapinnan käyttöön eivät ole toimineet, joten käytössä on ollut kirjaston netistä löytynyt ilmeisesti eri versio, jossa on käytössä eri
+nimityksiä samoille toiminnoille. Esimerkiksi Lejosin sivuilta löytyvä setRotateSpeed on kääntäjässä käytössä olleessa versiossa setAngularSpeed.
 

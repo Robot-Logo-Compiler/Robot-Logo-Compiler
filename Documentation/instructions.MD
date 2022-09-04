@@ -2,7 +2,7 @@
 
 ## General
 
-The program compiles a Logo program into a leJOS NXJ supported Java file, ```Main.java```. The operating system, leJOS, needs a particular version of Java in order to compile the file into leJOS bytecode. For further instructions concerning leJOS, please [navigate here](https://lejos.sourceforge.io/).
+The program compiles a Logo program into a leJOS NXJ supported Java file, ```Main.java```. The operating system, leJOS, needs a particular version of Java in order to compile the file into leJOS bytecode. For further instructions concerning leJOS, please [navigate here](https://lejos.sourceforge.io/). The Lejos version used with the compiler is Lejos 0.9.1 beta and the java version used with the compiler is 18.0.1.1.
 
 ### Calibrating the robot
 
@@ -94,4 +94,9 @@ The current implementation of the Logo language uses the same order of operation
 Nesting functions or operations will always result in the innermost one being executed first.
 **Because brackets are optional in this Logo language, the order of operations may not be always intuitive**.
 For example SQRT 4 + 4 / 2 would be interpreted as SQRT (4 + 4 / 2) -> SQRT (4 + 2) -> SQRT 6
+
+## Problems
+
+The instructions from Lejos website for the use of pilot haven't worked so we have used a different version found from the internet which has different
+names for some of the same functions. For example setRotateSpeed from Lejos website is setAngularSpeed in the compiler.
 
